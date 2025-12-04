@@ -1,0 +1,64 @@
+import React, { useState } from 'react';
+import { Plus } from 'lucide-react';
+import { FAQS } from '../constants';
+import { SectionHeading } from './ui/SectionHeading';
+import { ScrollReveal } from './ui/ScrollReveal';
+
+export const FAQSection: React.FC = () => {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  const toggleFAQ = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
+  return (
+    <section id="faq" className="py-40 bg-[#050505] border-t border-white/[0.03]">
+      <div className="container mx-auto px-6 md:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+          
+          <div className="lg:col-span-4">
+            <ScrollReveal>
+              <SectionHeading 
+                  title="Inquiries" 
+                  subtitle="Details" 
+              />
+            </ScrollReveal>
+          </div>
+
+          <div className="lg:col-span-8">
+            {FAQS.map((faq, index) => (
+              <ScrollReveal key={faq.id} delay={index * 50}>
+                  <div className={`border-b transition-colors duration-500 ${openIndex === index ? 'border-champagne-400/30' : 'border-white/[0.08]'} last:border-0`}>
+                    <button
+                        onClick={() => toggleFAQ(index)}
+                        className="w-full flex items-center justify-between py-10 text-left group"
+                    >
+                        <span className={`font-serif text-2xl transition-colors duration-300 ${openIndex === index ? 'text-champagne-400' : 'text-white/50 group-hover:text-white'}`}>
+                           {faq.question}
+                        </span>
+                        <span className={`
+                           transform transition-all duration-500 text-white/40 group-hover:text-white
+                           ${openIndex === index ? 'rotate-45 text-champagne-400 scale-110' : ''}
+                        `}>
+                          <Plus className="w-6 h-6" />
+                        </span>
+                    </button>
+                    
+                    <div 
+                        className={`overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                        openIndex === index ? 'max-h-60 opacity-100 pb-10' : 'max-h-0 opacity-0'
+                        }`}
+                    >
+                        <div className="text-white/60 font-light leading-relaxed max-w-2xl text-sm border-l border-champagne-400/20 pl-6">
+                          {faq.answer}
+                        </div>
+                    </div>
+                  </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
