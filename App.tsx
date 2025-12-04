@@ -1,5 +1,5 @@
 import React from 'react';
-import { Header } from './components/header';
+import { Header } from './components/Header';
 import { ChatWidget } from './components/ChatWidget';
 import { FeaturesSection } from './components/FeaturesSection';
 import { MembershipSection } from './components/MembershipSection';
