@@ -25,7 +25,7 @@ export const ExitModal: React.FC = () => {
                     initial={{ scale: 0.9, y: 20 }}
                     animate={{ scale: 1, y: 0 }}
                     exit={{ scale: 0.9, y: 20 }}
-                    className="w-full max-w-md bg-surface border border-white/10 rounded-2xl p-6 shadow-2xl relative overflow-hidden"
+                    className="w-full max-w-md glass-card p-6 shadow-2xl relative overflow-hidden bg-black/80"
                 >
                     {/* Background Gradient */}
                     <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl rounded-full -mr-16 -mt-16" />

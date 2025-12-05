@@ -13,7 +13,7 @@ export const PostBookingSummary: React.FC = () => {
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex-1 bg-white/5 border border-white/10 rounded-2xl overflow-hidden flex flex-col relative group"
+                className="flex-1 glass-card overflow-hidden flex flex-col relative group"
             >
                 {/* Image Header */}
                 <div className="h-40 relative">

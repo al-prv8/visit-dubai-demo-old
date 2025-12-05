@@ -24,7 +24,7 @@ export const LoginModal: React.FC = () => {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    className="w-full max-w-sm bg-surface/95 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl relative"
+                    className="w-full max-w-sm glass-card shadow-2xl relative overflow-hidden bg-black/80"
                 >
                     <button
                         onClick={() => setShowLoginModal(false)}

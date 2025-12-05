@@ -9,8 +9,8 @@ interface TimezoneWidgetProps {
 
 export const TimezoneWidget: React.FC<TimezoneWidgetProps> = ({ city, time, offset }) => {
     return (
-        <div className="h-full p-4 flex flex-col justify-center bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl relative overflow-hidden group hover:bg-white/10 hover:border-primary/30 transition-all duration-500">
-            {/* Liquid Glass Gradient Overlay */}
+        <div className="h-full p-4 flex flex-col justify-center glass-card rounded-3xl relative overflow-hidden group hover:border-primary/30 transition-all duration-500">
+            {/* Liquid Glass Gradient Overlay - Integrated into glass-card but adding extra sheen if needed */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             <div className="relative z-10 flex items-center gap-3">

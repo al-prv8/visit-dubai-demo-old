@@ -3,7 +3,7 @@ import { CloudSun } from 'lucide-react';
 
 export const WeatherWidget: React.FC = () => {
     return (
-        <div className="h-full p-5 flex flex-col justify-between bg-white/5 backdrop-blur-md relative overflow-hidden group">
+        <div className="h-full p-5 flex flex-col justify-between relative overflow-hidden group">
             {/* Background Gradient */}
             <div className="absolute inset-0 bg-gradient-to-b from-blue-500/20 to-blue-700/20 opacity-50" />
 

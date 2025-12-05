@@ -246,7 +246,7 @@ export const ChatInterface: React.FC = () => {
               <div
                 className={`max-w-[85%] p-4 rounded-2xl ${msg.sender === 'user'
                   ? 'bg-white/10 text-white rounded-tr-sm backdrop-blur-md border border-white/5'
-                  : 'bg-primary/10 text-primary-soft rounded-tl-sm border border-primary/20'
+                  : 'bg-primary/10 text-white rounded-tl-sm border border-primary/20'
                   }`}
               >
                 <p className="text-sm leading-relaxed font-light">{msg.text}</p>
@@ -280,7 +280,7 @@ export const ChatInterface: React.FC = () => {
       </div>
 
       {/* Input Area */}
-      <div className="p-4 bg-white/5 border-t border-white/5 backdrop-blur-md">
+      <div className="p-4 glass-card border-x-0 border-b-0 rounded-none rounded-b-3xl">
         <form
           onSubmit={(e) => {
             e.preventDefault();

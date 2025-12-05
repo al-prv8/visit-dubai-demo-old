@@ -27,7 +27,7 @@ export const CardStack: React.FC<{ cards: HotelCard[], onSelect: (hotel: HotelCa
                                     onRemove(card.id);
                                 }
                             }}
-                            className="absolute w-[90%] h-[380px] bg-[#0a0a0a] border border-white/10 rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] cursor-grab active:cursor-grabbing ring-1 ring-white/5"
+                            className="absolute w-[90%] h-[380px] glass-card bg-black/80 shadow-[0_20px_50px_rgba(0,0,0,0.5)] cursor-grab active:cursor-grabbing"
                             style={{ transformOrigin: 'bottom center' }}
                         >
                             {/* Image */}
@@ -41,7 +41,7 @@ export const CardStack: React.FC<{ cards: HotelCard[], onSelect: (hotel: HotelCa
                             </div>
 
                             {/* Content */}
-                            <div className="p-5 flex flex-col justify-between h-[40%] bg-[#0a0a0a]/95 backdrop-blur-xl relative">
+                            <div className="p-5 flex flex-col justify-between h-[40%] bg-transparent relative">
                                 {/* Decorative glow */}
                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 

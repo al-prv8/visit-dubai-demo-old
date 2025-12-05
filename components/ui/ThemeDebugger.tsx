@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Settings, Droplets, Leaf, Shield } from 'lucide-react';
 
-type Theme = 'default' | 'oceanic' | 'nature' | 'crimson' | 'royal';
+type Theme = 'default' | 'oceanic' | 'nature' | 'crimson' | 'royal' | 'sunset' | 'aqua' | 'neon' | 'midnight' | 'flamingo' | 'solar';
 
 export const ThemeDebugger: React.FC = () => {
     const [activeTheme, setActiveTheme] = useState<Theme>('default');
@@ -9,7 +9,11 @@ export const ThemeDebugger: React.FC = () => {
 
     const setTheme = (theme: Theme) => {
         // Remove all theme classes first
-        document.documentElement.classList.remove('theme-oceanic', 'theme-nature', 'theme-crimson', 'theme-royal');
+        document.documentElement.classList.remove(
+            'theme-oceanic', 'theme-nature', 'theme-crimson', 'theme-royal',
+            'theme-sunset', 'theme-aqua', 'theme-neon',
+            'theme-midnight', 'theme-flamingo', 'theme-solar'
+        );
 
         // Add selected theme class if not default
         if (theme !== 'default') {
@@ -46,6 +50,8 @@ export const ThemeDebugger: React.FC = () => {
                             color="bg-[#E3B574]"
                         />
 
+                        <div className="w-[1px] h-4 bg-white/10 mx-1" />
+
                         <ThemeButton
                             active={activeTheme === 'oceanic'}
                             onClick={() => setTheme('oceanic')}
@@ -55,6 +61,24 @@ export const ThemeDebugger: React.FC = () => {
                         />
 
                         <ThemeButton
+                            active={activeTheme === 'aqua'}
+                            onClick={() => setTheme('aqua')}
+                            icon={<div className="w-3 h-3 rounded-full bg-current" />}
+                            label="Aqua"
+                            color="bg-[#06B6D4]"
+                        />
+
+                        <ThemeButton
+                            active={activeTheme === 'midnight'}
+                            onClick={() => setTheme('midnight')}
+                            icon={<div className="w-3 h-3 rounded-full bg-current" />}
+                            label="Midnight"
+                            color="bg-[#6366F1]"
+                        />
+
+                        <div className="w-[1px] h-4 bg-white/10 mx-1" />
+
+                        <ThemeButton
                             active={activeTheme === 'nature'}
                             onClick={() => setTheme('nature')}
                             icon={<Leaf className="w-3 h-3" />}
@@ -62,7 +86,31 @@ export const ThemeDebugger: React.FC = () => {
                             color="bg-[#10B981]"
                         />
 
+                        <ThemeButton
+                            active={activeTheme === 'neon'}
+                            onClick={() => setTheme('neon')}
+                            icon={<div className="w-3 h-3 rounded-full bg-current" />}
+                            label="Neon"
+                            color="bg-[#84CC16]"
+                        />
+
+                        <ThemeButton
+                            active={activeTheme === 'solar'}
+                            onClick={() => setTheme('solar')}
+                            icon={<div className="w-3 h-3 rounded-full bg-current" />}
+                            label="Solar"
+                            color="bg-[#EAB308]"
+                        />
+
                         <div className="w-[1px] h-4 bg-white/10 mx-1" />
+
+                        <ThemeButton
+                            active={activeTheme === 'sunset'}
+                            onClick={() => setTheme('sunset')}
+                            icon={<div className="w-3 h-3 rounded-full bg-current" />}
+                            label="Sunset"
+                            color="bg-[#F97316]"
+                        />
 
                         <ThemeButton
                             active={activeTheme === 'crimson'}
@@ -70,6 +118,14 @@ export const ThemeDebugger: React.FC = () => {
                             icon={<div className="w-3 h-3 rounded-full bg-current" />}
                             label="Crimson"
                             color="bg-[#F43F5E]"
+                        />
+
+                        <ThemeButton
+                            active={activeTheme === 'flamingo'}
+                            onClick={() => setTheme('flamingo')}
+                            icon={<div className="w-3 h-3 rounded-full bg-current" />}
+                            label="Flamingo"
+                            color="bg-[#EC4899]"
                         />
 
                         <ThemeButton

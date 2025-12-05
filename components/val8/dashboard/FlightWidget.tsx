@@ -3,7 +3,7 @@ import { Plane, ArrowRight } from 'lucide-react';
 
 export const FlightWidget: React.FC = () => {
     return (
-        <div className="h-full p-6 flex flex-col relative overflow-hidden bg-[#0a0a0a]">
+        <div className="h-full p-6 flex flex-col relative overflow-hidden">
             {/* Background Image with Overlay */}
             <div className="absolute inset-0 z-0">
                 <img

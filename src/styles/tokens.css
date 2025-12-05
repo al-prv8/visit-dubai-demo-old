@@ -157,3 +157,111 @@
     --glass-card-start: rgba(139, 92, 246, 0.1);
     --glass-card-end: rgba(139, 92, 246, 0.05);
 }
+
+.theme-sunset {
+    --color-primary: #F97316;
+    /* Orange 500 */
+    --color-primary-soft: #7C2D12;
+    /* Orange 900 */
+    --color-surface: #1C0A00;
+    /* Darkened Orange */
+    --color-surface-alt: #2A1002;
+    --color-bg: #0C0400;
+    --color-text-primary: #FFF7ED;
+    /* Orange 50 */
+
+    --glass-heavy: rgba(67, 20, 7, 0.8);
+    --glass-atlas: rgba(124, 45, 18, 0.6);
+    --glass-card-start: rgba(249, 115, 22, 0.1);
+    --glass-card-end: rgba(249, 115, 22, 0.05);
+}
+
+.theme-aqua {
+    --color-primary: #06B6D4;
+    /* Cyan 500 */
+    --color-primary-soft: #164E63;
+    /* Cyan 900 */
+    --color-surface: #021217;
+    /* Darkened Cyan */
+    --color-surface-alt: #031D24;
+    --color-bg: #00080A;
+    --color-text-primary: #ECFEFF;
+    /* Cyan 50 */
+
+    --glass-heavy: rgba(8, 51, 68, 0.8);
+    --glass-atlas: rgba(22, 78, 99, 0.6);
+    --glass-card-start: rgba(6, 182, 212, 0.1);
+    --glass-card-end: rgba(6, 182, 212, 0.05);
+}
+
+.theme-neon {
+    --color-primary: #84CC16;
+    /* Lime 500 */
+    --color-primary-soft: #365314;
+    /* Lime 900 */
+    --color-surface: #0D1402;
+    /* Darkened Lime */
+    --color-surface-alt: #142103;
+    --color-bg: #050800;
+    --color-text-primary: #F7FEE7;
+    /* Lime 50 */
+
+    --glass-heavy: rgba(26, 46, 5, 0.8);
+    --glass-atlas: rgba(54, 83, 20, 0.6);
+    --glass-card-start: rgba(132, 204, 22, 0.1);
+    --glass-card-end: rgba(132, 204, 22, 0.05);
+}
+
+.theme-midnight {
+    --color-primary: #6366F1;
+    /* Indigo 500 */
+    --color-primary-soft: #312E81;
+    /* Indigo 900 */
+    --color-surface: #050517;
+    /* Darkened Indigo */
+    --color-surface-alt: #0a0a2e;
+    --color-bg: #02020a;
+    --color-text-primary: #e0e7ff;
+    /* Indigo 50 */
+
+    --glass-heavy: rgba(30, 27, 75, 0.8);
+    --glass-atlas: rgba(49, 46, 129, 0.6);
+    --glass-card-start: rgba(99, 102, 241, 0.1);
+    --glass-card-end: rgba(99, 102, 241, 0.05);
+}
+
+.theme-flamingo {
+    --color-primary: #EC4899;
+    /* Pink 500 */
+    --color-primary-soft: #831843;
+    /* Pink 900 */
+    --color-surface: #1f020f;
+    /* Darkened Pink */
+    --color-surface-alt: #2e0517;
+    --color-bg: #0f0007;
+    --color-text-primary: #fce7f3;
+    /* Pink 50 */
+
+    --glass-heavy: rgba(80, 7, 36, 0.8);
+    --glass-atlas: rgba(131, 24, 67, 0.6);
+    --glass-card-start: rgba(236, 72, 153, 0.1);
+    --glass-card-end: rgba(236, 72, 153, 0.05);
+}
+
+.theme-solar {
+    --color-primary: #EAB308;
+    /* Yellow 500 */
+    --color-primary-soft: #713F12;
+    /* Yellow 900 */
+    --color-surface: #1a1202;
+    /* Darkened Yellow */
+    --color-surface-alt: #2e1d03;
+    --color-bg: #0d0600;
+    --color-text-primary: #fefce8;
+    /* Yellow 50 */
+
+    --glass-heavy: rgba(66, 32, 6, 0.8);
+    --glass-atlas: rgba(113, 63, 18, 0.6);
+    --glass-card-start: rgba(234, 179, 8, 0.1);
+    --glass-card-end: rgba(234, 179, 8, 0.05);
+}

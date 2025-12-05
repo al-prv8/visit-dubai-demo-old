@@ -65,9 +65,7 @@ const Val8WidgetContent: React.FC = () => {
     };
 
     const handleProfileClick = () => {
-        if (user) {
-            setView(view === 'dashboard' ? 'chat' : 'dashboard');
-        } else {
+        if (!user) {
             setShowLoginModal(true);
         }
     };
@@ -82,7 +80,7 @@ const Val8WidgetContent: React.FC = () => {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.9 }}
                         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                        className="fixed glass-atlas rounded-[32px] shadow-2xl overflow-hidden flex flex-col relative z-50"
+                        className="fixed glass-card rounded-[32px] shadow-2xl overflow-hidden flex flex-col relative z-50"
                         style={{
                             position: 'fixed',
                             ...(view === 'dashboard' ? {
@@ -132,13 +130,13 @@ const Val8WidgetContent: React.FC = () => {
                                     onClick={() => setView(view === 'chat' ? 'dashboard' : 'chat')}
                                     className="w-8 h-8 rounded-full bg-surface-100 flex items-center justify-center text-white/40 hover:text-white hover:bg-surface-200 transition-colors"
                                 >
-                                    <Maximize2 className="w-4 h-4" />
+                                    {view === 'chat' ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
                                 </button>
                                 <button
                                     onClick={handleClose}
                                     className="w-8 h-8 rounded-full bg-surface-100 flex items-center justify-center text-white/40 hover:text-white hover:bg-surface-200 transition-colors"
                                 >
-                                    <Minimize2 className="w-4 h-4" />
+                                    <X className="w-4 h-4" />
                                 </button>
                             </div>
                         </div>
@@ -164,7 +162,7 @@ const Val8WidgetContent: React.FC = () => {
                                 ) : view === 'dashboard' ? (
                                     <motion.div key="dashboard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex">
                                         {/* Left Panel: Chat Interface */}
-                                        <div className="w-[400px] border-r border-white/10 flex flex-col bg-surface/50 backdrop-blur-xl relative z-10">
+                                        <div className="w-[400px] border-r border-white/10 flex flex-col bg-white/5 backdrop-blur-xl relative z-10">
                                             <ChatInterface />
                                             <BookingFlow />
                                             <PostBookingSummary />

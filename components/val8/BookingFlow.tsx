@@ -16,7 +16,7 @@ export const BookingFlow: React.FC = () => {
                 animate={{ y: 0 }}
                 exit={{ y: '100%' }}
                 transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                className="absolute inset-x-0 bottom-0 bg-surface/95 backdrop-blur-2xl border-t border-white/10 rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)] z-20 overflow-hidden flex flex-col max-h-[90%] ring-1 ring-white/5"
+                className="absolute inset-x-0 bottom-0 glass-card bg-black/80 backdrop-blur-2xl border-t border-white/10 rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)] z-20 overflow-hidden flex flex-col max-h-[90%] ring-1 ring-white/5"
             >
                 {/* Header */}
                 <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/5 backdrop-blur-md">
