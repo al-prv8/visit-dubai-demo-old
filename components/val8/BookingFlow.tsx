@@ -16,7 +16,7 @@ export const BookingFlow: React.FC = () => {
                 animate={{ y: 0 }}
                 exit={{ y: '100%' }}
                 transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                className="absolute inset-x-0 bottom-0 bg-obsidian/95 backdrop-blur-2xl border-t border-white/10 rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)] z-20 overflow-hidden flex flex-col max-h-[90%] ring-1 ring-white/5"
+                className="absolute inset-x-0 bottom-0 bg-surface/95 backdrop-blur-2xl border-t border-white/10 rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)] z-20 overflow-hidden flex flex-col max-h-[90%] ring-1 ring-white/5"
             >
                 {/* Header */}
                 <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/5 backdrop-blur-md">
@@ -42,7 +42,7 @@ export const BookingFlow: React.FC = () => {
                                 <div>
                                     <h4 className="text-white font-medium mb-1">{selectedHotel.name}</h4>
                                     <p className="text-white/60 text-sm mb-2">{selectedHotel.location}</p>
-                                    <div className="flex items-center gap-1 text-champagne-400 text-xs">
+                                    <div className="flex items-center gap-1 text-primary text-xs">
                                         <StarIcon />
                                         <span>{selectedHotel.rating} Exceptional</span>
                                     </div>
@@ -60,13 +60,13 @@ export const BookingFlow: React.FC = () => {
                                 </div>
                                 <div className="flex justify-between text-sm pt-3 border-t border-white/5">
                                     <span className="text-white/60">Total</span>
-                                    <span className="text-champagne-400 font-medium">$3,400</span>
+                                    <span className="text-primary font-medium">$3,400</span>
                                 </div>
                             </div>
 
                             <button
                                 onClick={() => setBookingState('checkout')}
-                                className="w-full bg-champagne-400 text-obsidian py-4 rounded-xl font-medium text-sm hover:bg-champagne-300 transition-all hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] flex items-center justify-center gap-2"
+                                className="w-full bg-primary text-surface py-4 rounded-xl font-medium text-sm hover:bg-primary-soft transition-all hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] flex items-center justify-center gap-2"
                             >
                                 Continue to Checkout <ArrowRight className="w-4 h-4" />
                             </button>
@@ -83,7 +83,7 @@ export const BookingFlow: React.FC = () => {
                                         <input
                                             type="text"
                                             placeholder="John Doe"
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-white/20 focus:outline-none focus:border-champagne-400/50 transition-colors"
+                                            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-white/20 focus:outline-none focus:border-primary/50 transition-colors"
                                         />
                                     </div>
                                 </div>
@@ -94,20 +94,20 @@ export const BookingFlow: React.FC = () => {
                                         <input
                                             type="email"
                                             placeholder="john@example.com"
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-white/20 focus:outline-none focus:border-champagne-400/50 transition-colors"
+                                            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-white/20 focus:outline-none focus:border-primary/50 transition-colors"
                                         />
                                     </div>
                                 </div>
                             </div>
 
                             <div className="flex items-center gap-2 text-xs text-white/40 bg-white/5 p-3 rounded-lg">
-                                <ShieldCheck className="w-4 h-4 text-champagne-400" />
-                                <span>Secure SSL encrypted transaction</span>
+                                <ShieldCheck className="w-4 h-4 text-primary" />
+                                <span className="text-primary">Secure SSL encrypted transaction</span>
                             </div>
 
                             <button
                                 onClick={() => setBookingState('confirmed')}
-                                className="w-full bg-champagne-400 text-obsidian py-4 rounded-xl font-medium text-sm hover:bg-champagne-300 transition-all hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] flex items-center justify-center gap-2"
+                                className="w-full bg-primary text-surface py-4 rounded-xl font-medium text-sm hover:bg-primary-soft transition-all hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] flex items-center justify-center gap-2"
                             >
                                 Confirm & Pay <ArrowRight className="w-4 h-4" />
                             </button>
@@ -116,8 +116,8 @@ export const BookingFlow: React.FC = () => {
 
                     {bookingState === 'confirmed' && (
                         <div className="flex flex-col items-center text-center py-8">
-                            <div className="w-20 h-20 bg-champagne-400/10 rounded-full flex items-center justify-center mb-6 border border-champagne-400/20">
-                                <Check className="w-10 h-10 text-champagne-400" />
+                            <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6 border border-primary/20">
+                                <Check className="w-10 h-10 text-primary" />
                             </div>
                             <h4 className="text-2xl font-serif text-white mb-2">Booking Confirmed</h4>
                             <p className="text-white/60 text-sm mb-8 max-w-[80%]">

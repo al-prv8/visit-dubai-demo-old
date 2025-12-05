@@ -18,9 +18,9 @@ export const PostBookingSummary: React.FC = () => {
                 {/* Image Header */}
                 <div className="h-40 relative">
                     <img src={selectedHotel.image} alt={selectedHotel.name} className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-obsidian via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
                     <div className="absolute bottom-4 left-4">
-                        <div className="bg-champagne-400 text-obsidian text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider inline-block mb-1">
+                        <div className="bg-primary text-surface text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider inline-block mb-1">
                             Confirmed
                         </div>
                         <h3 className="text-xl font-serif text-white">{selectedHotel.name}</h3>
@@ -51,10 +51,10 @@ export const PostBookingSummary: React.FC = () => {
                         ].map((item, i) => (
                             <button key={i} className="w-full flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-xl border border-white/5 transition-colors group">
                                 <div className="flex items-center gap-3">
-                                    <item.icon className="w-4 h-4 text-white/40 group-hover:text-champagne-400 transition-colors" />
+                                    <item.icon className="w-4 h-4 text-white/40 group-hover:text-primary transition-colors" />
                                     <span className="text-sm text-white/70">{item.label}</span>
                                 </div>
-                                <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-champagne-400 transition-colors" />
+                                <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-primary transition-colors" />
                             </button>
                         ))}
                     </div>

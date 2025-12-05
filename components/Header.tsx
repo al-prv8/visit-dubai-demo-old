@@ -33,7 +33,7 @@ export const Header: React.FC = () => {
 
           {/* Logo */}
           <a href="#" className="relative group shrink-0 z-50">
-            <span className="font-serif text-xl tracking-[0.2em] text-champagne-400 font-medium group-hover:text-white transition-colors duration-500 whitespace-nowrap">
+            <span className="font-serif text-xl tracking-[0.2em] text-primary font-medium group-hover:text-white transition-colors duration-500 whitespace-nowrap">
               LUMINA
             </span>
           </a>
@@ -44,7 +44,7 @@ export const Header: React.FC = () => {
               <a
                 key={item.label}
                 href={item.href}
-                className="font-medium uppercase tracking-[0.2em] text-white/60 hover:text-champagne-400 transition-colors duration-300 relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[1px] after:bg-champagne-400 after:transition-all after:duration-300 hover:after:w-full whitespace-nowrap"
+                className="font-medium uppercase tracking-[0.2em] text-white/60 hover:text-primary transition-colors duration-300 relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[1px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full whitespace-nowrap"
               >
                 {item.label}
               </a>
@@ -53,7 +53,7 @@ export const Header: React.FC = () => {
 
           {/* Mobile Toggle */}
           <button
-            className="md:hidden text-white/80 hover:text-champagne-400 transition-colors z-50"
+            className="md:hidden text-white/80 hover:text-primary transition-colors z-50"
             onClick={() => setMobileMenuOpen(true)}
           >
             <Menu className="w-5 h-5" />
@@ -63,7 +63,7 @@ export const Header: React.FC = () => {
           <div className="hidden md:block shrink-0">
             <a href="#membership" className={`
                    text-xs font-bold uppercase tracking-widest transition-all duration-300 whitespace-nowrap
-                   ${isScrolled ? 'text-champagne-400' : 'text-white hover:text-champagne-400'}
+                   ${isScrolled ? 'text-primary' : 'text-white hover:text-primary'}
                 `}>
               Login
             </a>
@@ -82,7 +82,7 @@ export const Header: React.FC = () => {
       >
         <button
           onClick={() => setMobileMenuOpen(false)}
-          className="absolute top-8 right-8 text-white/50 hover:text-champagne-400 transition-colors"
+          className="absolute top-8 right-8 text-white/50 hover:text-primary transition-colors"
         >
           <X className="w-8 h-8" />
         </button>
@@ -92,14 +92,14 @@ export const Header: React.FC = () => {
             <a
               key={item.label}
               href={item.href}
-              className="font-serif text-5xl text-white/80 hover:text-champagne-400 italic transition-all duration-500 hover:scale-105"
+              className="font-serif text-5xl text-white/80 hover:text-primary italic transition-all duration-500 hover:scale-105"
               onClick={() => setMobileMenuOpen(false)}
               style={{ transitionDelay: `${i * 50}ms` }}
             >
               {item.label}
             </a>
           ))}
-          <a href="#" className="mt-12 text-xs font-bold uppercase tracking-[0.3em] text-champagne-400 border border-champagne-400/30 px-8 py-4 rounded-full hover:bg-champagne-400 hover:text-obsidian transition-all">
+          <a href="#" className="mt-12 text-xs font-bold uppercase tracking-[0.3em] text-primary border border-primary/30 px-8 py-4 rounded-full hover:bg-primary hover:text-surface transition-all">
             Member Login
           </a>
         </div>

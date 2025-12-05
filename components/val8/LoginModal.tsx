@@ -24,7 +24,7 @@ export const LoginModal: React.FC = () => {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    className="w-full max-w-sm bg-obsidian/95 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl relative"
+                    className="w-full max-w-sm bg-surface/95 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl relative"
                 >
                     <button
                         onClick={() => setShowLoginModal(false)}
@@ -56,7 +56,7 @@ export const LoginModal: React.FC = () => {
                                             value={name}
                                             onChange={(e) => setName(e.target.value)}
                                             placeholder="Your Name"
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-white/20 focus:outline-none focus:border-champagne-400/50 transition-colors"
+                                            className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-white/20 focus:outline-none focus:border-primary/50 transition-colors"
                                         />
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@ export const LoginModal: React.FC = () => {
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder="you@example.com"
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-white/20 focus:outline-none focus:border-champagne-400/50 transition-colors"
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-white/20 focus:outline-none focus:border-primary/50 transition-colors"
                                     />
                                 </div>
                             </div>
@@ -85,14 +85,14 @@ export const LoginModal: React.FC = () => {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         placeholder="••••••••"
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-white/20 focus:outline-none focus:border-champagne-400/50 transition-colors"
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-10 pr-4 text-white placeholder-white/20 focus:outline-none focus:border-primary/50 transition-colors"
                                     />
                                 </div>
                             </div>
 
                             <button
                                 type="submit"
-                                className="w-full bg-champagne-400 text-obsidian py-4 rounded-xl font-medium text-sm hover:bg-champagne-300 transition-all hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] flex items-center justify-center gap-2 mt-6"
+                                className="w-full bg-primary text-surface py-4 rounded-xl font-medium text-sm hover:bg-primary-soft transition-all hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] flex items-center justify-center gap-2 mt-6"
                             >
                                 {isSignUp ? 'Create Account' : 'Sign In'} <ArrowRight className="w-4 h-4" />
                             </button>
@@ -101,7 +101,7 @@ export const LoginModal: React.FC = () => {
                         <div className="mt-6 text-center">
                             <button
                                 onClick={() => setIsSignUp(!isSignUp)}
-                                className="text-xs text-white/40 hover:text-champagne-400 transition-colors"
+                                className="text-xs text-white/40 hover:text-primary transition-colors"
                             >
                                 {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
                             </button>

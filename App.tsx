@@ -9,14 +9,15 @@ import { FAQSection } from './components/FAQSection';
 import { Footer } from './components/Footer';
 import { Button } from './components/ui/Button';
 import { ScrollReveal } from './components/ui/ScrollReveal';
+import { ThemeDebugger } from './components/ui/ThemeDebugger';
 
 const App: React.FC = () => {
   return (
-    <div className="min-h-screen bg-obsidian text-champagne-100 font-sans selection:bg-champagne-400/30">
+    <div className="min-h-screen bg-obsidian text-text-primary font-sans selection:bg-primary/30">
 
       {/* Background Ambience */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-[20%] right-0 w-[70vw] h-[70vw] bg-champagne-400/[0.04] rounded-full blur-[120px]" />
+        <div className="absolute -top-[20%] right-0 w-[70vw] h-[70vw] bg-primary/[0.04] rounded-full blur-[120px]" />
         <div className="absolute top-[40%] -left-[10%] w-[50vw] h-[50vw] bg-white/[0.01] rounded-full blur-[100px]" />
         <div className="absolute inset-0 bg-noise opacity-[0.03]" />
       </div>
@@ -32,8 +33,8 @@ const App: React.FC = () => {
             <div className="lg:col-span-8 relative z-20">
               <ScrollReveal>
                 <div className="flex items-center gap-4 mb-8">
-                  <span className="h-[1px] w-12 bg-champagne-400"></span>
-                  <span className="text-xs font-bold tracking-[0.3em] uppercase text-champagne-400 drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">
+                  <span className="h-[1px] w-12 bg-primary"></span>
+                  <span className="text-xs font-bold tracking-[0.3em] uppercase text-primary drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">
                     The Art of Living
                   </span>
                 </div>
@@ -42,14 +43,14 @@ const App: React.FC = () => {
               <ScrollReveal delay={200}>
                 <h1 className="font-serif text-6xl md:text-8xl lg:text-[7rem] leading-[0.9] text-white tracking-tight mb-8">
                   Curated <br />
-                  <span className="italic ml-4 md:ml-12 font-light bg-clip-text text-transparent bg-gradient-to-r from-[#D4AF37] via-[#F9F5EB] to-[#B59326] drop-shadow-[0_0_35px_rgba(212,175,55,0.4)]">
+                  <span className="italic ml-4 md:ml-12 font-light bg-clip-text text-transparent bg-gradient-to-r from-primary via-white to-primary-soft drop-shadow-[0_0_35px_rgba(255,255,255,0.2)]">
                     Existence.
                   </span>
                 </h1>
               </ScrollReveal>
 
               <ScrollReveal delay={400}>
-                <p className="text-lg text-white/60 max-w-xl font-light leading-relaxed mb-10 pl-6 border-l border-champagne-400/30 md:pl-0 md:border-none">
+                <p className="text-lg text-white/60 max-w-xl font-light leading-relaxed mb-10 pl-6 border-l border-primary/30 md:pl-0 md:border-none">
                   Lumina orchestrates the impossible. A symbiotic blend of neural-network precision and human concierge mastery.
                 </p>
               </ScrollReveal>
@@ -58,7 +59,7 @@ const App: React.FC = () => {
                 <div className="flex flex-col sm:flex-row gap-6">
                   <Button
                     variant="primary"
-                    className="bg-champagne-400 text-obsidian hover:bg-champagne-300 border-none shadow-[0_0_40px_-10px_rgba(212,175,55,0.6)]"
+                    className="bg-primary text-surface hover:bg-primary-soft border-none shadow-[0_0_40px_-10px_rgba(212,175,55,0.6)]"
                   >
                     Begin Application
                   </Button>
@@ -78,7 +79,7 @@ const App: React.FC = () => {
               <ScrollReveal delay={800} className="w-full relative">
                 {/* Floating Abstract Cards */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-80 glass-card rounded-2xl transform rotate-6 animate-float" style={{ animationDelay: '0s' }} />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-80 glass-card border-champagne-400/20 rounded-2xl transform -rotate-6 animate-float" style={{ animationDelay: '1.5s' }} />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-80 glass-card border-primary/20 rounded-2xl transform -rotate-6 animate-float" style={{ animationDelay: '1.5s' }} />
 
                 {/* Removed ChatWidget from here */}
               </ScrollReveal>
@@ -108,6 +109,7 @@ const App: React.FC = () => {
       </main>
       <Footer />
       <Val8Widget />
+      <ThemeDebugger />
     </div>
   );
 };

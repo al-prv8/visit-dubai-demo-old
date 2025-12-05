@@ -25,14 +25,14 @@ export const ExitModal: React.FC = () => {
                     initial={{ scale: 0.9, y: 20 }}
                     animate={{ scale: 1, y: 0 }}
                     exit={{ scale: 0.9, y: 20 }}
-                    className="w-full max-w-md bg-obsidian border border-white/10 rounded-2xl p-6 shadow-2xl relative overflow-hidden"
+                    className="w-full max-w-md bg-surface border border-white/10 rounded-2xl p-6 shadow-2xl relative overflow-hidden"
                 >
                     {/* Background Gradient */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-champagne-400/10 blur-3xl rounded-full -mr-16 -mt-16" />
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl rounded-full -mr-16 -mt-16" />
 
                     <div className="relative z-10">
                         <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-4 border border-white/5">
-                            <Save className="w-6 h-6 text-champagne-400" />
+                            <Save className="w-6 h-6 text-primary" />
                         </div>
 
                         <h3 className="text-xl font-serif text-white mb-2">Save your trip?</h3>
@@ -46,7 +46,7 @@ export const ExitModal: React.FC = () => {
                                     setShowExitModal(false);
                                     setShowLoginModal(true);
                                 }}
-                                className="w-full bg-champagne-400 text-obsidian py-3 rounded-xl font-medium text-sm hover:bg-champagne-300 transition-all hover:shadow-[0_0_20px_rgba(212,175,55,0.3)] flex items-center justify-center gap-2"
+                                className="w-full bg-primary text-surface py-3 rounded-xl font-medium text-sm hover:bg-primary-soft transition-all hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] flex items-center justify-center gap-2"
                             >
                                 Create Account to Save <ArrowRight className="w-4 h-4" />
                             </button>

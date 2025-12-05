@@ -30,7 +30,7 @@ export const BentoItem: React.FC<BentoItemProps> = ({
         <div
             className={`
         glass-atlas rounded-3xl overflow-hidden relative group
-        hover:border-champagne-400/30 transition-all duration-500
+        hover:border-primary/30 transition-all duration-500
         ${colSpan > 1 ? `md:col-span-${colSpan}` : ''}
         ${rowSpan > 1 ? `row-span-${rowSpan}` : ''}
         ${className}

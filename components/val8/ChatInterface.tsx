@@ -182,7 +182,7 @@ export const ChatInterface: React.FC = () => {
           >
             <h2 className="text-3xl font-serif text-white mb-8 leading-tight">
               Where are you <br />
-              <span className="text-champagne-400 italic">thinking of going?</span>
+              <span className="text-primary italic">thinking of going?</span>
             </h2>
           </motion.div>
 
@@ -199,9 +199,9 @@ export const ChatInterface: React.FC = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.4 + i * 0.1 }}
                 onClick={() => handleQuickAction(item.action)}
-                className="flex flex-col items-center justify-center p-4 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-champagne-400/30 rounded-xl transition-all group"
+                className="flex flex-col items-center justify-center p-4 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-primary/30 rounded-xl transition-all group"
               >
-                <item.icon className="w-5 h-5 text-white/60 group-hover:text-champagne-400 mb-2 transition-colors" />
+                <item.icon className="w-5 h-5 text-white/60 group-hover:text-primary mb-2 transition-colors" />
                 <span className="text-xs text-white/80 font-light">{item.label}</span>
               </motion.button>
             ))}
@@ -217,7 +217,7 @@ export const ChatInterface: React.FC = () => {
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Tell me anything..."
-              className="w-full bg-transparent border-b border-white/10 py-3 pr-10 text-sm text-white placeholder-white/20 focus:outline-none focus:border-champagne-400/50 transition-colors font-light"
+              className="w-full bg-transparent border-b border-white/10 py-3 pr-10 text-sm text-white placeholder-white/20 focus:outline-none focus:border-primary/50 transition-colors font-light"
             />
             <button
               onClick={handleSend}
@@ -245,8 +245,8 @@ export const ChatInterface: React.FC = () => {
             {msg.type === 'text' ? (
               <div
                 className={`max-w-[85%] p-4 rounded-2xl ${msg.sender === 'user'
-                    ? 'bg-white/10 text-white rounded-tr-sm backdrop-blur-md border border-white/5'
-                    : 'bg-champagne-400/10 text-champagne-100 rounded-tl-sm border border-champagne-400/20'
+                  ? 'bg-white/10 text-white rounded-tr-sm backdrop-blur-md border border-white/5'
+                  : 'bg-primary/10 text-primary-soft rounded-tl-sm border border-primary/20'
                   }`}
               >
                 <p className="text-sm leading-relaxed font-light">{msg.text}</p>
@@ -257,7 +257,7 @@ export const ChatInterface: React.FC = () => {
                   <button
                     key={option}
                     onClick={() => handleQuickAction(option)}
-                    className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs text-white/70 hover:bg-champagne-400 hover:text-obsidian hover:border-champagne-400 transition-all duration-300"
+                    className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs text-white/70 hover:bg-primary hover:text-surface hover:border-primary transition-all duration-300"
                   >
                     {option}
                   </button>
@@ -293,12 +293,12 @@ export const ChatInterface: React.FC = () => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Tell me anything..."
-            className="w-full bg-black/20 text-white placeholder-white/30 rounded-xl pl-4 pr-12 py-4 text-sm focus:outline-none focus:ring-1 focus:ring-champagne-400/50 border border-white/5 transition-all"
+            className="w-full bg-black/20 text-white placeholder-white/30 rounded-xl pl-4 pr-12 py-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary/50 border border-white/5 transition-all"
           />
           <button
             type="submit"
             disabled={!inputValue.trim()}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-champagne-400 rounded-lg flex items-center justify-center text-obsidian disabled:opacity-50 disabled:cursor-not-allowed hover:bg-champagne-300 transition-colors"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-surface disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-soft transition-colors"
           >
             <Send className="w-4 h-4" />
           </button>

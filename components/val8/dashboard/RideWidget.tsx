@@ -3,7 +3,7 @@ import { Car } from 'lucide-react';
 
 export const RideWidget: React.FC = () => {
     return (
-        <div className="h-full p-5 flex flex-col items-center justify-center bg-obsidian border border-white/10 relative overflow-hidden">
+        <div className="h-full p-5 flex flex-col items-center justify-center bg-[#0a0a0a] border border-white/10 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent" />
 
             <div className="relative z-10 text-center">

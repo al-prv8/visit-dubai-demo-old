@@ -12,7 +12,7 @@ const iconMap = {
 
 export const FeaturesSection: React.FC = () => {
   return (
-    <section id="features" className="py-32 relative bg-obsidian">
+    <section id="features" className="py-32 relative bg-bg">
       <div className="container mx-auto px-6 md:px-12">
         <ScrollReveal>
           <div className="mb-24 border-b border-white/10 pb-12">

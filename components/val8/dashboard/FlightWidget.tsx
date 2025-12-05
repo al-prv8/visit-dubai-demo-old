@@ -3,7 +3,7 @@ import { Plane, ArrowRight } from 'lucide-react';
 
 export const FlightWidget: React.FC = () => {
     return (
-        <div className="h-full p-6 flex flex-col relative overflow-hidden bg-blue-900">
+        <div className="h-full p-6 flex flex-col relative overflow-hidden bg-[#0a0a0a]">
             {/* Background Image with Overlay */}
             <div className="absolute inset-0 z-0">
                 <img
@@ -11,7 +11,7 @@ export const FlightWidget: React.FC = () => {
                     alt="Flight"
                     className="w-full h-full object-cover opacity-20 mix-blend-overlay group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-900 via-blue-800 to-blue-600/50" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#1a1a1a] to-blue-900/20" />
             </div>
 
             <div className="relative z-10 flex flex-col h-full justify-between">

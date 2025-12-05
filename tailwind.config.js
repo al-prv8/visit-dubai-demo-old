@@ -10,30 +10,60 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Inter', 'sans-serif'],
-                serif: ['Playfair Display', 'serif'],
+                sans: ['var(--font-family-body)', 'sans-serif'],
+                serif: ['var(--font-family-display)', 'serif'],
+                display: ['var(--font-family-display)', 'serif'],
             },
             colors: {
-                obsidian: '#050505', // Softer, rich black
-                charcoal: '#0F0F0F',
-                champagne: {
-                    100: '#F9F5EB',
-                    200: '#F2E6D0',
-                    300: '#E5C558', // Warmer yellow-gold
-                    400: '#D4AF37', // RICH METALLIC GOLD (The "Rolex" Gold)
-                    500: '#B59326', // Darker gold for shadows
-                    900: '#4A3B2A',
-                },
+                // Semantic Colors
+                primary: 'var(--color-primary)',
+                'primary-soft': 'var(--color-primary-soft)',
+                'primary-old': '#D4AF37', // Kept for transition safety, alias to champagne-400
+
                 surface: {
-                    50: 'rgba(255, 255, 255, 0.02)',
+                    DEFAULT: 'var(--color-surface)',
+                    alt: 'var(--color-surface-alt)',
+                    50: 'rgba(255, 255, 255, 0.02)', // Kept for glass utils
                     100: 'rgba(255, 255, 255, 0.05)',
                     200: 'rgba(255, 255, 255, 0.08)',
+                },
+
+                // Legacy / Direct Color Support (mapped to tokens where possible)
+                obsidian: 'var(--color-bg)',
+                charcoal: 'var(--color-surface)',
+                champagne: {
+                    100: '#F9F5EB', // Keep specific shades if not in tokens or map to nearest
+                    200: '#F2E6D0',
+                    300: '#E5C558',
+                    400: 'var(--color-primary)', // Map main champagne to primary
+                    500: '#B59326',
+                    900: '#4A3B2A',
+                },
+
+                // System Colors
+                text: {
+                    primary: 'var(--color-text-primary)',
+                    secondary: 'var(--color-text-secondary)',
+                    muted: 'var(--color-text-muted)',
+                    onPrimary: 'var(--color-text-on-primary)',
+                },
+                success: 'var(--color-success)',
+                warning: 'var(--color-warning)',
+                error: 'var(--color-error)',
+
+                glass: {
+                    heavy: 'var(--glass-heavy)',
+                    atlas: 'var(--glass-atlas)',
+                    card: {
+                        start: 'var(--glass-card-start)',
+                        end: 'var(--glass-card-end)',
+                    }
                 }
             },
             backgroundImage: {
                 'noise': "url('https://www.transparenttextures.com/patterns/stardust.png')",
                 'luxury-gradient': 'radial-gradient(circle at top right, #1a1a1a 0%, #050505 100%)',
-                'metal-sheen': 'linear-gradient(120deg, transparent 30%, rgba(212, 175, 55, 0.15) 50%, transparent 70%)',
+                'metal-sheen': 'linear-gradient(120deg, transparent 30%, var(--color-sheen) 50%, transparent 70%)',
             },
             animation: {
                 'float': 'float 8s ease-in-out infinite',

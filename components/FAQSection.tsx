@@ -12,7 +12,7 @@ export const FAQSection: React.FC = () => {
   };
 
   return (
-    <section id="faq" className="py-40 bg-[#050505] border-t border-white/[0.03]">
+    <section id="faq" className="py-40 bg-bg border-t border-white/[0.03]">
       <div className="container mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
 

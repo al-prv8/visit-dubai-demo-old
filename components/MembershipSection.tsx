@@ -7,9 +7,9 @@ import { ScrollReveal } from './ui/ScrollReveal';
 
 export const MembershipSection: React.FC = () => {
   return (
-    <section id="membership" className="py-40 relative bg-[#030303] overflow-hidden">
+    <section id="membership" className="py-40 relative bg-bg overflow-hidden">
       {/* Background Lighting */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[500px] bg-champagne-400/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="container mx-auto px-6 md:px-12 relative z-10">
         <ScrollReveal>
@@ -30,7 +30,7 @@ export const MembershipSection: React.FC = () => {
                   className={`
                     relative h-full p-10 lg:p-14 rounded-xl overflow-hidden transition-all duration-700 hover:-translate-y-2 glass-card
                     ${tier.highlight
-                      ? 'border-champagne-400/40 shadow-[0_0_50px_-20px_rgba(212,175,55,0.15)]'
+                      ? 'border-primary/40 shadow-[0_0_50px_-20px_rgba(255,255,255,0.1)]'
                       : 'border-white/5'}
                   `}
                 >
@@ -41,8 +41,8 @@ export const MembershipSection: React.FC = () => {
                   <div className="relative z-10 flex flex-col h-full justify-between">
                     <div>
                       <div className="flex justify-between items-start mb-8">
-                        <h3 className={`font-serif text-3xl italic ${tier.highlight ? 'text-champagne-400' : 'text-white'}`}>{tier.name}</h3>
-                        {tier.highlight && <span className="text-[10px] px-2 py-1 border border-champagne-400 text-champagne-400 uppercase tracking-widest rounded-full shadow-[0_0_10px_rgba(212,175,55,0.3)]">Limited</span>}
+                        <h3 className={`font-serif text-3xl italic ${tier.highlight ? 'text-primary' : 'text-white'}`}>{tier.name}</h3>
+                        {tier.highlight && <span className="text-[10px] px-2 py-1 border border-primary text-primary uppercase tracking-widest rounded-full shadow-[0_0_10px_rgba(255,255,255,0.1)]">Limited</span>}
                       </div>
 
                       <div className="mb-10">
@@ -58,7 +58,7 @@ export const MembershipSection: React.FC = () => {
                       <ul className="space-y-4 mb-12">
                         {tier.features.map((feature, i) => (
                           <li key={i} className="flex items-start gap-3 group/item">
-                            <Check className={`w-4 h-4 mt-0.5 ${tier.highlight ? 'text-champagne-400' : 'text-white/20 group-hover/item:text-white transition-colors'}`} />
+                            <Check className={`w-4 h-4 mt-0.5 ${tier.highlight ? 'text-primary' : 'text-white/20 group-hover/item:text-white transition-colors'}`} />
                             <span className="text-sm text-white/70 font-light">{feature}</span>
                           </li>
                         ))}
@@ -67,7 +67,7 @@ export const MembershipSection: React.FC = () => {
 
                     <Button
                       variant={tier.highlight ? 'primary' : 'outline'}
-                      className={`w-full ${tier.highlight ? 'bg-champagne-400 text-obsidian hover:bg-champagne-300' : ''}`}
+                      className={`w-full ${tier.highlight ? 'bg-primary text-surface hover:bg-primary-soft' : ''}`}
                     >
                       {tier.ctaText}
                     </Button>

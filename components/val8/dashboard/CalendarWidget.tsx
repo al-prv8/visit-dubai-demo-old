@@ -26,8 +26,8 @@ export const CalendarWidget: React.FC = () => {
                             key={day}
                             className={`
                         flex items-center justify-center text-xs rounded-full w-6 h-6 mx-auto
-                        ${isCurrent ? 'bg-white text-obsidian font-bold' : ''}
-                        ${isTrip && !isCurrent ? 'bg-champagne-400/20 text-champagne-400' : ''}
+                        ${isCurrent ? 'bg-white text-surface font-bold' : ''}
+                        ${isTrip && !isCurrent ? 'bg-primary/20 text-primary' : ''}
                         ${!isTrip && !isCurrent ? 'text-white/60' : ''}
                     `}
                         >

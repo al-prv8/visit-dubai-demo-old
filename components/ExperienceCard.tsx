@@ -12,7 +12,7 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({ data }) => {
     <div className="group h-[600px] w-full cursor-pointer">
 
       {/* Main Glass Container */}
-      <div className="h-full w-full glass-card rounded-3xl border border-white/10 p-4 flex flex-col gap-6 transition-all duration-700 hover:border-champagne-400/30 hover:shadow-[0_10px_40px_rgba(0,0,0,0.3)]">
+      <div className="h-full w-full glass-card rounded-3xl border border-white/10 p-4 flex flex-col gap-6 transition-all duration-700 hover:border-primary/30 hover:shadow-[0_10px_40px_rgba(0,0,0,0.3)]">
 
         {/* Inset Image Container */}
         <div className="relative h-[60%] w-full overflow-hidden rounded-2xl">
@@ -38,10 +38,10 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({ data }) => {
         <div className="flex flex-col justify-between flex-1 px-2 pb-2">
           <div>
             <div className="flex justify-between items-start mb-3">
-              <h3 className="font-serif text-2xl md:text-3xl text-white leading-tight group-hover:text-champagne-100 transition-colors">
+              <h3 className="font-serif text-2xl md:text-3xl text-white leading-tight group-hover:text-primary-soft transition-colors">
                 {data.title}
               </h3>
-              <div className="p-2 rounded-full border border-white/10 text-white/40 group-hover:text-champagne-400 group-hover:border-champagne-400 transition-all duration-500 bg-white/5 shrink-0 ml-4">
+              <div className="p-2 rounded-full border border-white/10 text-white/40 group-hover:text-primary group-hover:border-primary transition-all duration-500 bg-white/5 shrink-0 ml-4">
                 <ArrowUpRight className="w-5 h-5" />
               </div>
             </div>
@@ -52,7 +52,7 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({ data }) => {
           </div>
 
           <div className="pt-4 border-t border-white/5 mt-auto">
-            <span className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-champagne-400 group-hover:text-white transition-colors">
+            <span className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-primary group-hover:text-white transition-colors">
               {data.ctaText} <ArrowUpRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
             </span>
           </div>
