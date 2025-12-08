@@ -2,127 +2,102 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Instagram, Twitter, Linkedin, Send, ArrowUp } from 'lucide-react';
+import { Instagram, Twitter, Linkedin, Send, Facebook, Youtube } from 'lucide-react';
 import { NAV_ITEMS } from '@/constants';
-import { Logo } from '@/components/ui/Logo';
 
 export const Footer: React.FC = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
-    <footer className="relative pt-32 pb-12 px-6 overflow-hidden">
-      {/* Background Glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+    <footer className="relative bg-black pt-32 pb-12 overflow-hidden border-t border-white/10">
 
-      <div className="container mx-auto relative z-10">
-        <div className="glass-heavy rounded-[3rem] p-12 md:p-20 relative overflow-hidden border border-white/10">
+      {/* Background Watermark */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-[0.03]">
+        <span className="font-serif font-bold text-[20vw] leading-none text-white absolute -top-20 -left-10 whitespace-nowrap">
+          Visit Dubai
+        </span>
+      </div>
 
-          {/* Noise Texture Overlay */}
-          <div className="absolute inset-0 bg-noise opacity-[0.03] pointer-events-none" />
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 mb-24">
 
-          {/* Large Watermark */}
-          <div className="absolute -bottom-20 -right-20 text-[15rem] leading-none select-none pointer-events-none opacity-[0.02]">
-            <Logo variant="full" className="text-[inherit]" />
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 relative z-10">
-
-            {/* Brand & Newsletter */}
-            <div className="lg:col-span-5 flex flex-col justify-between h-full">
-              <div>
-                <Logo className="text-5xl tracking-tighter block mb-6" />
-                <p className="text-white/50 max-w-sm font-light leading-relaxed text-sm mb-12">
-                  Orchestrating the impossible. A symbiotic blend of neural-network precision and human concierge mastery for the modern elite.
-                </p>
+          {/* Brand Column */}
+          <div className="lg:col-span-5">
+            <Link href="/" className="inline-block mb-8 group">
+              <div className="flex flex-col leading-none">
+                <span className="font-sans text-xs font-bold tracking-[0.4em] text-white/50 uppercase ml-1 mb-2">The Official Guide</span>
+                <span className="font-serif text-5xl font-bold tracking-tight text-white group-hover:text-primary transition-colors duration-300">
+                  Visit <span className="italic text-primary">Dubai</span>
+                </span>
               </div>
+            </Link>
+            <p className="text-white/60 font-light leading-relaxed max-w-sm mb-8">
+              Experience the world's most dynamic city. From architectural marvels to ancient traditions, discover the magic of Dubai.
+            </p>
 
-              <div className="glass-card p-8 rounded-2xl border border-white/5 bg-white/[0.02]">
-                <h4 className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-6">
-                  Join the Waitlist
-                </h4>
-                <form className="relative group" onSubmit={(e) => e.preventDefault()}>
-                  <input
-                    type="email"
-                    placeholder="Email Address"
-                    className="w-full bg-transparent border-b border-white/10 py-4 text-white placeholder-white/20 focus:outline-none focus:border-primary transition-colors pr-12 font-light"
-                  />
-                  <button
-                    type="submit"
-                    className="absolute right-0 top-1/2 -translate-y-1/2 text-white/40 hover:text-primary transition-colors"
-                  >
-                    <Send className="w-5 h-5" />
-                  </button>
-                  <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-primary transition-all duration-700 group-hover:w-full" />
-                </form>
-              </div>
-            </div>
-
-            {/* Links Section */}
-            <div className="lg:col-span-7 flex flex-col md:flex-row justify-between gap-12 lg:pl-12">
-
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-12 w-full">
-                {/* Navigation */}
-                <div className="flex flex-col gap-6">
-                  <span className="text-xs font-bold uppercase tracking-widest text-white/30">Explore</span>
-                  <div className="flex flex-col gap-4">
-                    {NAV_ITEMS.map(item => (
-                      <Link key={item.label} href={item.href} className="text-sm text-white/60 hover:text-primary transition-colors duration-300 inline-block relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[1px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full w-fit">
-                        {item.label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Socials */}
-                <div className="flex flex-col gap-6">
-                  <span className="text-xs font-bold uppercase tracking-widest text-white/30">Connect</span>
-                  <div className="flex flex-col gap-4">
-                    <a href="#" className="flex items-center gap-3 text-sm text-white/60 hover:text-primary transition-colors group">
-                      <Instagram className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" /> Instagram
-                    </a>
-                    <a href="#" className="flex items-center gap-3 text-sm text-white/60 hover:text-primary transition-colors group">
-                      <Twitter className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" /> Twitter
-                    </a>
-                    <a href="#" className="flex items-center gap-3 text-sm text-white/60 hover:text-primary transition-colors group">
-                      <Linkedin className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" /> LinkedIn
-                    </a>
-                  </div>
-                </div>
-
-                {/* Legal */}
-                <div className="flex flex-col gap-6">
-                  <span className="text-xs font-bold uppercase tracking-widest text-white/30">Legal</span>
-                  <div className="flex flex-col gap-4">
-                    <Link href="/privacy-policy" className="text-sm text-white/60 hover:text-white transition-colors">Privacy Policy</Link>
-                    <Link href="/terms" className="text-sm text-white/60 hover:text-white transition-colors">Terms of Service</Link>
-                    <Link href="/cookie-policy" className="text-sm text-white/60 hover:text-white transition-colors">Cookie Policy</Link>
-                  </div>
-                </div>
-              </div>
-
-              {/* Back to Top */}
-              <div className="flex flex-col justify-end items-end">
-                <button
-                  onClick={scrollToTop}
-                  className="group flex items-center justify-center w-14 h-14 rounded-full border border-white/10 hover:border-primary/50 bg-white/5 hover:bg-primary/10 transition-all duration-500"
-                >
-                  <ArrowUp className="w-5 h-5 text-white/50 group-hover:text-primary transition-colors" />
+            {/* Newsletter */}
+            <div className="max-w-md">
+              <h4 className="text-xs font-bold uppercase tracking-widest text-primary mb-4">Subscribe to our newsletter</h4>
+              <div className="flex border-b border-white/20 pb-2 focus-within:border-primary transition-colors group">
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  className="bg-transparent w-full text-white placeholder-white/20 focus:outline-none py-2 font-light"
+                />
+                <button className="text-white/50 hover:text-primary transition-colors">
+                  <Send className="w-5 h-5" />
                 </button>
               </div>
-
             </div>
           </div>
 
-          {/* Bottom Bar */}
-          <div className="mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 relative z-10">
-            <p className="text-white/20 text-[10px] uppercase tracking-widest">© 2025 Lumina Inc. All rights reserved.</p>
-            <a href="https://wa.me/8801600086773" target="_blank" rel="noopener noreferrer" className="text-white/20 text-[10px] uppercase tracking-widest hover:text-primary transition-colors">
-              Designed by Al Mamun Sikder
-            </a>
-          </div>
+          {/* Links Columns */}
+          <div className="lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-8">
+            {/* Explore */}
+            <div className="flex flex-col gap-6">
+              <h4 className="text-white font-serif text-xl italic">Explore</h4>
+              <ul className="space-y-4">
+                {NAV_ITEMS.map((item) => (
+                  <li key={item.label}>
+                    <Link href={item.href} className="text-white/60 hover:text-primary transition-colors text-sm font-medium">
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
+            {/* Connect */}
+            <div className="flex flex-col gap-6">
+              <h4 className="text-white font-serif text-xl italic">Connect</h4>
+              <ul className="space-y-4">
+                <li><a href="#" className="flex items-center gap-3 text-white/60 hover:text-primary transition-colors text-sm"><Facebook className="w-4 h-4" /> Facebook</a></li>
+                <li><a href="#" className="flex items-center gap-3 text-white/60 hover:text-primary transition-colors text-sm"><Instagram className="w-4 h-4" /> Instagram</a></li>
+                <li><a href="#" className="flex items-center gap-3 text-white/60 hover:text-primary transition-colors text-sm"><Twitter className="w-4 h-4" /> Twitter</a></li>
+                <li><a href="#" className="flex items-center gap-3 text-white/60 hover:text-primary transition-colors text-sm"><Youtube className="w-4 h-4" /> YouTube</a></li>
+              </ul>
+            </div>
+
+            {/* Useful Links */}
+            <div className="flex flex-col gap-6">
+              <h4 className="text-white font-serif text-xl italic">Useful Links</h4>
+              <ul className="space-y-4">
+                <li><Link href="#" className="text-white/60 hover:text-primary transition-colors text-sm">Contact Us</Link></li>
+                <li><Link href="#" className="text-white/60 hover:text-primary transition-colors text-sm">Privacy Policy</Link></li>
+                <li><Link href="#" className="text-white/60 hover:text-primary transition-colors text-sm">Terms of Use</Link></li>
+                <li><Link href="#" className="text-white/60 hover:text-primary transition-colors text-sm">Accessibility</Link></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="flex flex-col md:flex-row justify-between items-center py-8 border-t border-white/10 gap-4">
+          <p className="text-white/30 text-xs font-medium">
+            © 2025 Department of Economy and Tourism. All rights reserved.
+          </p>
+          <div className="flex gap-6">
+            <img src="/google-play-badge.svg" alt="Get it on Google Play" className="h-8 opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+            <img src="/app-store-badge.svg" alt="Download on the App Store" className="h-8 opacity-50 hover:opacity-100 transition-opacity cursor-pointer" />
+          </div>
         </div>
       </div>
     </footer>

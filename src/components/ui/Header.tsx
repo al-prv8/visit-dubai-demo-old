@@ -1,20 +1,17 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X, User } from 'lucide-react';
+import { Menu, X, User, Search, Globe } from 'lucide-react';
 import { NAV_ITEMS } from '@/constants';
 import Link from 'next/link';
-import { useAuth } from '@/contexts/AuthContext';
-import { Logo } from './Logo';
 
 export const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { isAuthenticated, user, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -24,116 +21,104 @@ export const Header: React.FC = () => {
     <>
       <header
         className={`
-          fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]
-          ${isScrolled ? 'py-4' : 'py-8'}
+          fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-500
+          ${isScrolled ? 'bg-black/80 backdrop-blur-md py-4 shadow-lg' : 'bg-transparent py-6'}
         `}
       >
-        <div
-          className={`
-            flex items-center justify-between transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]
-            ${isScrolled
-              ? 'w-[90%] md:w-[90%] lg:w-[800px] px-6 py-3 glass-heavy rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.5)]'
-              : 'w-full px-6 md:px-12 bg-transparent border-transparent'}
-          `}
-        >
+        <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
 
-          {/* Logo */}
-          <Link href="/" className="relative group shrink-0 z-50">
-            <Logo className="text-xl tracking-[0.2em] font-medium group-hover:text-white transition-colors duration-500" />
+          {/* Logo - Typographic "Visit Dubai" */}
+          <Link href="/" className="relative z-50 group">
+            <div className="flex flex-col leading-none">
+              <span className="font-sans text-xs md:text-sm font-bold tracking-[0.4em] text-white uppercase ml-1 mb-1">The Official Guide</span>
+              <span className="font-serif text-3xl md:text-4xl font-bold tracking-tight text-white group-hover:text-primary transition-colors duration-300">
+                Visit <span className="italic text-primary">Dubai</span>
+              </span>
+            </div>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className={`hidden md:flex items-center gap-8 ${isScrolled ? 'text-xs' : 'text-xs'}`}>
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center gap-10">
             {NAV_ITEMS.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
-                className="font-medium uppercase tracking-[0.2em] text-white/60 hover:text-primary transition-colors duration-300 relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-[1px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full whitespace-nowrap"
+                className="font-bold text-sm uppercase tracking-widest text-white hover:text-primary transition-colors duration-300 relative group"
               >
                 {item.label}
+                <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
               </Link>
             ))}
           </nav>
 
-          {/* Mobile Toggle */}
-          <button
-            className="md:hidden text-white/80 hover:text-primary transition-colors z-50"
-            onClick={() => setMobileMenuOpen(true)}
-          >
-            <Menu className="w-5 h-5" />
-          </button>
-
-          {/* Action - Only show on large screens */}
-          <div className="hidden md:block shrink-0">
-            {isAuthenticated ? (
-              <div className="flex items-center gap-4">
-                <span className="text-xs font-bold uppercase tracking-widest text-primary">
-                  {user?.name?.split(' ')[0]}
-                </span>
-                <button
-                  onClick={logout}
-                  className="text-white/40 hover:text-white transition-colors"
-                >
-                  <X className="w-4 h-4" />
-                </button>
+          {/* Utility Icons */}
+          <div className="hidden md:flex items-center gap-6">
+            <button className="text-white hover:text-primary transition-colors">
+              <Search className="w-5 h-5" />
+            </button>
+            <button className="text-white hover:text-primary transition-colors flex items-center gap-2 font-bold text-xs uppercase tracking-wider">
+              <Globe className="w-5 h-5" />
+              <span>EN</span>
+            </button>
+            <Link href="/login" className="flex items-center gap-2 text-white hover:text-primary transition-colors group">
+              <div className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:border-primary group-hover:bg-primary group-hover:text-black transition-all">
+                <User className="w-4 h-4" />
               </div>
-            ) : (
-              <Link href="/login" className={`
-                    text-xs font-bold uppercase tracking-widest transition-all duration-300 whitespace-nowrap
-                    ${isScrolled ? 'text-primary' : 'text-white hover:text-primary'}
-                  `}>
-                Login
-              </Link>
-            )}
+              <span className="font-bold text-xs uppercase tracking-wider hidden xl:block">Login</span>
+            </Link>
           </div>
 
+          {/* Mobile Menu Toggle */}
+          <button
+            className="lg:hidden text-white hover:text-primary transition-colors z-50"
+            onClick={() => setMobileMenuOpen(true)}
+          >
+            <Menu className="w-8 h-8" />
+          </button>
         </div>
       </header>
 
-      {/* Mobile Overlay */}
+      {/* Mobile Full Screen Menu */}
       <div
         className={`
-          fixed inset-0 z-[60] glass-heavy
-          transition-all duration-700 cubic-bezier(0.7, 0, 0.3, 1)
-          ${mobileMenuOpen ? 'opacity-100 visible clip-circle-full' : 'opacity-0 invisible pointer-events-none'}
+          fixed inset-0 z-[60] bg-black/95 backdrop-blur-xl
+          transition-all duration-500 ease-in-out
+          ${mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}
         `}
       >
         <button
           onClick={() => setMobileMenuOpen(false)}
           className="absolute top-8 right-8 text-white/50 hover:text-primary transition-colors"
         >
-          <X className="w-8 h-8" />
+          <X className="w-10 h-10" />
         </button>
 
-        <div className="flex flex-col items-center justify-center h-full space-y-12">
+        <div className="flex flex-col items-center justify-center h-full space-y-8">
           {NAV_ITEMS.map((item, i) => (
             <Link
               key={item.label}
               href={item.href}
-              className="font-serif text-5xl text-white/80 hover:text-primary italic transition-all duration-500 hover:scale-105"
+              className="font-serif text-4xl md:text-5xl text-white font-bold hover:text-primary italic transition-all duration-300"
               onClick={() => setMobileMenuOpen(false)}
-              style={{ transitionDelay: `${i * 50}ms` }}
             >
               {item.label}
             </Link>
           ))}
 
-          {isAuthenticated ? (
-            <div className="flex flex-col items-center gap-4 mt-8">
-              <span className="text-xl text-primary font-serif">{user?.name}</span>
-              <button onClick={logout} className="text-white/40 hover:text-white text-sm uppercase tracking-widest">
-                Sign Out
-              </button>
-            </div>
-          ) : (
-            <Link
-              href="/login"
-              className="mt-12 text-xs font-bold uppercase tracking-[0.3em] text-primary border border-primary/30 px-8 py-4 rounded-full hover:bg-primary hover:text-surface transition-all"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Member Login
+          <div className="flex items-center gap-8 mt-12 border-t border-white/10 pt-12">
+            <button className="text-white hover:text-primary transition-colors flex flex-col items-center gap-2">
+              <Search className="w-6 h-6" />
+              <span className="text-xs font-bold uppercase tracking-widest">Search</span>
+            </button>
+            <button className="text-white hover:text-primary transition-colors flex flex-col items-center gap-2">
+              <Globe className="w-6 h-6" />
+              <span className="text-xs font-bold uppercase tracking-widest">Language</span>
+            </button>
+            <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="text-white hover:text-primary transition-colors flex flex-col items-center gap-2">
+              <User className="w-6 h-6" />
+              <span className="text-xs font-bold uppercase tracking-widest">Login</span>
             </Link>
-          )}
+          </div>
         </div>
       </div>
     </>

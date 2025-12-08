@@ -1,12 +1,13 @@
 
 import { NavItem, ChatMessage, ExperienceCard, FeatureItem, MembershipTier, Testimonial, FAQItem } from './types';
 
-export const NAV_ITEMS: NavItem[] = [
-  { label: 'Concierge', href: '#hero' },
-  { label: 'Benefits', href: '#features' },
-  { label: 'Experiences', href: '#experiences' },
-  { label: 'Membership', href: '#membership' },
-  { label: 'FAQ', href: '#faq' },
+export const NAV_ITEMS = [
+  { label: 'Destinations', href: '#destinations' },
+  { label: 'Things to Do', href: '#things-to-do' },
+  { label: "What's On", href: '#whats-on' },
+  { label: 'Plan Your Trip', href: '#plan' },
+  { label: 'Events', href: '#events' },
+  { label: 'More', href: '#more' },
 ];
 
 export const INITIAL_CHAT_MESSAGES: ChatMessage[] = [
