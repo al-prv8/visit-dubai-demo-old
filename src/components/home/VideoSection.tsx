@@ -41,7 +41,7 @@ export const VideoSection: React.FC = () => {
 
             <div className="container mx-auto px-6 relative z-10">
                 <ScrollReveal>
-                    <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12">
                         <div>
                             <span className="text-primary font-bold tracking-widest uppercase text-xs mb-4 block">
                                 Cinematic Experiences
@@ -60,7 +60,7 @@ export const VideoSection: React.FC = () => {
                     {/* Featured Video (Large) */}
                     <div className="lg:col-span-1">
                         {videos.filter(v => v.featured).map((video, index) => (
-                            <ScrollReveal key={index} className="relative h-[400px] md:h-[600px] rounded-[2.5rem] overflow-hidden group border border-white/10 shadow-2xl">
+                            <ScrollReveal key={index} className="relative h-[400px] md:h-[600px] rounded-[2.5rem] overflow-hidden group border border-white/10 shadow-2xl" style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)" }}>
                                 <img
                                     src={video.image}
                                     alt={video.title}
@@ -100,7 +100,7 @@ export const VideoSection: React.FC = () => {
                     {/* Side Reel (Vertical Stack) */}
                     <div className="lg:col-span-1 flex flex-col gap-6">
                         {videos.filter(v => !v.featured).map((video, index) => (
-                            <ScrollReveal key={index} delay={index * 150} className="relative h-[160px] md:h-[180px] rounded-[2rem] overflow-hidden group border border-white/10 cursor-pointer bg-neutral-900 shadow-xl">
+                            <ScrollReveal key={index} delay={index * 150} className="relative h-[160px] md:h-[180px] rounded-[2rem] overflow-hidden group border border-white/10 cursor-pointer bg-neutral-900 shadow-xl" style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)" }}>
                                 <div className="absolute inset-0 flex w-full h-full">
                                     {/* Thumbnail Part */}
                                     <div className="w-1/3 relative overflow-hidden h-full">

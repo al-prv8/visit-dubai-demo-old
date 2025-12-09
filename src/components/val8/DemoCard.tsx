@@ -37,22 +37,22 @@ export const DemoCard: React.FC = () => {
 
     return (
         <div className="h-full w-full p-6 overflow-y-auto custom-scrollbar">
-            {/* Dynamic Grid Container */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-[180px] grid-flow-row-dense">
+            {/* Dynamic Grid Container - Relaxed Row Height to prevents overlaps */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-max grid-flow-row-dense pb-20">
                 <AnimatePresence>
 
-                    {/* STEP 0: CONTEXT OVERVIEW - Appear after Greeting (Processing/Responding) */}
-                    {((demoStep > 0) || (demoStep === 0 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
+                    {/* STEP 1: CONTEXT OVERVIEW - Appear after Date Response (Step 1) */}
+                    {((demoStep > 1) || (demoStep === 1 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
                         <React.Fragment key="overview-fragment">
                             {/* Calendar (2 cols) */}
-                            <WidgetContainer key="calendar" className="md:col-span-2 h-full">
+                            <WidgetContainer key="calendar" className="md:col-span-12 lg:col-span-3 min-h-[240px]">
                                 <div className="glass-card rounded-3xl overflow-hidden h-full">
                                     <CalendarWidget />
                                 </div>
                             </WidgetContainer>
 
                             {/* Weather (2 cols) */}
-                            <WidgetContainer key="weather" className="md:col-span-2 h-full">
+                            <WidgetContainer key="weather" className="md:col-span-12 lg:col-span-3 min-h-[240px]">
                                 <div className="glass-card rounded-3xl overflow-hidden h-full">
                                     <WeatherWidget temperature="95" />
                                 </div>
@@ -61,36 +61,36 @@ export const DemoCard: React.FC = () => {
                     )}
 
 
-                    {/* STEP 1: FLIGHT - Appear after Flight Request (Processing/Responding) */}
-                    {((demoStep > 1) || (demoStep === 1 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
-                        <WidgetContainer key="flight" className="md:col-span-8 h-full">
+                    {/* STEP 2: FLIGHT - Appear after Flight Response (Step 2) */}
+                    {((demoStep > 2) || (demoStep === 2 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
+                        <WidgetContainer key="flight" className="md:col-span-12 lg:col-span-6 min-h-[240px]">
                             <div className="glass-card rounded-3xl overflow-hidden h-full">
-                                <FlightWidget status={demoStep >= 2 ? 'completed' : 'pending'} />
+                                <FlightWidget status={demoStep >= 3 ? 'completed' : 'pending'} />
                             </div>
                         </WidgetContainer>
                     )}
 
-                    {/* STEP 3: HOTEL - Appear after Hotel Confirmation ("Secure it") */}
-                    {((demoStep > 3) || (demoStep === 3 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
-                        <WidgetContainer key="hotel" className="md:col-span-4 h-full">
+                    {/* STEP 4: HOTEL - Appear after Hotel Response (Step 4) */}
+                    {((demoStep > 4) || (demoStep === 4 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
+                        <WidgetContainer key="hotel" className="md:col-span-12 lg:col-span-4 min-h-[240px]">
                             <div className="glass-card rounded-3xl overflow-hidden h-full">
                                 <StayWidget />
                             </div>
                         </WidgetContainer>
                     )}
 
-                    {/* STEP 4: RIDE - Appear after Ride Confirmation ("Yes, schedule it") */}
-                    {((demoStep > 4) || (demoStep === 4 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
-                        <WidgetContainer key="ride" className="md:col-span-4 h-full">
+                    {/* STEP 5: RIDE - Appear after Ride Response (Step 5) */}
+                    {((demoStep > 5) || (demoStep === 5 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
+                        <WidgetContainer key="ride" className="md:col-span-12 lg:col-span-4 min-h-[240px]">
                             <div className="glass-card rounded-3xl overflow-hidden h-full">
                                 <RideWidget />
                             </div>
                         </WidgetContainer>
                     )}
 
-                    {/* STEP 5: DINING - Appear after Dining Confirmation ("Book it") */}
-                    {((demoStep > 5) || (demoStep === 5 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
-                        <WidgetContainer key="dining" className="md:col-span-4 h-full">
+                    {/* STEP 6: DINING - Appear after Dining Response (Step 6) */}
+                    {((demoStep > 6) || (demoStep === 6 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
+                        <WidgetContainer key="dining" className="md:col-span-12 lg:col-span-4 min-h-[240px]">
                             <div className="glass-card rounded-3xl overflow-hidden h-full">
                                 <ActivityWidget
                                     title="Waterfront Kitchen"
@@ -102,9 +102,9 @@ export const DemoCard: React.FC = () => {
                         </WidgetContainer>
                     )}
 
-                    {/* STEP 6: SHOPPING - Appear after Shopping Confirmation ("Yes please") */}
-                    {((demoStep > 6) || (demoStep === 6 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
-                        <WidgetContainer key="shopping" className="md:col-span-4 h-full">
+                    {/* STEP 7: SHOPPING - Appear after Shopping Response (Step 7) */}
+                    {((demoStep > 7) || (demoStep === 7 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
+                        <WidgetContainer key="shopping" className="md:col-span-12 lg:col-span-4 min-h-[240px]">
                             <div className="glass-card rounded-3xl overflow-hidden h-full">
                                 <ActivityWidget
                                     title="SPF 50 Sunscreen"
@@ -117,9 +117,9 @@ export const DemoCard: React.FC = () => {
                         </WidgetContainer>
                     )}
 
-                    {/* STEP 7: EXPERIENCES - Appear after Experience Confirmation ("Yes, add it") */}
-                    {((demoStep > 7) || (demoStep === 7 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
-                        <WidgetContainer key="experiences" className="md:col-span-8 h-full">
+                    {/* STEP 8: EXPERIENCES - Appear after Experience Response (Step 8) */}
+                    {((demoStep > 8) || (demoStep === 8 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
+                        <WidgetContainer key="experiences" className="md:col-span-12 lg:col-span-8 min-h-[240px]">
                             <div className="glass-card rounded-3xl overflow-hidden h-full">
                                 <ActivityWidget
                                     title="Sunrise Paddle Boarding"
@@ -131,9 +131,9 @@ export const DemoCard: React.FC = () => {
                         </WidgetContainer>
                     )}
 
-                    {/* STEP 8: CHECKOUT - Appear after Final Summary ("Done...") */}
-                    {demoStep >= 8 && (
-                        <WidgetContainer key="checkout" className="md:col-span-12 h-full row-span-2">
+                    {/* STEP 9: CHECKOUT - Appear after Final Summary (Step 9) */}
+                    {demoStep >= 9 && (
+                        <WidgetContainer key="checkout" className="md:col-span-12 h-full min-h-[400px]">
                             <div className="glass-card rounded-3xl overflow-hidden h-full">
                                 <CheckoutWidget />
                             </div>

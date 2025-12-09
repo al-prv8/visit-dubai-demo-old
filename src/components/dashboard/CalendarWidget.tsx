@@ -20,7 +20,7 @@ export const CalendarWidget: React.FC<CalendarWidgetProps> = ({ tripStart = 5, t
                 {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => <div key={`${d}-${i}`}>{d}</div>)}
             </div>
 
-            <div className="grid grid-cols-7 gap-1 flex-1">
+            <div className="grid grid-cols-7 gap-1 flex-1 content-start">
                 {days.map(day => {
                     const isStart = day === tripStart;
                     const isEnd = day === tripEnd;
@@ -31,7 +31,7 @@ export const CalendarWidget: React.FC<CalendarWidgetProps> = ({ tripStart = 5, t
                         <div
                             key={day}
                             className={`
-                        flex items-center justify-center text-xs rounded-full w-6 h-6 mx-auto transition-all
+                        flex items-center justify-center text-xs rounded-full w-full aspect-square max-w-[2rem] mx-auto transition-all
                         ${isSelected ? 'bg-white text-surface font-bold scale-110 shadow-lg shadow-white/10' : ''}
                         ${isRange ? 'bg-primary/20 text-primary' : ''}
                         ${!isSelected && !isRange ? 'text-white/60' : ''}

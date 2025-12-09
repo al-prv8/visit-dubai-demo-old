@@ -49,7 +49,7 @@ export const MapSection: React.FC = () => {
 
             <div className="container mx-auto px-6 relative z-10">
                 <ScrollReveal>
-                    <div className="flex flex-col md:flex-row justify-between items-end mb-16">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16">
                         <div>
                             <span className="text-primary font-bold tracking-widest uppercase text-xs mb-4 block">
                                 Discover the City
@@ -142,7 +142,7 @@ export const MapSection: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="mt-8 text-center md:hidden">
+                <div className="mt-8 text-left md:hidden">
                     <a href="#" className="inline-flex items-center gap-2 text-primary hover:text-white transition-colors text-sm font-bold uppercase tracking-wider">
                         View Full Map
                         <ArrowRight className="w-4 h-4" />

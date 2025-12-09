@@ -41,7 +41,7 @@ export const ThingsToDoSection: React.FC = () => {
 
             <div className="container mx-auto px-6 relative z-10">
                 <ScrollReveal>
-                    <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
                         <div>
                             <span className="text-primary font-bold tracking-widest uppercase text-xs mb-4 block">
                                 Curated Experiences
@@ -60,7 +60,7 @@ export const ThingsToDoSection: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     {activities.map((activity, index) => (
                         <ScrollReveal key={index} delay={index * 100} className="h-full">
-                            <div className="group relative h-[500px] overflow-hidden rounded-[2rem] cursor-pointer border border-white/5 bg-surface-50">
+                            <div className="group relative h-[500px] overflow-hidden rounded-[2rem] cursor-pointer border border-white/5 bg-surface-50" style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)" }}>
                                 {/* Image Layer */}
                                 <img
                                     src={activity.image}

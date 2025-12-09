@@ -16,13 +16,17 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
   className = 'mb-12'
 }) => {
   return (
-    <div className={`space-y-4 ${className} ${alignment === 'center' ? 'flex flex-col items-center text-center' : 'text-left'}`}>
+    <div className={`space-y-4 ${className} ${alignment === 'center' ? 'flex flex-col items-start text-left md:items-center md:text-center' : 'text-left'}`}>
       <div className="flex items-center gap-3">
-        {alignment === 'left' && <span className="h-[1px] w-8 bg-primary"></span>}
+        {/* Left Line: Show if left alignment OR (center alignment on mobile) */}
+        {(alignment === 'left' || alignment === 'center') && (
+          <span className={`h-[1px] w-8 bg-primary ${alignment === 'center' ? 'md:hidden' : ''}`}></span>
+        )}
         <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary">
           {subtitle}
         </span>
-        {alignment === 'center' && <span className="h-[1px] w-8 bg-primary"></span>}
+        {/* Right Line: Show if center alignment (desktop only) */}
+        {alignment === 'center' && <span className="h-[1px] w-8 bg-primary hidden md:block"></span>}
       </div>
       <h2 className={`font-serif text-3xl md:text-5xl font-medium ${light ? 'text-white' : 'text-white'}`}>
         {title}

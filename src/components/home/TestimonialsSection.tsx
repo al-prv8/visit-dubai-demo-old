@@ -25,8 +25,8 @@ export const TestimonialsSection: React.FC = () => {
 
           {TESTIMONIALS.map((item, index) => (
             <ScrollReveal key={item.id} delay={index * 150}>
-              <div className="relative group text-center px-8 pt-12 pb-8 glass rounded-2xl hover:bg-white/[0.05] transition-all duration-500">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-4 opacity-0 group-hover:opacity-100 transition-all duration-700">
+              <div className="relative group text-left md:text-center px-8 pt-12 pb-8 glass rounded-2xl hover:bg-white/[0.05] transition-all duration-500">
+                <div className="absolute top-0 left-8 md:left-1/2 md:-translate-x-1/2 -translate-y-4 opacity-0 group-hover:opacity-100 transition-all duration-700">
                   <Quote className="w-8 h-8 text-primary fill-primary/20" />
                 </div>
 
@@ -36,7 +36,7 @@ export const TestimonialsSection: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="flex flex-col items-center gap-2">
+                <div className="flex flex-col items-start md:items-center gap-2">
                   <p className="text-xs font-bold text-white uppercase tracking-[0.15em]">
                     {item.author}
                   </p>

@@ -41,7 +41,7 @@ export const ThemeDebugger: React.FC = () => {
                 </button>
 
                 {isOpen && (
-                    <div className="flex items-center gap-2 pr-2 animate-in fade-in slide-in-from-left-4 duration-300">
+                    <div className="flex items-center gap-2 pr-2 animate-in fade-in slide-in-from-left-4 duration-300 max-w-[calc(100vw-6rem)] overflow-x-auto no-scrollbar mask-fade-right">
                         <div className="w-[1px] h-4 bg-white/10 mx-1" />
 
                         <ThemeButton

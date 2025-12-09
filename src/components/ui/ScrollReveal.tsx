@@ -7,13 +7,15 @@ interface ScrollRevealProps {
   className?: string;
   threshold?: number;
   delay?: number; // Delay in ms
+  style?: React.CSSProperties;
 }
 
 export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   children,
   className = '',
   threshold = 0.1,
-  delay = 0
+  delay = 0,
+  style
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -46,7 +48,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
         ? 'opacity-100 translate-y-0'
         : 'opacity-0 translate-y-16'
         } ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={{ ...style, transitionDelay: `${delay}ms` }}
     >
       {children}
     </div>

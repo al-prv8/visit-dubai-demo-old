@@ -27,7 +27,7 @@ export const FindThingsToDoSection: React.FC = () => {
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
             <div className="container mx-auto px-6">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-16">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16">
                     <ScrollReveal>
                         <span className="text-primary font-bold tracking-widest uppercase text-xs mb-4 block">
                             Curated Experiences
@@ -60,7 +60,7 @@ export const FindThingsToDoSection: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems.map((item, index) => (
                         <ScrollReveal key={`${item.title}-${index}`} delay={index * 100}>
-                            <div className="group relative h-[400px] overflow-hidden rounded-[2rem] cursor-pointer border border-white/5 bg-surface-50">
+                            <div className="group relative h-[400px] overflow-hidden rounded-[2rem] cursor-pointer border border-white/5 bg-surface-50" style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)" }}>
                                 <img
                                     src={item.image}
                                     alt={item.title}

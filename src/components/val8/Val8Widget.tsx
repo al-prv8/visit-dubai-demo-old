@@ -77,6 +77,7 @@ const Val8WidgetContent: React.FC = () => {
     };
 
     return (
+
         <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end font-sans">
             <AnimatePresence>
                 {isExpanded && (
@@ -86,8 +87,10 @@ const Val8WidgetContent: React.FC = () => {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.9 }}
                         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                        className="fixed bg-[#050505]/85 backdrop-blur-3xl border border-white/10 rounded-[32px] shadow-2xl overflow-hidden flex flex-col relative z-50"
-                        style={{
+                        className="fixed z-50 overflow-hidden flex flex-col bg-[#050505]/85 backdrop-blur-3xl border border-white/10 shadow-2xl
+                                   max-md:inset-0 max-md:w-full max-md:h-[100dvh] max-md:rounded-none max-md:bottom-0 max-md:right-0 max-md:border-0
+                                   md:bottom-6 md:right-6 md:w-[400px] md:h-[700px] md:rounded-[32px]"
+                        style={window.innerWidth >= 768 ? {
                             position: 'fixed',
                             ...(view === 'dashboard' ? {
                                 top: '7.5vh',
@@ -106,7 +109,7 @@ const Val8WidgetContent: React.FC = () => {
                                 height: '700px',
                                 transform: 'none'
                             })
-                        }}
+                        } : {}}
                     >
                         {/* Header */}
                         <div className="h-16 bg-white/5 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 shrink-0 relative z-20">
@@ -129,7 +132,6 @@ const Val8WidgetContent: React.FC = () => {
                                         if (newMode) {
                                             setView('dashboard');
                                             setDemoStep(0);
-                                            // Optional: You might want to clear chat history here too if exposed in context
                                         }
                                     }}
                                     className={`px-3 py-1.5 rounded-full text-[10px] uppercase tracking-widest font-medium transition-colors border ${isDemoMode ? 'bg-[#C5A572] text-black border-[#C5A572]' : 'bg-white/5 text-white/40 border-white/10 hover:text-white'}`}
@@ -142,7 +144,7 @@ const Val8WidgetContent: React.FC = () => {
                                 >
                                     {user ? (
                                         <div className="w-full h-full rounded-full bg-primary text-surface flex items-center justify-center font-bold text-xs">
-                                            {user.name.charAt(0)}
+                                            {user?.name?.charAt(0)}
                                         </div>
                                     ) : (
                                         <User className="w-4 h-4" />
@@ -194,15 +196,15 @@ const Val8WidgetContent: React.FC = () => {
                                         <p className="text-xs text-white/40 font-light tracking-wide">Connecting to global concierge network</p>
                                     </motion.div>
                                 ) : view === 'dashboard' ? (
-                                    <motion.div key="dashboard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex relative z-10">
-                                        {/* Left Panel: Chat Interface */}
-                                        <div className="w-[400px] border-r border-white/10 flex flex-col bg-white/5 backdrop-blur-xl relative z-10">
+                                    <motion.div key="dashboard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col md:flex-row relative z-10 animate-in fade-in">
+                                        {/* Left Panel: Chat Interface - Hidden on Mobile in Dashboard View */}
+                                        <div className="hidden md:flex w-[400px] border-r border-white/10 flex-col bg-white/5 backdrop-blur-xl relative z-10">
                                             <ChatInterface />
                                             <BookingFlow />
                                             <PostBookingSummary />
                                         </div>
 
-                                        {/* Right Panel: Content (Dashboard OR Demo Card) */}
+                                        {/* Right Panel: Content (Dashboard OR Demo Card) - Full Width on Mobile */}
                                         <div className="flex-1 bg-black/20 relative z-0 flex flex-col">
                                             {isDemoMode ? <DemoCard /> : <Dashboard />}
                                         </div>
@@ -235,7 +237,8 @@ const Val8WidgetContent: React.FC = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={handleExpand}
-                        className="bg-surface text-white px-6 py-4 rounded-full shadow-2xl flex items-center gap-3 border border-white/10 group z-50"
+                        className="bg-surface text-white px-6 py-4 rounded-full shadow-2xl flex items-center gap-3 border border-white/10 group z-50
+                                 max-md:bottom-4 max-md:right-4 max-md:transform max-md:scale-90"
                     >
                         <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center group-hover:rotate-12 transition-transform">
                             <span className="font-serif font-bold text-surface text-lg">V</span>

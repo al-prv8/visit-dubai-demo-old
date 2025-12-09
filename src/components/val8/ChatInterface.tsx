@@ -77,43 +77,48 @@ export const ChatInterface: React.FC = () => {
   const DEMO_SCRIPT = [
     {
       userText: "I'm planning a trip to Dubai.",
-      aiResponse: "Excellent. Weather is 95° and sunny. I'll handle everything for next month. Want flights, hotel, or activities first?",
+      aiResponse: "Excellent choice. When are you planning to travel?",
       nextStep: 1
+    },
+    {
+      userText: "June 5th to 9th.",
+      aiResponse: "Noted. Weather is expected to be 95° and sunny. I'll handle the logistics. Want flights, hotel, or activities first?",
+      nextStep: 2
     },
     {
       userText: "Flights.",
       aiResponse: "I've got you nonstop from SFO to Dubai on Emirates, Business Class. Want me to hold seats?",
-      nextStep: 2
+      nextStep: 3
     },
     {
       userText: "Yes.",
       aiResponse: "Done. I'd recommend the One&Only Royal Mirage for your stay. Arabian Court Suite with Sea View. Secure it?",
-      nextStep: 3
+      nextStep: 4
     },
     {
       userText: "Secure it.",
       aiResponse: "Locked in. Complimentary Chauffeur-drive service is included with your flight. Shall I schedule the pickup?",
-      nextStep: 4
+      nextStep: 5
     },
     {
       userText: "Yes, schedule it.",
       aiResponse: "Confirmed. For dining, I've found a table at Ossiano — underwater fine dining. Friday at 8pm?",
-      nextStep: 5
+      nextStep: 6
     },
     {
       userText: "That sounds amazing. Book it.",
       aiResponse: "Reserved. Also — high SPF sunscreen is recommended for the desert sun. Shall I have SunSport SPF 50 waiting in your suite?",
-      nextStep: 6
+      nextStep: 7
     },
     {
       userText: "Yes please.",
       aiResponse: "Added. Finally, a private desert safari with vintage Land Rovers is highly rated. Shall I add this experience?",
-      nextStep: 7
+      nextStep: 8
     },
     {
       userText: "Yes, add it.",
       aiResponse: "Done. Your Dubai itinerary is fully organized. Please review the summary below and complete your checkout.",
-      nextStep: 8
+      nextStep: 9
     }
   ];
 

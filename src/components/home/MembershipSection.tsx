@@ -13,7 +13,7 @@ export const MembershipSection: React.FC = () => {
 
       <div className="container mx-auto px-6 md:px-12 relative z-10">
         <ScrollReveal>
-          <div className="mb-20 text-center">
+          <div className="mb-20 text-left md:text-center">
             <SectionHeading
               title="Membership"
               subtitle="Access Levels"
