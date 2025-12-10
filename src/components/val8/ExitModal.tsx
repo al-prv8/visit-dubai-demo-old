@@ -21,24 +21,24 @@ export const ExitModal: React.FC = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-6"
+                className="absolute inset-0 z-50 flex items-center justify-center bg-surface/80 dark:bg-black/60 backdrop-blur-sm p-6"
             >
                 <motion.div
                     initial={{ scale: 0.9, y: 20 }}
                     animate={{ scale: 1, y: 0 }}
                     exit={{ scale: 0.9, y: 20 }}
-                    className="w-full max-w-md glass-card p-6 shadow-2xl relative overflow-hidden bg-black/80"
+                    className="w-full max-w-md glass-card p-6 shadow-2xl relative overflow-hidden bg-surface dark:bg-black/80"
                 >
                     {/* Background Gradient */}
                     <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl rounded-full -mr-16 -mt-16" />
 
                     <div className="relative z-10">
-                        <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-4 border border-white/5">
+                        <div className="w-12 h-12 rounded-full bg-surface-alt dark:bg-white/5 flex items-center justify-center mb-4 border border-border-subtle dark:border-white/5">
                             <Save className="w-6 h-6 text-primary" />
                         </div>
 
-                        <h3 className="text-xl font-serif text-white mb-2">Save your trip?</h3>
-                        <p className="text-white/60 text-sm mb-6 leading-relaxed">
+                        <h3 className="text-xl font-serif text-text-primary dark:text-white mb-2">Save your trip?</h3>
+                        <p className="text-text-secondary dark:text-white/60 text-sm mb-6 leading-relaxed">
                             Would you like to save your progress and access this itinerary later?
                         </p>
 
@@ -55,7 +55,7 @@ export const ExitModal: React.FC = () => {
 
                             <button
                                 onClick={handleExit}
-                                className="w-full py-3 rounded-xl border border-white/10 text-white/60 text-sm hover:bg-white/5 hover:text-white transition-colors"
+                                className="w-full py-3 rounded-xl border border-border-subtle dark:border-white/10 text-text-muted dark:text-white/60 text-sm hover:bg-surface-alt dark:hover:bg-white/5 hover:text-text-primary dark:hover:text-white transition-colors"
                             >
                                 No thanks, just close
                             </button>

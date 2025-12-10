@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useVal8 } from './Val8Context';
 import { FlightWidget } from '@/components/dashboard/FlightWidget';
@@ -9,6 +9,8 @@ import { CheckoutWidget } from '@/components/dashboard/CheckoutWidget';
 import { CalendarWidget } from '@/components/dashboard/CalendarWidget';
 import { WeatherWidget } from '@/components/dashboard/WeatherWidget';
 import { TimezoneWidget } from '@/components/dashboard/TimezoneWidget';
+import { DashboardState } from './Dashboard';
+import { WidgetDetailView } from './WidgetDetailView';
 
 // Wrapper for animation
 const WidgetContainer = ({ children, className }: { children: React.ReactNode, className?: string }) => (
@@ -23,8 +25,51 @@ const WidgetContainer = ({ children, className }: { children: React.ReactNode, c
     </motion.div>
 );
 
+const DEMO_DATA: DashboardState = {
+    flight: {
+        origin: "SFO",
+        destination: "DXB",
+        carrier: "Emirates",
+        class: "First Class",
+        date: "June 5 - June 9",
+        flightNumber: "EK 226",
+        price: "$6,200"
+    },
+    stay: {
+        hotelName: "Burj Al Arab",
+        roomType: "Royal Suite",
+        guests: 2,
+        checkIn: "June 6",
+        checkOut: "June 9",
+        price: "$15,000"
+    },
+    ride: {
+        pickup: "Dubai Int'l (DXB)",
+        serviceLevel: "Luxury",
+        dropoff: "Burj Al Arab",
+        price: "Included"
+    },
+    weather: {
+        unit: 'F',
+        alerts: false
+    },
+    location: {
+        current: "Dubai, UAE"
+    },
+    timezone: {
+        primary: "Gulf Standard Time",
+        secondary: "Pacific Standard Time"
+    }
+};
+
 export const DemoCard: React.FC = () => {
     const { demoStep, demoPhase } = useVal8();
+    const [data, setData] = useState<DashboardState>(DEMO_DATA);
+    const [selectedWidget, setSelectedWidget] = useState<'flight' | 'stay' | 'ride' | 'calendar' | 'activity' | 'checkout' | 'weather' | 'location' | 'timezone' | 'scheduling' | null>(null);
+
+    const handleSave = (partialData: Partial<DashboardState>) => {
+        setData(prev => ({ ...prev, ...partialData }));
+    };
 
     // Mapping steps to widgets with cumulative logic
     // Step 0: Context (Weather, Location, Timezone, Calendar)
@@ -43,6 +88,14 @@ export const DemoCard: React.FC = () => {
 
     return (
         <div className="h-full w-full p-6 overflow-y-auto custom-scrollbar relative">
+
+            <WidgetDetailView
+                type={selectedWidget}
+                data={data}
+                onSave={handleSave}
+                onClose={() => setSelectedWidget(null)}
+            />
+
             {/* Success Modal Overlay */}
             <AnimatePresence>
                 {isCheckoutComplete && (
@@ -70,8 +123,8 @@ export const DemoCard: React.FC = () => {
                                 </div>
                             </div>
 
-                            <h3 className="text-2xl font-serif text-white mb-2">Reservation Confirmed</h3>
-                            <p className="text-white/60 text-sm mb-8 leading-relaxed">
+                            <h3 className="text-2xl font-serif text-text-primary dark:text-white mb-2">Reservation Confirmed</h3>
+                            <p className="text-text-secondary dark:text-white/60 text-sm mb-8 leading-relaxed">
                                 Your Dubai itinerary has been successfully booked. A detailed confirmation has been sent to your email.
                             </p>
 
@@ -95,14 +148,14 @@ export const DemoCard: React.FC = () => {
                         <React.Fragment key="overview-fragment">
                             {/* Calendar (2 cols) */}
                             <WidgetContainer key="calendar" className="md:col-span-12 lg:col-span-3 min-h-[240px]">
-                                <div className="glass-card rounded-3xl overflow-hidden h-full">
+                                <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('calendar')}>
                                     <CalendarWidget />
                                 </div>
                             </WidgetContainer>
 
                             {/* Weather (2 cols) */}
                             <WidgetContainer key="weather" className="md:col-span-12 lg:col-span-3 min-h-[240px]">
-                                <div className="glass-card rounded-3xl overflow-hidden h-full">
+                                <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('weather')}>
                                     <WeatherWidget temperature="95" />
                                 </div>
                             </WidgetContainer>
@@ -113,8 +166,8 @@ export const DemoCard: React.FC = () => {
                     {/* STEP 2: FLIGHT - Appear after Flight Response (Step 2) */}
                     {((demoStep > 2) || (demoStep === 2 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
                         <WidgetContainer key="flight" className="md:col-span-12 lg:col-span-6 min-h-[240px]">
-                            <div className="glass-card rounded-3xl overflow-hidden h-full">
-                                <FlightWidget status={demoStep >= 3 ? 'completed' : 'pending'} />
+                            <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('flight')}>
+                                <FlightWidget status={demoStep >= 3 ? 'completed' : 'pending'} data={data.flight} />
                             </div>
                         </WidgetContainer>
                     )}
@@ -122,8 +175,8 @@ export const DemoCard: React.FC = () => {
                     {/* STEP 4: HOTEL - Appear after Hotel Response (Step 4) */}
                     {((demoStep > 4) || (demoStep === 4 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
                         <WidgetContainer key="hotel" className="md:col-span-12 lg:col-span-4 min-h-[240px]">
-                            <div className="glass-card rounded-3xl overflow-hidden h-full">
-                                <StayWidget />
+                            <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('stay')}>
+                                <StayWidget data={data.stay} />
                             </div>
                         </WidgetContainer>
                     )}
@@ -131,8 +184,8 @@ export const DemoCard: React.FC = () => {
                     {/* STEP 5: RIDE - Appear after Ride Response (Step 5) */}
                     {((demoStep > 5) || (demoStep === 5 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
                         <WidgetContainer key="ride" className="md:col-span-12 lg:col-span-4 min-h-[240px]">
-                            <div className="glass-card rounded-3xl overflow-hidden h-full">
-                                <RideWidget />
+                            <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('ride')}>
+                                <RideWidget data={data.ride} />
                             </div>
                         </WidgetContainer>
                     )}
@@ -140,7 +193,7 @@ export const DemoCard: React.FC = () => {
                     {/* STEP 6: DINING - Appear after Dining Response (Step 6) */}
                     {((demoStep > 6) || (demoStep === 6 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
                         <WidgetContainer key="dining" className="md:col-span-12 lg:col-span-4 min-h-[240px]">
-                            <div className="glass-card rounded-3xl overflow-hidden h-full">
+                            <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('activity')}>
                                 <ActivityWidget
                                     title="Waterfront Kitchen"
                                     subtitle="$30-50 | American"
@@ -154,7 +207,7 @@ export const DemoCard: React.FC = () => {
                     {/* STEP 7: SHOPPING - Appear after Shopping Response (Step 7) */}
                     {((demoStep > 7) || (demoStep === 7 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
                         <WidgetContainer key="shopping" className="md:col-span-12 lg:col-span-4 min-h-[240px]">
-                            <div className="glass-card rounded-3xl overflow-hidden h-full">
+                            <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('activity')}>
                                 <ActivityWidget
                                     title="SPF 50 Sunscreen"
                                     subtitle="124k ratings"
@@ -169,7 +222,7 @@ export const DemoCard: React.FC = () => {
                     {/* STEP 8: EXPERIENCES - Appear after Experience Response (Step 8) */}
                     {((demoStep > 8) || (demoStep === 8 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
                         <WidgetContainer key="experiences" className="md:col-span-12 lg:col-span-8 min-h-[240px]">
-                            <div className="glass-card rounded-3xl overflow-hidden h-full">
+                            <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('activity')}>
                                 <ActivityWidget
                                     title="Sunrise Paddle Boarding"
                                     subtitle="Guided Tour"
@@ -183,8 +236,8 @@ export const DemoCard: React.FC = () => {
                     {/* STEP 9: CHECKOUT - Appear after Final Summary (Step 9) */}
                     {demoStep >= 9 && (
                         <WidgetContainer key="checkout" className="md:col-span-12 h-full min-h-[400px]">
-                            <div className="glass-card rounded-3xl overflow-hidden h-full">
-                                <CheckoutWidget onCheckout={handleCheckout} />
+                            <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('checkout')}>
+                                <CheckoutWidget onCheckout={handleCheckout} data={data} />
                             </div>
                         </WidgetContainer>
                     )}

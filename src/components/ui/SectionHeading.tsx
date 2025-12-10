@@ -28,7 +28,7 @@ export const SectionHeading: React.FC<SectionHeadingProps> = ({
         {/* Right Line: Show if center alignment (desktop only) */}
         {alignment === 'center' && <span className="h-[1px] w-8 bg-primary hidden md:block"></span>}
       </div>
-      <h2 className={`font-serif text-3xl md:text-5xl font-medium ${light ? 'text-white' : 'text-white'}`}>
+      <h2 className={`font-serif text-3xl md:text-5xl font-medium ${light ? 'text-white' : 'text-text-primary'}`}>
         {title}
       </h2>
     </div>

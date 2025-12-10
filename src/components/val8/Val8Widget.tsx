@@ -87,7 +87,7 @@ const Val8WidgetContent: React.FC = () => {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.9 }}
                         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                        className="fixed z-50 overflow-hidden flex flex-col bg-[#050505]/85 backdrop-blur-3xl border border-white/10 shadow-2xl
+                        className="fixed z-50 overflow-hidden flex flex-col bg-surface dark:bg-[#050505]/95 backdrop-blur-3xl border border-border-subtle dark:border-white/10 shadow-2xl
                                    max-md:inset-0 max-md:w-full max-md:h-[100dvh] max-md:rounded-none max-md:bottom-0 max-md:right-0 max-md:border-0
                                    md:bottom-6 md:right-6 md:w-[400px] md:h-[700px] md:rounded-[32px]"
                         style={window.innerWidth >= 768 ? {
@@ -112,15 +112,15 @@ const Val8WidgetContent: React.FC = () => {
                         } : {}}
                     >
                         {/* Header */}
-                        <div className="h-16 bg-white/5 backdrop-blur-md border-b border-white/5 flex items-center justify-between px-6 shrink-0 relative z-20">
+                        <div className="h-16 bg-surface-alt/50 dark:bg-white/5 backdrop-blur-md border-b border-border-subtle dark:border-white/5 flex items-center justify-between px-6 shrink-0 relative z-20">
                             <div className="flex items-center gap-3">
                                 <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${isDemoMode ? 'bg-[#C5A572]' : 'bg-primary'}`}>
                                     <span className="font-serif font-bold text-surface text-lg">V</span>
                                 </div>
                                 <div>
-                                    <h1 className="text-white font-serif text-lg tracking-wide">{isDemoMode ? 'Visit Dubai AI' : 'Val8'}</h1>
+                                    <h1 className="text-text-primary dark:text-white font-serif text-lg tracking-wide">{isDemoMode ? 'Visit Dubai AI' : 'Val8'}</h1>
                                     <p className={`text-[10px] uppercase tracking-widest font-medium ${isDemoMode ? 'text-[#C5A572]' : 'text-primary'}`}>
-                                        {isDemoMode ? 'Official Concierge' : 'Concierge'}
+                                        {isDemoMode ? 'Official Concierge' : 'Powered by PRV8.'}
                                     </p>
                                 </div>
                             </div>
@@ -134,13 +134,13 @@ const Val8WidgetContent: React.FC = () => {
                                             setDemoStep(0);
                                         }
                                     }}
-                                    className={`px-3 py-1.5 rounded-full text-[10px] uppercase tracking-widest font-medium transition-colors border ${isDemoMode ? 'bg-[#C5A572] text-black border-[#C5A572]' : 'bg-white/5 text-white/40 border-white/10 hover:text-white'}`}
+                                    className={`px-3 py-1.5 rounded-full text-[10px] uppercase tracking-widest font-medium transition-colors border ${isDemoMode ? 'bg-[#C5A572] text-black border-[#C5A572]' : 'bg-surface-alt/50 dark:bg-white/5 text-text-muted dark:text-white/40 border-border-subtle dark:border-white/10 hover:text-text-primary dark:hover:text-white'}`}
                                 >
                                     {isDemoMode ? 'Exit Demo' : 'Demo'}
                                 </button>
                                 <button
                                     onClick={handleProfileClick}
-                                    className="w-8 h-8 rounded-full bg-surface-100 flex items-center justify-center text-white/40 hover:text-white hover:bg-surface-200 transition-colors"
+                                    className="w-8 h-8 rounded-full bg-surface-alt/50 dark:bg-surface-100 flex items-center justify-center text-text-muted dark:text-white/40 hover:text-text-primary dark:hover:text-white hover:bg-surface-alt dark:hover:bg-surface-200 transition-colors"
                                 >
                                     {user ? (
                                         <div className="w-full h-full rounded-full bg-primary text-surface flex items-center justify-center font-bold text-xs">
@@ -152,13 +152,13 @@ const Val8WidgetContent: React.FC = () => {
                                 </button>
                                 <button
                                     onClick={() => setView(view === 'chat' ? 'dashboard' : 'chat')}
-                                    className="w-8 h-8 rounded-full bg-surface-100 flex items-center justify-center text-white/40 hover:text-white hover:bg-surface-200 transition-colors"
+                                    className="w-8 h-8 rounded-full bg-surface-alt/50 dark:bg-surface-100 flex items-center justify-center text-text-muted dark:text-white/40 hover:text-text-primary dark:hover:text-white hover:bg-surface-alt dark:hover:bg-surface-200 transition-colors"
                                 >
                                     {view === 'chat' ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
                                 </button>
                                 <button
                                     onClick={handleClose}
-                                    className="w-8 h-8 rounded-full bg-surface-100 flex items-center justify-center text-white/40 hover:text-white hover:bg-surface-200 transition-colors"
+                                    className="w-8 h-8 rounded-full bg-surface-alt/50 dark:bg-surface-100 flex items-center justify-center text-text-muted dark:text-white/40 hover:text-text-primary dark:hover:text-white hover:bg-surface-alt dark:hover:bg-surface-200 transition-colors"
                                 >
                                     <X className="w-4 h-4" />
                                 </button>
@@ -192,20 +192,20 @@ const Val8WidgetContent: React.FC = () => {
                                             <div className="absolute inset-0 rounded-full border border-primary/10 animate-ping" />
                                             <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
                                         </div>
-                                        <h3 className="text-lg font-serif text-white mb-2">Preparing your experience...</h3>
-                                        <p className="text-xs text-white/40 font-light tracking-wide">Connecting to global concierge network</p>
+                                        <h3 className="text-lg font-serif text-text-primary dark:text-white mb-2">Preparing your experience...</h3>
+                                        <p className="text-xs text-text-muted dark:text-white/40 font-light tracking-wide">Connecting to global concierge network</p>
                                     </motion.div>
                                 ) : view === 'dashboard' ? (
                                     <motion.div key="dashboard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col md:flex-row relative z-10 animate-in fade-in">
                                         {/* Left Panel: Chat Interface - Hidden on Mobile in Dashboard View */}
-                                        <div className="hidden md:flex w-[400px] border-r border-white/10 flex-col bg-white/5 backdrop-blur-xl relative z-10">
+                                        <div className="hidden md:flex w-[400px] border-r border-border-subtle dark:border-white/10 flex-col bg-surface dark:bg-[#050505] backdrop-blur-xl relative z-10">
                                             <ChatInterface />
                                             <BookingFlow />
                                             <PostBookingSummary />
                                         </div>
 
                                         {/* Right Panel: Content (Dashboard OR Demo Card) - Full Width on Mobile */}
-                                        <div className="flex-1 bg-black/20 relative z-0 flex flex-col">
+                                        <div className="flex-1 bg-surface-alt dark:bg-black/20 relative z-0 flex flex-col">
                                             {isDemoMode ? <DemoCard /> : <Dashboard />}
                                         </div>
                                     </motion.div>
@@ -237,7 +237,7 @@ const Val8WidgetContent: React.FC = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={handleExpand}
-                        className="bg-surface text-white px-6 py-4 rounded-full shadow-2xl flex items-center gap-3 border border-white/10 group z-50
+                        className="bg-surface text-text-primary dark:text-white px-6 py-4 rounded-full shadow-2xl flex items-center gap-3 border border-border-subtle dark:border-white/10 group z-50
                                  max-md:bottom-4 max-md:right-4 max-md:transform max-md:scale-90"
                     >
                         <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center group-hover:rotate-12 transition-transform">

@@ -27,7 +27,7 @@ export const MoreAboutSection: React.FC = () => {
         <section className="py-20 bg-bg">
             <div className="container mx-auto px-6">
                 <ScrollReveal>
-                    <h2 className="text-3xl md:text-4xl font-serif text-white mb-12">
+                    <h2 className="text-3xl md:text-4xl font-serif text-text-primary mb-12">
                         More about Dubai
                     </h2>
                 </ScrollReveal>
@@ -35,8 +35,8 @@ export const MoreAboutSection: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {articles.map((article, index) => (
                         <ScrollReveal key={index} delay={index * 150}>
-                            <div className="group cursor-pointer">
-                                <div className="h-[280px] rounded-t-2xl overflow-hidden relative">
+                            <div className="group cursor-pointer rounded-2xl overflow-hidden shadow-lg bg-surface hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 relative">
+                                <div className="h-[280px] overflow-hidden relative">
                                     <img
                                         src={article.image}
                                         alt={article.title}
@@ -44,16 +44,16 @@ export const MoreAboutSection: React.FC = () => {
                                     />
                                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
                                 </div>
-                                <div className="glass-card border border-white/5 border-t-0 p-6 rounded-b-2xl group-hover:bg-white/5 transition-colors shadow-lg">
+                                <div className="p-6">
                                     <span className="text-xs font-bold text-primary uppercase tracking-widest mb-2 block">
                                         {article.title}
                                     </span>
-                                    <h3 className="text-xl font-medium text-white mb-4 group-hover:text-primary-light transition-colors font-serif">
+                                    <h3 className="text-xl font-medium text-text-primary mb-4 group-hover:text-primary transition-colors font-serif">
                                         {article.subtitle}
                                     </h3>
-                                    <div className="w-full h-[1px] bg-white/10 mb-4" />
-                                    <span className="text-sm text-white/60 group-hover:text-white transition-colors flex items-center gap-2 uppercase tracking-wider text-xs">
-                                        Read Article <span className="text-primary">&rarr;</span>
+                                    <div className="w-full h-[1px] bg-border-subtle mb-4" />
+                                    <span className="text-sm text-text-secondary group-hover:text-text-primary transition-colors flex items-center gap-2 uppercase tracking-wider text-xs">
+                                        Read Article <span className="text-primary group-hover:translate-x-1 transition-transform">&rarr;</span>
                                     </span>
                                 </div>
                             </div>

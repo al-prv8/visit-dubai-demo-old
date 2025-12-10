@@ -31,7 +31,7 @@ export const ExperienceCard: React.FC<ExperienceCardProps> = ({ data }) => {
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="group relative h-[500px] w-full cursor-pointer flex flex-col justify-end p-8 glass-card rounded-3xl border border-white/20 overflow-hidden shadow-2xl transition-all duration-500 hover:border-white/40 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+      className="group relative h-[500px] w-full cursor-pointer flex flex-col justify-end p-8 glass-card rounded-3xl overflow-hidden shadow-2xl transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
       style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)" }}
     >
       {/* Spotlight Effect */}

@@ -86,6 +86,41 @@
     --z-toast: 200;
 }
 
+.light {
+    /* Backgrounds: Invert to Light */
+    --color-bg: #FAFAFA;
+    /* Soft White */
+    --color-surface: #FFFFFF;
+    /* Pure White */
+    --color-surface-alt: #F3F4F6;
+    /* Gray 100 */
+
+    /* Text: Invert to Dark */
+    --color-text-primary: #1A1A1A;
+    /* Almost Black */
+    --color-text-secondary: #4B5563;
+    /* Gray 600 */
+    --color-text-muted: #9CA3AF;
+    /* Gray 400 */
+    --color-text-on-primary: #FFFFFF;
+    /* White on Gold */
+
+    /* Borders: Darker for visibility on light */
+    --color-border-subtle: #E5E7EB;
+    /* Gray 200 */
+    --color-border-strong: #D4AF37;
+    /* Primary Gold */
+
+    /* Glass: Light Frosted Glass Style */
+    --glass-heavy: rgba(255, 255, 255, 0.7);
+    --glass-atlas: rgba(255, 255, 255, 0.6);
+    --glass-card-start: rgba(255, 255, 255, 0.8);
+    --glass-card-end: rgba(255, 255, 255, 0.4);
+
+    /* Keep Brand Colors but maybe adjust sheen */
+    --color-sheen: color-mix(in srgb, var(--color-primary), transparent 90%);
+}
+
 /* Themes */
 .theme-oceanic {
     --color-primary: #0EA5E9;

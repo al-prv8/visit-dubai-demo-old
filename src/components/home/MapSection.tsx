@@ -54,7 +54,7 @@ export const MapSection: React.FC = () => {
                             <span className="text-primary font-bold tracking-widest uppercase text-xs mb-4 block">
                                 Discover the City
                             </span>
-                            <h2 className="text-4xl md:text-5xl font-serif text-white">
+                            <h2 className="text-4xl md:text-5xl font-serif text-text-primary">
                                 Explore Destinations
                             </h2>
                         </div>
@@ -116,26 +116,26 @@ export const MapSection: React.FC = () => {
                                 key={i}
                                 onClick={() => setActiveLocation(loc)}
                                 className={`p-6 rounded-2xl border transition-all cursor-pointer relative overflow-hidden group ${activeLocation.id === loc.id
-                                    ? 'bg-white/10 border-primary/50 shadow-lg'
-                                    : 'glass border-white/5 hover:bg-white/5 hover:border-white/20'
+                                    ? 'bg-surface-alt border-primary/50 shadow-lg'
+                                    : 'glass border-border-subtle hover:bg-surface-alt/50 hover:border-text-muted/20'
                                     }`}
                             >
                                 <div className="flex items-center justify-between relative z-10">
                                     <div>
-                                        <h4 className={`text-xl font-serif mb-1 transition-colors ${activeLocation.id === loc.id ? 'text-white' : 'text-white/70 group-hover:text-white'}`}>
+                                        <h4 className={`text-xl font-serif mb-1 transition-colors ${activeLocation.id === loc.id ? 'text-text-primary' : 'text-text-secondary group-hover:text-text-primary'}`}>
                                             {loc.name}
                                         </h4>
-                                        <p className="text-white/40 text-xs font-bold uppercase tracking-widest">{loc.type}</p>
+                                        <p className="text-text-muted text-xs font-bold uppercase tracking-widest">{loc.type}</p>
                                     </div>
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center border transition-all ${activeLocation.id === loc.id ? 'bg-primary border-primary text-black' : 'border-white/20 text-white/40 group-hover:border-white group-hover:text-white'}`}>
+                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center border transition-all ${activeLocation.id === loc.id ? 'bg-primary border-primary text-black' : 'border-border-subtle text-text-muted group-hover:border-text-primary group-hover:text-text-primary'}`}>
                                         <ArrowRight className="w-4 h-4" />
                                     </div>
                                 </div>
                             </div>
                         ))}
 
-                        <div className="mt-auto pt-8 border-t border-white/10 hidden lg:block">
-                            <p className="text-white/40 text-sm mb-4">
+                        <div className="mt-auto pt-8 border-t border-border-subtle hidden lg:block">
+                            <p className="text-text-muted text-sm mb-4">
                                 Navigate through Dubai's diverse districts, from the bustling heart of Downtown to the serene dunes of the desert.
                             </p>
                         </div>

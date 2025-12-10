@@ -32,7 +32,7 @@ export const FindThingsToDoSection: React.FC = () => {
                         <span className="text-primary font-bold tracking-widest uppercase text-xs mb-4 block">
                             Curated Experiences
                         </span>
-                        <h2 className="text-4xl md:text-5xl font-serif text-white">
+                        <h2 className="text-4xl md:text-5xl font-serif text-text-primary">
                             Find things to do
                         </h2>
                     </ScrollReveal>
@@ -45,8 +45,8 @@ export const FindThingsToDoSection: React.FC = () => {
                                     key={filter}
                                     onClick={() => setActiveFilter(filter)}
                                     className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border ${activeFilter === filter
-                                        ? 'bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.4)]'
-                                        : 'bg-transparent text-white/50 border-white/10 hover:border-white/30 hover:text-white hover:bg-white/5'
+                                        ? 'bg-primary text-text-on-primary border-primary shadow-[0_0_15px_rgba(227,181,116,0.3)]'
+                                        : 'bg-transparent text-text-secondary border-border-subtle hover:border-primary hover:text-primary hover:bg-surface-alt/50'
                                         }`}
                                 >
                                     {filter}
@@ -60,7 +60,7 @@ export const FindThingsToDoSection: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {filteredItems.map((item, index) => (
                         <ScrollReveal key={`${item.title}-${index}`} delay={index * 100}>
-                            <div className="group relative h-[400px] overflow-hidden rounded-[2rem] cursor-pointer border border-white/5 bg-surface-50" style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)" }}>
+                            <div className="group relative h-[400px] overflow-hidden rounded-[2rem] cursor-pointer bg-surface-alt" style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)" }}>
                                 <img
                                     src={item.image}
                                     alt={item.title}
@@ -73,7 +73,7 @@ export const FindThingsToDoSection: React.FC = () => {
                                 </div>
 
                                 <div className="absolute bottom-0 left-0 p-8 w-full translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                                    <span className="inline-block px-3 py-1 rounded-full glass border border-white/10 text-[10px] text-primary font-bold tracking-widest uppercase mb-3 backdrop-blur-md">
+                                    <span className="inline-block px-4 py-1.5 rounded-full bg-black/40 border border-white/20 text-[10px] text-white font-bold tracking-widest uppercase mb-3 backdrop-blur-md shadow-sm">
                                         {item.type}
                                     </span>
                                     <h3 className="text-2xl font-serif text-white mb-1 group-hover:text-primary transition-colors">

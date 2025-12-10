@@ -16,7 +16,7 @@ export const CuratedSection: React.FC = () => {
               subtitle="The Collection"
               className="mb-0"
             />
-            <Button variant="outline" className="hidden md:flex rounded-full px-8 border-white/20 hover:border-white">
+            <Button variant="outline" className="hidden md:flex rounded-full px-8 border-border-subtle hover:border-text-primary">
               View Archive
             </Button>
           </div>

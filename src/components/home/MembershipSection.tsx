@@ -31,7 +31,7 @@ export const MembershipSection: React.FC = () => {
                     relative h-full p-10 lg:p-14 rounded-xl overflow-hidden transition-all duration-700 hover:-translate-y-2 glass-card
                     ${tier.highlight
                       ? 'border-primary/40 shadow-[0_0_50px_-20px_rgba(255,255,255,0.1)]'
-                      : 'border-white/5'}
+                      : 'border-border-subtle'}
                   `}
                 >
                   {/* Metallic Sheen */}
@@ -41,16 +41,16 @@ export const MembershipSection: React.FC = () => {
                   <div className="relative z-10 flex flex-col h-full justify-between">
                     <div>
                       <div className="flex justify-between items-start mb-8">
-                        <h3 className={`font-serif text-3xl italic ${tier.highlight ? 'text-primary' : 'text-white'}`}>{tier.name}</h3>
+                        <h3 className={`font-serif text-3xl italic ${tier.highlight ? 'text-primary' : 'text-text-primary'}`}>{tier.name}</h3>
                         {tier.highlight && <span className="text-[10px] px-2 py-1 border border-primary text-primary uppercase tracking-widest rounded-full shadow-[0_0_10px_rgba(255,255,255,0.1)]">Limited</span>}
                       </div>
 
                       <div className="mb-10">
                         <div className="flex items-baseline gap-1">
-                          <span className="text-4xl font-light tracking-tight text-white">{tier.price}</span>
-                          <span className="text-xs text-white/30 uppercase tracking-widest">{tier.period}</span>
+                          <span className="text-4xl font-light tracking-tight text-text-primary">{tier.price}</span>
+                          <span className="text-xs text-text-muted uppercase tracking-widest">{tier.period}</span>
                         </div>
-                        <p className="mt-4 text-sm text-white/50 font-light leading-relaxed">
+                        <p className="mt-4 text-sm text-text-secondary font-light leading-relaxed">
                           {tier.description}
                         </p>
                       </div>
@@ -58,8 +58,8 @@ export const MembershipSection: React.FC = () => {
                       <ul className="space-y-4 mb-12">
                         {tier.features.map((feature, i) => (
                           <li key={i} className="flex items-start gap-3 group/item">
-                            <Check className={`w-4 h-4 mt-0.5 ${tier.highlight ? 'text-primary' : 'text-white/20 group-hover/item:text-white transition-colors'}`} />
-                            <span className="text-sm text-white/70 font-light">{feature}</span>
+                            <Check className={`w-4 h-4 mt-0.5 ${tier.highlight ? 'text-primary' : 'text-text-muted group-hover/item:text-text-primary transition-colors'}`} />
+                            <span className="text-sm text-text-secondary font-light">{feature}</span>
                           </li>
                         ))}
                       </ul>

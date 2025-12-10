@@ -349,7 +349,7 @@ export const ChatInterface: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <h2 className="text-3xl font-serif text-white mb-8 leading-tight">
+            <h2 className="text-3xl font-serif text-text-primary dark:text-white mb-8 leading-tight">
               Where are you <br />
               <span className="text-primary italic">thinking of going?</span>
             </h2>
@@ -368,17 +368,17 @@ export const ChatInterface: React.FC = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.4 + i * 0.1 }}
                 onClick={() => handleQuickAction(item.action)}
-                className="flex flex-col items-center justify-center p-4 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-primary/30 rounded-xl transition-all group"
+                className="flex flex-col items-center justify-center p-4 bg-surface-alt dark:bg-white/5 hover:bg-surface dark:hover:bg-white/10 border border-border-subtle dark:border-white/5 hover:border-primary/30 rounded-xl transition-all group"
               >
-                <item.icon className="w-5 h-5 text-white/60 group-hover:text-primary mb-2 transition-colors" />
-                <span className="text-xs text-white/80 font-light">{item.label}</span>
+                <item.icon className="w-5 h-5 text-text-muted dark:text-white/60 group-hover:text-primary mb-2 transition-colors" />
+                <span className="text-xs text-text-secondary dark:text-white/80 font-light">{item.label}</span>
               </motion.button>
             ))}
           </div>
         </div>
 
         {/* Input Area (Shared - Unified Style) */}
-        <div className="p-4 glass-card border-x-0 border-b-0 rounded-none rounded-b-3xl">
+        <div className="p-4 bg-surface dark:glass-card border-x-0 border-b-0 rounded-none rounded-b-3xl">
           <div className="relative">
             <input
               type="text"
@@ -386,7 +386,7 @@ export const ChatInterface: React.FC = () => {
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Tell me anything..."
-              className="w-full bg-black/20 text-white placeholder-white/30 rounded-xl pl-4 pr-12 py-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary border border-white/5 transition-all"
+              className="w-full bg-surface-alt dark:bg-black/20 text-text-primary dark:text-white placeholder-text-muted dark:placeholder-white/30 rounded-xl pl-4 pr-12 py-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary border border-border-subtle dark:border-white/5 transition-all"
             />
             <button
               onClick={handleSend}
@@ -414,8 +414,8 @@ export const ChatInterface: React.FC = () => {
             {msg.type === 'text' ? (
               <div
                 className={`max-w-[85%] p-4 rounded-2xl ${msg.sender === 'user'
-                  ? 'bg-white/10 text-white rounded-tr-sm backdrop-blur-md border border-white/5'
-                  : 'bg-primary/10 text-white rounded-tl-sm border border-primary/20'
+                  ? 'bg-surface-alt dark:bg-white/10 text-text-primary dark:text-white rounded-tr-sm backdrop-blur-md border border-border-subtle dark:border-white/5'
+                  : 'bg-primary/10 text-text-primary dark:text-white rounded-tl-sm border border-primary/20'
                   }`}
               >
                 <p className="text-sm leading-relaxed font-light">{msg.text}</p>
@@ -426,7 +426,7 @@ export const ChatInterface: React.FC = () => {
                   <button
                     key={option}
                     onClick={() => handleQuickAction(option)}
-                    className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs text-white/70 hover:bg-primary hover:text-surface hover:border-primary transition-all duration-300"
+                    className="px-4 py-2 rounded-full bg-surface-alt dark:bg-white/5 border border-border-subtle dark:border-white/10 text-xs text-text-secondary dark:text-white/70 hover:bg-primary hover:text-surface hover:border-primary transition-all duration-300"
                   >
                     {option}
                   </button>
@@ -434,7 +434,7 @@ export const ChatInterface: React.FC = () => {
               </div>
             ) : msg.type === 'card-stack' ? (
               <div className="w-full">
-                <div className="text-white/80 border-l border-white/10 pl-4 p-4 text-sm font-light mb-2">
+                <div className="text-text-secondary dark:text-white/80 border-l border-border-subtle dark:border-white/10 pl-4 p-4 text-sm font-light mb-2">
                   {msg.text}
                 </div>
                 {/* Only show stack for the latest card-stack message to avoid duplicates if multiple stacks exist in history */}
@@ -449,7 +449,7 @@ export const ChatInterface: React.FC = () => {
       </div>
 
       {/* Input Area */}
-      <div className="p-4 glass-card border-x-0 border-b-0 rounded-none rounded-b-3xl">
+      <div className="p-4 bg-surface dark:glass-card border-x-0 border-b-0 rounded-none rounded-b-3xl">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -462,7 +462,7 @@ export const ChatInterface: React.FC = () => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Tell me anything..."
-            className="w-full bg-black/20 text-white placeholder-white/30 rounded-xl pl-4 pr-12 py-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary border border-white/5 transition-all"
+            className="w-full bg-surface-alt dark:bg-black/20 text-text-primary dark:text-white placeholder-text-muted dark:placeholder-white/30 rounded-xl pl-4 pr-12 py-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary border border-border-subtle dark:border-white/5 transition-all"
           />
           <button
             type="submit"

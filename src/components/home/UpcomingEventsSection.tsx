@@ -47,11 +47,11 @@ export const UpcomingEventsSection: React.FC = () => {
                             <span className="text-primary font-bold tracking-widest uppercase text-xs mb-4 block">
                                 Save the Date
                             </span>
-                            <h2 className="text-4xl md:text-5xl font-serif text-white">
+                            <h2 className="text-4xl md:text-5xl font-serif text-text-primary">
                                 Upcoming Events
                             </h2>
                         </div>
-                        <a href="#" className="hidden md:flex items-center gap-2 text-primary hover:text-white transition-colors text-sm font-bold uppercase tracking-wider group">
+                        <a href="#" className="hidden md:flex items-center gap-2 text-primary hover:text-text-primary transition-colors text-sm font-bold uppercase tracking-wider group">
                             View Full Calendar
                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </a>
@@ -61,7 +61,7 @@ export const UpcomingEventsSection: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {events.map((event, index) => (
                         <ScrollReveal key={index} delay={index * 150}>
-                            <div className="group relative h-[450px] rounded-[2rem] overflow-hidden cursor-pointer border border-white/5 bg-surface-50" style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)" }}>
+                            <div className="group relative h-[450px] rounded-[2rem] overflow-hidden cursor-pointer bg-surface-alt" style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)" }}>
                                 {/* Image Background */}
                                 <img
                                     src={event.image}
@@ -96,7 +96,7 @@ export const UpcomingEventsSection: React.FC = () => {
                 </div>
 
                 <div className="mt-8 text-left md:hidden">
-                    <a href="#" className="inline-flex items-center gap-2 text-primary hover:text-white transition-colors text-sm font-bold uppercase tracking-wider">
+                    <a href="#" className="inline-flex items-center gap-2 text-primary hover:text-text-primary transition-colors text-sm font-bold uppercase tracking-wider">
                         View Full Calendar
                         <ArrowRight className="w-4 h-4" />
                     </a>

@@ -48,11 +48,11 @@ export const WhatsHappeningSection: React.FC = () => {
                                 <span className="w-8 h-[1px] bg-primary"></span>
                                 <span className="text-primary font-bold tracking-widest uppercase text-xs">Trending Now</span>
                             </div>
-                            <h2 className="text-4xl md:text-5xl font-serif text-white">
+                            <h2 className="text-4xl md:text-5xl font-serif text-text-primary">
                                 What's happening <span className="italic text-primary">new</span>
                             </h2>
                         </div>
-                        <a href="#" className="hidden md:flex items-center gap-2 text-white hover:text-primary transition-colors group">
+                        <a href="#" className="hidden md:flex items-center gap-2 text-text-primary hover:text-primary transition-colors group">
                             <span className="uppercase tracking-widest text-xs font-bold">View Full Calendar</span>
                             <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                         </a>
@@ -63,7 +63,7 @@ export const WhatsHappeningSection: React.FC = () => {
                     {/* Main Featured Item */}
                     <div className="lg:col-span-7 h-full">
                         <ScrollReveal className="h-full">
-                            <div className="relative h-full rounded-[2rem] overflow-hidden group cursor-pointer border border-white/5 shadow-2xl" style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)" }}>
+                            <div className="relative h-full rounded-[2rem] overflow-hidden group cursor-pointer shadow-2xl" style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)" }}>
                                 <img
                                     src={featuredEvent.image}
                                     alt={featuredEvent.title}
@@ -99,7 +99,7 @@ export const WhatsHappeningSection: React.FC = () => {
                     {/* Side Grid Items */}
                     <div className="lg:col-span-5 grid grid-cols-2 gap-4 h-full">
                         {subEvents.map((event, index) => (
-                            <ScrollReveal key={index} delay={index * 100 + 200} className="relative rounded-[1.5rem] overflow-hidden group cursor-pointer border border-white/5 bg-surface-50" style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)" }}>
+                            <ScrollReveal key={index} delay={index * 100 + 200} className="relative rounded-[1.5rem] overflow-hidden group cursor-pointer bg-surface-alt" style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)" }}>
                                 <img
                                     src={event.image}
                                     alt={event.title}
@@ -131,7 +131,7 @@ export const WhatsHappeningSection: React.FC = () => {
                 </div>
 
                 <div className="mt-8 text-left md:hidden">
-                    <a href="#" className="inline-flex items-center gap-2 text-primary hover:text-white transition-colors">
+                    <a href="#" className="inline-flex items-center gap-2 text-primary hover:text-text-primary transition-colors">
                         <span className="uppercase tracking-widest text-xs font-bold">View Full Calendar</span>
                         <ArrowUpRight className="w-4 h-4" />
                     </a>

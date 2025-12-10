@@ -36,17 +36,17 @@ export const HeroSection: React.FC = () => {
 
                     {/* Premium Search Bar */}
                     <ScrollReveal delay={400} className="w-full max-w-4xl mx-auto">
-                        <div className="glass-panel p-0 md:p-3 rounded-[2rem] md:rounded-full flex flex-col md:flex-row items-stretch md:items-center gap-0 md:gap-2 backdrop-blur-xl border border-white/20 shadow-2xl relative bg-black/30 md:bg-transparent mt-8 md:mt-0 pb-8 md:pb-3">
+                        <div className="p-0 md:p-3 rounded-[2rem] md:rounded-full flex flex-col md:flex-row items-stretch md:items-center gap-0 md:gap-2 backdrop-blur-xl border border-white/20 shadow-2xl relative bg-black/30 md:bg-black/40 mt-8 md:mt-0 pb-8 md:pb-3">
 
                             {/* Search Input */}
                             <div className="flex-1 flex items-center gap-4 px-6 py-5 border-b border-white/10 md:border-none w-full md:w-auto hover:bg-white/5 transition-colors first:rounded-t-[2rem] md:rounded-3xl">
                                 <Search className="w-5 h-5 text-primary shrink-0" />
                                 <div className="text-left w-full">
-                                    <span className="block text-[10px] text-white/50 uppercase tracking-wider font-bold mb-1">Search</span>
+                                    <span className="block text-[10px] text-white/60 uppercase tracking-wider font-bold mb-1">Search</span>
                                     <input
                                         type="text"
                                         placeholder="What are you looking for?"
-                                        className="bg-transparent border-none outline-none text-white placeholder-white/50 text-base md:text-sm w-full font-medium p-0"
+                                        className="bg-transparent border-none outline-none text-white placeholder-white/40 text-base md:text-sm w-full font-medium p-0"
                                     />
                                 </div>
                             </div>
@@ -55,16 +55,17 @@ export const HeroSection: React.FC = () => {
                             <div className="flex-1 flex items-center gap-4 px-6 py-5 border-b border-white/10 md:border-none w-full md:w-auto hover:bg-white/5 transition-colors md:rounded-3xl cursor-pointer">
                                 <Calendar className="w-5 h-5 text-primary shrink-0" />
                                 <div className="text-left">
-                                    <span className="block text-[10px] text-white/50 uppercase tracking-wider font-bold mb-1">Dates</span>
+                                    <span className="block text-[10px] text-white/60 uppercase tracking-wider font-bold mb-1">Dates</span>
                                     <span className="text-white text-base md:text-sm font-medium">Anytime</span>
                                 </div>
                             </div>
+
 
                             {/* Guests Input */}
                             <div className="flex-1 flex items-center gap-4 px-6 py-5 w-full md:w-auto hover:bg-white/5 transition-colors rounded-b-[2rem] md:rounded-3xl cursor-pointer">
                                 <Users className="w-5 h-5 text-primary shrink-0" />
                                 <div className="text-left">
-                                    <span className="block text-[10px] text-white/50 uppercase tracking-wider font-bold mb-1">Guests</span>
+                                    <span className="block text-[10px] text-white/60 uppercase tracking-wider font-bold mb-1">Guests</span>
                                     <span className="text-white text-base md:text-sm font-medium">Add guests</span>
                                 </div>
                             </div>

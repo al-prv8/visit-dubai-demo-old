@@ -46,12 +46,12 @@ export const ThingsToDoSection: React.FC = () => {
                             <span className="text-primary font-bold tracking-widest uppercase text-xs mb-4 block">
                                 Curated Experiences
                             </span>
-                            <h2 className="text-4xl md:text-5xl font-serif text-white leading-tight">
+                            <h2 className="text-4xl md:text-5xl font-serif text-text-primary leading-tight">
                                 Top 4 things to do <br />
-                                <span className="text-white/40 italic">this week</span>
+                                <span className="text-text-muted italic">this week</span>
                             </h2>
                         </div>
-                        <p className="text-white/60 max-w-sm hidden md:block text-sm leading-relaxed">
+                        <p className="text-text-secondary max-w-sm hidden md:block text-sm leading-relaxed">
                             Handpicked selections for the discerning traveler. Experience the very best Dubai has to offer, from heights to heritage.
                         </p>
                     </div>

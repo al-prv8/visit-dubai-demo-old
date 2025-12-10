@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Menu, X, User, Search, Globe } from 'lucide-react';
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { NAV_ITEMS } from '@/constants';
 import Link from 'next/link';
 
@@ -22,7 +23,7 @@ export const Header: React.FC = () => {
       <header
         className={`
           fixed top-0 left-0 right-0 z-50 flex justify-center transition-all duration-500
-          ${isScrolled ? 'bg-black/80 backdrop-blur-md py-4 shadow-lg' : 'bg-transparent py-6'}
+          ${isScrolled ? 'bg-bg/80 backdrop-blur-md py-4 shadow-lg' : 'bg-transparent py-6'}
         `}
       >
         <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
@@ -30,8 +31,8 @@ export const Header: React.FC = () => {
           {/* Logo - Typographic "Visit Dubai" */}
           <Link href="/" className="relative z-50 group">
             <div className="flex flex-col leading-none">
-              <span className="font-sans text-xs md:text-sm font-bold tracking-[0.4em] text-white uppercase ml-1 mb-1">The Official Guide</span>
-              <span className="font-serif text-3xl md:text-4xl font-bold tracking-tight text-white group-hover:text-primary transition-colors duration-300">
+              <span className={`font-sans text-xs md:text-sm font-bold tracking-[0.4em] uppercase ml-1 mb-1 ${isScrolled ? 'text-text-primary' : 'text-white'}`}>The Official Guide</span>
+              <span className={`font-serif text-3xl md:text-4xl font-bold tracking-tight group-hover:text-primary transition-colors duration-300 ${isScrolled ? 'text-text-primary' : 'text-white'}`}>
                 Visit <span className="italic text-primary">Dubai</span>
               </span>
             </div>
@@ -43,7 +44,7 @@ export const Header: React.FC = () => {
               <Link
                 key={item.label}
                 href={item.href}
-                className="font-bold text-sm uppercase tracking-widest text-white hover:text-primary transition-colors duration-300 relative group"
+                className={`font-bold text-sm uppercase tracking-widest hover:text-primary transition-colors duration-300 relative group ${isScrolled ? 'text-text-primary' : 'text-white'}`}
               >
                 {item.label}
                 <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
@@ -53,15 +54,16 @@ export const Header: React.FC = () => {
 
           {/* Utility Icons */}
           <div className="hidden md:flex items-center gap-6">
-            <button className="text-white hover:text-primary transition-colors">
+            <button className={`hover:text-primary transition-colors ${isScrolled ? 'text-text-primary' : 'text-white'}`}>
               <Search className="w-5 h-5" />
             </button>
-            <button className="text-white hover:text-primary transition-colors flex items-center gap-2 font-bold text-xs uppercase tracking-wider">
+            <ThemeToggle className={isScrolled ? 'text-text-primary' : 'text-white'} />
+            <button className={`hover:text-primary transition-colors flex items-center gap-2 font-bold text-xs uppercase tracking-wider ${isScrolled ? 'text-text-primary' : 'text-white'}`}>
               <Globe className="w-5 h-5" />
               <span>EN</span>
             </button>
-            <Link href="/login" className="flex items-center gap-2 text-white hover:text-primary transition-colors group">
-              <div className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:border-primary group-hover:bg-primary group-hover:text-black transition-all">
+            <Link href="/login" className={`flex items-center gap-2 hover:text-primary transition-colors group ${isScrolled ? 'text-text-primary' : 'text-white'}`}>
+              <div className={`w-8 h-8 rounded-full border flex items-center justify-center group-hover:border-primary group-hover:bg-primary group-hover:text-black transition-all ${isScrolled ? 'border-border-subtle' : 'border-white/30'}`}>
                 <User className="w-4 h-4" />
               </div>
               <span className="font-bold text-xs uppercase tracking-wider hidden xl:block">Login</span>
@@ -70,7 +72,7 @@ export const Header: React.FC = () => {
 
           {/* Mobile Menu Toggle */}
           <button
-            className="lg:hidden text-white hover:text-primary transition-colors z-50"
+            className={`lg:hidden hover:text-primary transition-colors z-50 ${isScrolled ? 'text-text-primary' : 'text-white'}`}
             onClick={() => setMobileMenuOpen(true)}
           >
             <Menu className="w-8 h-8" />
@@ -81,14 +83,14 @@ export const Header: React.FC = () => {
       {/* Mobile Full Screen Menu */}
       <div
         className={`
-          fixed inset-0 z-[60] bg-black/95 backdrop-blur-xl
+          fixed inset-0 z-[60] bg-bg/95 backdrop-blur-xl
           transition-all duration-500 ease-in-out
           ${mobileMenuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}
         `}
       >
         <button
           onClick={() => setMobileMenuOpen(false)}
-          className="absolute top-8 right-8 text-white/50 hover:text-primary transition-colors"
+          className="absolute top-8 right-8 text-text-muted hover:text-primary transition-colors"
         >
           <X className="w-10 h-10" />
         </button>
@@ -98,23 +100,27 @@ export const Header: React.FC = () => {
             <Link
               key={item.label}
               href={item.href}
-              className="font-serif text-4xl md:text-5xl text-white font-bold hover:text-primary italic transition-all duration-300"
+              className="font-serif text-4xl md:text-5xl text-text-primary font-bold hover:text-primary italic transition-all duration-300"
               onClick={() => setMobileMenuOpen(false)}
             >
               {item.label}
             </Link>
           ))}
 
-          <div className="flex items-center gap-8 mt-12 border-t border-white/10 pt-12">
-            <button className="text-white hover:text-primary transition-colors flex flex-col items-center gap-2">
+          <div className="flex items-center gap-8 mt-12 border-t border-border-subtle pt-12">
+            <button className="text-text-primary hover:text-primary transition-colors flex flex-col items-center gap-2">
               <Search className="w-6 h-6" />
               <span className="text-xs font-bold uppercase tracking-widest">Search</span>
             </button>
-            <button className="text-white hover:text-primary transition-colors flex flex-col items-center gap-2">
+            <div className={`hover:text-primary transition-colors flex flex-col items-center gap-2 ${isScrolled ? 'text-text-primary' : 'text-white'}`}>
+              <ThemeToggle className={isScrolled ? 'text-text-primary' : 'text-white'} />
+              <span className="text-xs font-bold uppercase tracking-widest">Theme</span>
+            </div>
+            <button className="text-text-primary hover:text-primary transition-colors flex flex-col items-center gap-2">
               <Globe className="w-6 h-6" />
               <span className="text-xs font-bold uppercase tracking-widest">Language</span>
             </button>
-            <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="text-white hover:text-primary transition-colors flex flex-col items-center gap-2">
+            <Link href="/login" onClick={() => setMobileMenuOpen(false)} className="text-text-primary hover:text-primary transition-colors flex flex-col items-center gap-2">
               <User className="w-6 h-6" />
               <span className="text-xs font-bold uppercase tracking-widest">Login</span>
             </Link>

@@ -14,7 +14,7 @@ export const FAQSection: React.FC = () => {
   };
 
   return (
-    <section id="faq" className="py-40 bg-bg border-t border-white/[0.03]">
+    <section id="faq" className="py-40 bg-bg border-t border-border-subtle">
       <div className="container mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
 
@@ -30,16 +30,16 @@ export const FAQSection: React.FC = () => {
           <div className="lg:col-span-8 space-y-4">
             {FAQS.map((faq, index) => (
               <ScrollReveal key={faq.id} delay={index * 50}>
-                <div className={`glass rounded-xl overflow-hidden transition-all duration-500 ${openIndex === index ? 'border-champagne-400/30' : 'border-white/[0.08]'}`}>
+                <div className={`glass rounded-xl overflow-hidden transition-all duration-500 ${openIndex === index ? 'border-champagne-400/30' : 'border-border-subtle'}`}>
                   <button
                     onClick={() => toggleFAQ(index)}
                     className="w-full flex items-center justify-between p-8 text-left group"
                   >
-                    <span className={`font-serif text-xl transition-colors duration-300 ${openIndex === index ? 'text-champagne-400' : 'text-white/70 group-hover:text-white'}`}>
+                    <span className={`font-serif text-xl transition-colors duration-300 ${openIndex === index ? 'text-champagne-400' : 'text-text-secondary group-hover:text-text-primary'}`}>
                       {faq.question}
                     </span>
                     <span className={`
-                           transform transition-all duration-500 text-white/40 group-hover:text-white
+                           transform transition-all duration-500 text-text-muted group-hover:text-text-primary
                            ${openIndex === index ? 'rotate-45 text-champagne-400 scale-110' : ''}
                         `}>
                       <Plus className="w-6 h-6" />
@@ -50,7 +50,7 @@ export const FAQSection: React.FC = () => {
                     className={`overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${openIndex === index ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
                       }`}
                   >
-                    <div className="p-8 pt-0 text-white/60 font-light leading-relaxed max-w-2xl text-sm border-l border-champagne-400/20 ml-8 mb-8 pl-6">
+                    <div className="p-8 pt-0 text-text-muted font-light leading-relaxed max-w-2xl text-sm border-l border-champagne-400/20 ml-8 mb-8 pl-6">
                       {faq.answer}
                     </div>
                   </div>

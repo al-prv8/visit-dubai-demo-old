@@ -30,7 +30,7 @@ export const CardStack: React.FC<{ cards: HotelCard[], onSelect: (hotel: HotelCa
                                     onRemove(card.id);
                                 }
                             }}
-                            className="absolute w-[90%] h-[380px] glass-card bg-black/80 shadow-[0_20px_50px_rgba(0,0,0,0.5)] cursor-grab active:cursor-grabbing"
+                            className="absolute w-[90%] h-[380px] bg-surface dark:glass-card dark:bg-black/80 shadow-[0_20px_50px_rgba(0,0,0,0.5)] cursor-grab active:cursor-grabbing rounded-3xl overflow-hidden border border-border-subtle dark:border-white/10"
                             style={{ transformOrigin: 'bottom center' }}
                         >
                             {/* Image */}
@@ -55,24 +55,42 @@ export const CardStack: React.FC<{ cards: HotelCard[], onSelect: (hotel: HotelCa
                                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
                                 <div>
-                                    <h3 className="text-lg font-serif text-white mb-1">{card.name}</h3>
-                                    <div className="flex items-center gap-1 text-white/50 mb-3">
-                                        <MapPin className="w-3 h-3" />
-                                        <span className="text-xs font-light">{card.location}</span>
+                                    <input
+                                        defaultValue={card.name}
+                                        className="w-full bg-transparent border-none p-0 text-lg font-serif text-text-primary dark:text-white mb-1 focus:ring-0 focus:outline-none"
+                                        onClick={(e) => e.stopPropagation()}
+                                    />
+                                    <div className="flex items-center gap-1 text-text-secondary dark:text-white/50 mb-3">
+                                        <MapPin className="w-3 h-3 flex-shrink-0" />
+                                        <input
+                                            defaultValue={card.location}
+                                            className="w-full bg-transparent border-none p-0 text-xs font-light focus:ring-0 focus:outline-none"
+                                            onClick={(e) => e.stopPropagation()}
+                                        />
                                     </div>
                                     <div className="flex flex-wrap gap-2 mb-4">
                                         {card.tags.map((tag, i) => (
-                                            <span key={i} className="text-[10px] px-2 py-1 rounded-full bg-white/5 text-white/70 border border-white/5">
-                                                {tag}
-                                            </span>
+                                            <input
+                                                key={i}
+                                                defaultValue={tag}
+                                                className="w-20 bg-transparent border-none p-0 text-[10px] px-2 py-1 rounded-full bg-surface-alt dark:bg-white/5 text-text-secondary dark:text-white/70 border border-border-subtle dark:border-white/5 focus:ring-0 focus:outline-none text-center"
+                                                onClick={(e) => e.stopPropagation()}
+                                            />
                                         ))}
                                     </div>
                                 </div>
 
                                 <div className="flex items-center justify-between mt-auto">
                                     <div>
-                                        <span className="text-xs text-white/40">Starting from</span>
-                                        <p className="text-primary font-medium">{card.price} <span className="text-xs text-white/40 font-light">/ night</span></p>
+                                        <span className="text-xs text-text-muted dark:text-white/40">Starting from</span>
+                                        <div className="flex items-baseline gap-1">
+                                            <input
+                                                defaultValue={card.price}
+                                                className="w-16 bg-transparent border-none p-0 text-primary font-medium focus:ring-0 focus:outline-none"
+                                                onClick={(e) => e.stopPropagation()}
+                                            />
+                                            <span className="text-xs text-text-muted dark:text-white/40 font-light">/ night</span>
+                                        </div>
                                     </div>
                                     <button
                                         onClick={() => onSelect(card)}

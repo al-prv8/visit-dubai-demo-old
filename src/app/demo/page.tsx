@@ -11,6 +11,7 @@ import { StayWidget } from '@/components/dashboard/StayWidget';
 import { RideWidget } from '@/components/dashboard/RideWidget';
 import { ActivityWidget } from '@/components/dashboard/ActivityWidget';
 import { CalendarWidget } from '@/components/dashboard/CalendarWidget';
+import { DashboardState } from '@/components/val8/Dashboard';
 
 // --- Widget Wrapper for Animation ---
 const WidgetContainer = ({ children, className }: { children: React.ReactNode, className?: string }) => (
@@ -24,6 +25,43 @@ const WidgetContainer = ({ children, className }: { children: React.ReactNode, c
         {children}
     </motion.div>
 );
+
+const DEMO_DATA: DashboardState = {
+    flight: {
+        origin: "SFO",
+        destination: "DXB",
+        carrier: "Emirates",
+        class: "First Class",
+        date: "June 5 - June 9",
+        flightNumber: "EK 226",
+        price: "$6,200"
+    },
+    stay: {
+        hotelName: "Burj Al Arab",
+        roomType: "Royal Suite",
+        guests: 2,
+        checkIn: "June 6",
+        checkOut: "June 9",
+        price: "$15,000"
+    },
+    ride: {
+        pickup: "Dubai Int'l (DXB)",
+        serviceLevel: "Luxury",
+        dropoff: "Burj Al Arab",
+        price: "Included"
+    },
+    weather: {
+        unit: 'F',
+        alerts: false
+    },
+    location: {
+        current: "Dubai, UAE"
+    },
+    timezone: {
+        primary: "Gulf Standard Time",
+        secondary: "Pacific Standard Time"
+    }
+};
 
 export default function DemoPage() {
     const { speak, isSpeaking, stop } = useTextToSpeech();
@@ -92,7 +130,7 @@ export default function DemoPage() {
                 return (
                     <WidgetContainer key="flights" className="md:col-span-8 h-full">
                         <div className="glass-card rounded-3xl overflow-hidden h-full">
-                            <FlightWidget />
+                            <FlightWidget data={DEMO_DATA.flight} />
                         </div>
                     </WidgetContainer>
                 );
@@ -100,7 +138,7 @@ export default function DemoPage() {
                 return (
                     <WidgetContainer key="hotel" className="md:col-span-4 h-full">
                         <div className="glass-card rounded-3xl overflow-hidden h-full">
-                            <StayWidget />
+                            <StayWidget data={DEMO_DATA.stay} />
                         </div>
                     </WidgetContainer>
                 );
@@ -108,7 +146,7 @@ export default function DemoPage() {
                 return (
                     <WidgetContainer key="ride" className="md:col-span-4 h-full">
                         <div className="glass-card rounded-3xl overflow-hidden h-full">
-                            <RideWidget />
+                            <RideWidget data={DEMO_DATA.ride} />
                         </div>
                     </WidgetContainer>
                 );

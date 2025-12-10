@@ -35,9 +35,9 @@ const videos = [
 
 export const VideoSection: React.FC = () => {
     return (
-        <section className="py-24 bg-black relative overflow-hidden">
+        <section className="py-24 bg-bg relative overflow-hidden">
             {/* Ambient Background - Fixed Gradient */}
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-primary/10 via-black to-black opacity-50" />
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-primary/10 via-bg to-bg opacity-50" />
 
             <div className="container mx-auto px-6 relative z-10">
                 <ScrollReveal>
@@ -46,12 +46,12 @@ export const VideoSection: React.FC = () => {
                             <span className="text-primary font-bold tracking-widest uppercase text-xs mb-4 block">
                                 Cinematic Experiences
                             </span>
-                            <h2 className="text-4xl md:text-6xl font-serif text-white leading-tight">
+                            <h2 className="text-4xl md:text-6xl font-serif text-text-primary leading-tight">
                                 Watch <span className="italic text-primary">Dubai</span>
                             </h2>
                         </div>
                         <div className="hidden md:block">
-                            <span className="text-white/40 text-sm">Scroll to explore the reel</span>
+                            <span className="text-text-muted text-sm">Scroll to explore the reel</span>
                         </div>
                     </div>
                 </ScrollReveal>
@@ -60,7 +60,7 @@ export const VideoSection: React.FC = () => {
                     {/* Featured Video (Large) */}
                     <div className="lg:col-span-1">
                         {videos.filter(v => v.featured).map((video, index) => (
-                            <ScrollReveal key={index} className="relative h-[400px] md:h-[600px] rounded-[2.5rem] overflow-hidden group border border-white/10 shadow-2xl" style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)" }}>
+                            <ScrollReveal key={index} className="relative h-[400px] md:h-[600px] rounded-[2.5rem] overflow-hidden group shadow-2xl" style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)" }}>
                                 <img
                                     src={video.image}
                                     alt={video.title}
@@ -100,7 +100,7 @@ export const VideoSection: React.FC = () => {
                     {/* Side Reel (Vertical Stack) */}
                     <div className="lg:col-span-1 flex flex-col gap-6">
                         {videos.filter(v => !v.featured).map((video, index) => (
-                            <ScrollReveal key={index} delay={index * 150} className="relative h-[160px] md:h-[180px] rounded-[2rem] overflow-hidden group border border-white/10 cursor-pointer bg-neutral-900 shadow-xl" style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)" }}>
+                            <ScrollReveal key={index} delay={index * 150} className="relative h-[160px] md:h-[180px] rounded-[2rem] overflow-hidden group cursor-pointer bg-surface-alt shadow-xl" style={{ WebkitMaskImage: "-webkit-radial-gradient(white, black)" }}>
                                 <div className="absolute inset-0 flex w-full h-full">
                                     {/* Thumbnail Part */}
                                     <div className="w-1/3 relative overflow-hidden h-full">
@@ -119,19 +119,19 @@ export const VideoSection: React.FC = () => {
                                     {/* Content Part */}
                                     <div className="w-2/3 p-6 flex flex-col justify-center relative h-full">
                                         {/* Decorative number */}
-                                        <span className="absolute right-6 top-6 text-4xl font-serif text-white/5 font-bold">
+                                        <span className="absolute right-6 top-6 text-4xl font-serif text-text-muted/10 font-bold">
                                             0{index + 2}
                                         </span>
 
-                                        <h3 className="text-xl md:text-2xl font-serif text-white mb-1 group-hover:text-primary transition-colors line-clamp-1">
+                                        <h3 className="text-xl md:text-2xl font-serif text-text-primary mb-1 group-hover:text-primary transition-colors line-clamp-1">
                                             {video.title}
                                         </h3>
-                                        <p className="text-white/50 text-xs uppercase tracking-widest mb-4">
+                                        <p className="text-text-muted text-xs uppercase tracking-widest mb-4">
                                             {video.subtitle}
                                         </p>
                                         <div className="flex items-center gap-3">
-                                            <span className="text-xs font-bold text-white/40">{video.duration}</span>
-                                            <div className="h-[1px] w-8 bg-white/10" />
+                                            <span className="text-xs font-bold text-text-secondary">{video.duration}</span>
+                                            <div className="h-[1px] w-8 bg-border-subtle" />
                                             <span className="text-xs font-bold text-primary opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
                                                 Play Video
                                             </span>
