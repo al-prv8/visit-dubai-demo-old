@@ -112,70 +112,71 @@ export const Dashboard: React.FC = () => {
             {/* Content - Bento Grid */}
             <div className="flex-1 overflow-y-auto p-6 no-scrollbar">
                 {/* Using a 12-column grid for precise layout matching the reference */}
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-[180px]">
+                {/* Optimized Grid: 2 columns on mobile, 12 on desktop */}
+                <div className="grid grid-cols-2 md:grid-cols-12 gap-3 md:gap-4 auto-rows-[160px] md:auto-rows-[180px]">
 
                     {/* --- ROW 1 --- */}
 
-                    {/* Calendar (2 cols) */}
-                    <div className="md:col-span-2 glass-card rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('calendar')}>
+                    {/* Calendar (Mobile: 1 col, Desktop: 2 cols) */}
+                    <div className="col-span-1 md:col-span-2 glass-card rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('calendar')}>
                         <CalendarWidget />
                     </div>
 
-                    {/* Location (2 cols) */}
-                    <div className="md:col-span-2 glass-card rounded-3xl overflow-hidden p-5 flex flex-col justify-between cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('location')}>
+                    {/* Location (Mobile: 1 col, Desktop: 2 cols) */}
+                    <div className="col-span-1 md:col-span-2 glass-card rounded-2xl md:rounded-3xl overflow-hidden p-4 md:p-5 flex flex-col justify-between cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('location')}>
                         <div className="flex justify-between items-start">
-                            <div>
-                                <h3 className="text-text-primary dark:text-white font-serif text-xl">{data.location.current.split(',')[0]}</h3>
-                                <p className="text-text-secondary dark:text-white/60 text-[10px] uppercase tracking-wider">{data.location.current.split(',')[1] || 'USA'}</p>
+                            <div className="overflow-hidden">
+                                <h3 className="text-text-primary dark:text-white font-serif text-lg md:text-xl truncate">{data.location.current.split(',')[0]}</h3>
+                                <p className="text-text-secondary dark:text-white/60 text-[9px] md:text-[10px] uppercase tracking-wider truncate">{data.location.current.split(',')[1] || 'USA'}</p>
                             </div>
-                            <div className="px-2 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-[9px] font-bold uppercase tracking-widest border border-emerald-500/20">
-                                Completed
+                            <div className="shrink-0 px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[8px] md:text-[9px] font-bold uppercase tracking-widest border border-emerald-500/20">
+                                Done
                             </div>
                         </div>
-                        <p className="text-text-muted dark:text-white/40 text-xs">{data.stay.checkIn}-{data.stay.checkOut}</p>
+                        <p className="text-text-muted dark:text-white/40 text-xs truncate">{data.stay.checkIn}-{data.stay.checkOut}</p>
                     </div>
 
-                    {/* Weather (2 cols) */}
-                    <div className="md:col-span-2 glass-card rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('weather')}>
+                    {/* Weather (Mobile: 1 col, Desktop: 2 cols) */}
+                    <div className="col-span-1 md:col-span-2 glass-card rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('weather')}>
                         <WeatherWidget />
                     </div>
 
-                    {/* Timezones (2 cols - Stacked) */}
-                    <div className="md:col-span-2 flex flex-col gap-4">
-                        <div className="flex-1 rounded-3xl overflow-hidden cursor-pointer" onClick={() => setSelectedWidget('timezone')}>
+                    {/* Timezones (Mobile: 1 col, Desktop: 2 cols) */}
+                    <div className="col-span-1 md:col-span-2 flex flex-col gap-2 md:gap-4">
+                        <div className="flex-1 rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer" onClick={() => setSelectedWidget('timezone')}>
                             <TimezoneWidget city="Primary" time="14:20" offset={data.timezone.primary} />
                         </div>
-                        <div className="flex-1 rounded-3xl overflow-hidden cursor-pointer" onClick={() => setSelectedWidget('timezone')}>
+                        <div className="flex-1 rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer" onClick={() => setSelectedWidget('timezone')}>
                             <TimezoneWidget city="Secondary" time="11:20" offset={data.timezone.secondary} />
                         </div>
                     </div>
 
-                    {/* Hotel (4 cols - Wide Right) */}
-                    <div className="md:col-span-4 glass-card rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('stay')}>
+                    {/* Hotel (Mobile: Full Width, Desktop: 4 cols) */}
+                    <div className="col-span-2 md:col-span-4 glass-card rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('stay')}>
                         <StayWidget data={data.stay} />
                     </div>
 
                     {/* --- ROW 2 --- */}
 
-                    {/* Flight (6 cols - Wide Left) */}
-                    <div className="md:col-span-6 glass-card rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('flight')}>
+                    {/* Flight (Mobile: Full Width, Desktop: 6 cols) */}
+                    <div className="col-span-2 md:col-span-6 glass-card rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('flight')}>
                         <FlightWidget data={data.flight} />
                     </div>
 
-                    {/* Ride (3 cols) */}
-                    <div className="md:col-span-3 glass-card rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('ride')}>
+                    {/* Ride (Mobile: 1 col, Desktop: 3 cols) */}
+                    <div className="col-span-1 md:col-span-3 glass-card rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('ride')}>
                         <RideWidget data={data.ride} />
                     </div>
 
-                    {/* Scheduling (3 cols) */}
-                    <div className="md:col-span-3 glass-card rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('scheduling')}>
+                    {/* Scheduling (Mobile: 1 col, Desktop: 3 cols) */}
+                    <div className="col-span-1 md:col-span-3 glass-card rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('scheduling')}>
                         <SchedulingWidget />
                     </div>
 
                     {/* --- ROW 3 --- */}
 
-                    {/* Dining (3 cols) */}
-                    <div className="md:col-span-3 glass-card rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('activity')}>
+                    {/* Dining (Mobile: 1 col, Desktop: 3 cols) */}
+                    <div className="col-span-1 md:col-span-3 glass-card rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('activity')}>
                         <ActivityWidget
                             title="Waterfront Kitchen"
                             subtitle="$30-50 | American"
@@ -184,19 +185,19 @@ export const Dashboard: React.FC = () => {
                         />
                     </div>
 
-                    {/* Shopping (3 cols) */}
-                    <div className="md:col-span-3 glass-card rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('activity')}>
+                    {/* Shopping (Mobile: 1 col, Desktop: 3 cols) */}
+                    <div className="col-span-1 md:col-span-3 glass-card rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('activity')}>
                         <ActivityWidget
                             title="SPF 50 Sunscreen"
-                            subtitle="124k ratings"
+                            subtitle="124k"
                             price="$8.97"
                             image="https://images.unsplash.com/photo-1526947425960-945c6e72858f?q=80&w=2070&auto=format&fit=crop"
                             category="Shopping"
                         />
                     </div>
 
-                    {/* Local Interest (6 cols - Wide) */}
-                    <div className="md:col-span-6 glass-card rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('activity')}>
+                    {/* Local Interest (Mobile: Full Width, Desktop: 6 cols) */}
+                    <div className="col-span-2 md:col-span-6 glass-card rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('activity')}>
                         <ActivityWidget
                             title="Miami's Best Beaches"
                             subtitle="Curated list of seaside sanctuaries"

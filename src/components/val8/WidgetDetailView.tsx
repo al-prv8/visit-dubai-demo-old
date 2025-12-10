@@ -268,10 +268,10 @@ const TimezoneConfig = () => (
         </div>
         <div className="space-y-2">
             <label className="text-xs uppercase tracking-wider text-text-muted dark:text-white/40 font-bold">Secondary Timezone</label>
-            <select className="w-full bg-surface-alt dark:bg-white/5 border border-border-subtle dark:border-white/10 rounded-xl px-4 py-3 text-text-primary dark:text-white focus:ring-1 focus:ring-primary focus:outline-none appearance-none">
+            <select defaultValue="Tokyo" className="w-full bg-surface-alt dark:bg-white/5 border border-border-subtle dark:border-white/10 rounded-xl px-4 py-3 text-text-primary dark:text-white focus:ring-1 focus:ring-primary focus:outline-none appearance-none">
                 <option>London</option>
                 <option>Dubai</option>
-                <option selected>Tokyo</option>
+                <option>Tokyo</option>
             </select>
         </div>
         <div className="flex items-center justify-between p-3 rounded-lg bg-surface-alt dark:bg-white/5 border border-border-subtle dark:border-white/5 mt-4">

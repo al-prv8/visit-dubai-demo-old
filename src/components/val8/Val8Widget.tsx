@@ -87,29 +87,12 @@ const Val8WidgetContent: React.FC = () => {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.9 }}
                         transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                        className="fixed z-50 overflow-hidden flex flex-col bg-surface dark:bg-[#050505]/95 backdrop-blur-3xl border border-border-subtle dark:border-white/10 shadow-2xl
-                                   max-md:inset-0 max-md:w-full max-md:h-[100dvh] max-md:rounded-none max-md:bottom-0 max-md:right-0 max-md:border-0
-                                   md:bottom-6 md:right-6 md:w-[400px] md:h-[700px] md:rounded-[32px]"
-                        style={window.innerWidth >= 768 ? {
-                            position: 'fixed',
-                            ...(view === 'dashboard' ? {
-                                top: '7.5vh',
-                                bottom: '7.5vh',
-                                left: '5vw',
-                                right: '5vw',
-                                width: 'auto',
-                                height: 'auto',
-                                transform: 'none'
-                            } : {
-                                top: 'auto',
-                                bottom: '1.5rem',
-                                left: 'auto',
-                                right: '1.5rem',
-                                width: '400px',
-                                height: '700px',
-                                transform: 'none'
-                            })
-                        } : {}}
+                        className={`fixed z-50 overflow-hidden flex flex-col bg-surface dark:bg-[#050505]/95 backdrop-blur-3xl border border-border-subtle dark:border-white/10 shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]
+                                   ${view === 'dashboard' && window.innerWidth >= 768
+                                ? 'fixed inset-[5vw] top-[7.5vh] bottom-[7.5vh] w-auto h-auto rounded-[32px]'
+                                : 'max-md:inset-0 max-md:w-full max-md:h-[100dvh] max-md:rounded-none md:bottom-6 md:right-6 md:w-[400px] md:h-[700px] md:rounded-[32px]'
+                            }`}
+                        style={{ transformOrigin: 'bottom right' }}
                     >
                         {/* Header */}
                         <div className="h-16 bg-surface-alt/50 dark:bg-white/5 backdrop-blur-md border-b border-border-subtle dark:border-white/5 flex items-center justify-between px-6 shrink-0 relative z-20">
@@ -197,8 +180,13 @@ const Val8WidgetContent: React.FC = () => {
                                     </motion.div>
                                 ) : view === 'dashboard' ? (
                                     <motion.div key="dashboard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col md:flex-row relative z-10 animate-in fade-in">
-                                        {/* Left Panel: Chat Interface - Hidden on Mobile in Dashboard View */}
-                                        <div className="hidden md:flex w-[400px] border-r border-border-subtle dark:border-white/10 flex-col bg-surface dark:bg-[#050505] backdrop-blur-xl relative z-10">
+                                        {/* Left Panel: Chat Interface - Visible on Mobile ONLY in Demo Mode (Split Screen) */}
+                                        <div className={`
+                                            w-full md:w-[400px] 
+                                            flex-col bg-surface dark:bg-[#050505] backdrop-blur-xl relative z-10
+                                            border-b md:border-b-0 md:border-r border-border-subtle dark:border-white/10
+                                            ${isDemoMode ? 'flex h-[40%] md:h-full' : 'hidden md:flex h-full'}
+                                        `}>
                                             <ChatInterface />
                                             <BookingFlow />
                                             <PostBookingSummary />

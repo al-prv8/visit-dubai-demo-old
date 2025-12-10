@@ -139,22 +139,22 @@ export const DemoCard: React.FC = () => {
                 )}
             </AnimatePresence>
 
-            {/* Dynamic Grid Container - Relaxed Row Height to prevents overlaps */}
-            <div className={`grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-max grid-flow-row-dense pb-20 transition-all duration-500 ${isCheckoutComplete ? 'blur-sm grayscale-[0.5]' : ''}`}>
+            {/* Dynamic Grid Container - Mobile Optimized */}
+            <div className={`grid grid-cols-2 md:grid-cols-12 gap-3 md:gap-6 auto-rows-max grid-flow-row-dense pb-20 transition-all duration-500 ${isCheckoutComplete ? 'blur-sm grayscale-[0.5]' : ''}`}>
                 <AnimatePresence>
 
                     {/* STEP 1: CONTEXT OVERVIEW - Appear after Date Response (Step 1) */}
                     {((demoStep > 1) || (demoStep === 1 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
                         <React.Fragment key="overview-fragment">
-                            {/* Calendar (2 cols) */}
-                            <WidgetContainer key="calendar" className="md:col-span-12 lg:col-span-3 min-h-[240px]">
+                            {/* Calendar (Mobile: 1 col, Desktop: 3 cols) */}
+                            <WidgetContainer key="calendar" className="col-span-1 md:col-span-12 lg:col-span-3 min-h-[180px] md:min-h-[240px]">
                                 <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('calendar')}>
                                     <CalendarWidget />
                                 </div>
                             </WidgetContainer>
 
-                            {/* Weather (2 cols) */}
-                            <WidgetContainer key="weather" className="md:col-span-12 lg:col-span-3 min-h-[240px]">
+                            {/* Weather (Mobile: 1 col, Desktop: 3 cols) */}
+                            <WidgetContainer key="weather" className="col-span-1 md:col-span-12 lg:col-span-3 min-h-[180px] md:min-h-[240px]">
                                 <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('weather')}>
                                     <WeatherWidget temperature="95" />
                                 </div>
@@ -165,7 +165,7 @@ export const DemoCard: React.FC = () => {
 
                     {/* STEP 2: FLIGHT - Appear after Flight Response (Step 2) */}
                     {((demoStep > 2) || (demoStep === 2 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
-                        <WidgetContainer key="flight" className="md:col-span-12 lg:col-span-6 min-h-[240px]">
+                        <WidgetContainer key="flight" className="col-span-2 md:col-span-12 lg:col-span-6 min-h-[240px]">
                             <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('flight')}>
                                 <FlightWidget status={demoStep >= 3 ? 'completed' : 'pending'} data={data.flight} />
                             </div>
@@ -174,7 +174,7 @@ export const DemoCard: React.FC = () => {
 
                     {/* STEP 4: HOTEL - Appear after Hotel Response (Step 4) */}
                     {((demoStep > 4) || (demoStep === 4 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
-                        <WidgetContainer key="hotel" className="md:col-span-12 lg:col-span-4 min-h-[240px]">
+                        <WidgetContainer key="hotel" className="col-span-2 md:col-span-12 lg:col-span-4 min-h-[240px]">
                             <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('stay')}>
                                 <StayWidget data={data.stay} />
                             </div>
@@ -183,7 +183,7 @@ export const DemoCard: React.FC = () => {
 
                     {/* STEP 5: RIDE - Appear after Ride Response (Step 5) */}
                     {((demoStep > 5) || (demoStep === 5 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
-                        <WidgetContainer key="ride" className="md:col-span-12 lg:col-span-4 min-h-[240px]">
+                        <WidgetContainer key="ride" className="col-span-1 md:col-span-12 lg:col-span-4 min-h-[180px] md:min-h-[240px]">
                             <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('ride')}>
                                 <RideWidget data={data.ride} />
                             </div>
@@ -192,7 +192,7 @@ export const DemoCard: React.FC = () => {
 
                     {/* STEP 6: DINING - Appear after Dining Response (Step 6) */}
                     {((demoStep > 6) || (demoStep === 6 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
-                        <WidgetContainer key="dining" className="md:col-span-12 lg:col-span-4 min-h-[240px]">
+                        <WidgetContainer key="dining" className="col-span-1 md:col-span-12 lg:col-span-4 min-h-[180px] md:min-h-[240px]">
                             <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('activity')}>
                                 <ActivityWidget
                                     title="Waterfront Kitchen"
@@ -206,7 +206,7 @@ export const DemoCard: React.FC = () => {
 
                     {/* STEP 7: SHOPPING - Appear after Shopping Response (Step 7) */}
                     {((demoStep > 7) || (demoStep === 7 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
-                        <WidgetContainer key="shopping" className="md:col-span-12 lg:col-span-4 min-h-[240px]">
+                        <WidgetContainer key="shopping" className="col-span-1 md:col-span-12 lg:col-span-4 min-h-[180px] md:min-h-[240px]">
                             <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('activity')}>
                                 <ActivityWidget
                                     title="SPF 50 Sunscreen"
@@ -221,7 +221,7 @@ export const DemoCard: React.FC = () => {
 
                     {/* STEP 8: EXPERIENCES - Appear after Experience Response (Step 8) */}
                     {((demoStep > 8) || (demoStep === 8 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
-                        <WidgetContainer key="experiences" className="md:col-span-12 lg:col-span-8 min-h-[240px]">
+                        <WidgetContainer key="experiences" className="col-span-2 md:col-span-12 lg:col-span-8 min-h-[240px]">
                             <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('activity')}>
                                 <ActivityWidget
                                     title="Sunrise Paddle Boarding"
@@ -235,7 +235,7 @@ export const DemoCard: React.FC = () => {
 
                     {/* STEP 9: CHECKOUT - Appear after Final Summary (Step 9) */}
                     {demoStep >= 9 && (
-                        <WidgetContainer key="checkout" className="md:col-span-12 h-full min-h-[400px]">
+                        <WidgetContainer key="checkout" className="col-span-2 md:col-span-12 h-full min-h-[400px]">
                             <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('checkout')}>
                                 <CheckoutWidget onCheckout={handleCheckout} data={data} />
                             </div>
