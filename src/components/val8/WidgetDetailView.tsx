@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { X, Save, Sliders, Calendar, MapPin, Users, Plane, Car, CreditCard, Cloud, Clock, CheckSquare } from 'lucide-react';
+import { X, Save, Sliders, Calendar, MapPin, Users, Plane, Car, CreditCard, Cloud, Clock, CheckSquare, Images } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
 
 import { DashboardState } from './Dashboard';
+import { ImageSlideshow } from './ImageSlideshow';
+import { SLIDESHOW_IMAGES } from '@/data/slideshowImages';
 
 interface WidgetDetailViewProps {
     type: 'flight' | 'stay' | 'ride' | 'calendar' | 'activity' | 'checkout' | 'weather' | 'location' | 'timezone' | 'scheduling' | null;
@@ -12,6 +15,17 @@ interface WidgetDetailViewProps {
 
 export const WidgetDetailView: React.FC<WidgetDetailViewProps> = ({ type, data, onSave, onClose }) => {
     const [localData, setLocalData] = useState<Partial<DashboardState>>({});
+    const [slideshowImages, setSlideshowImages] = useState<string[] | null>(null);
+    const [slideshowTitle, setSlideshowTitle] = useState<string>('');
+
+    const openSlideshow = (images: string[], title: string) => {
+        setSlideshowImages(images);
+        setSlideshowTitle(title);
+    };
+
+    const closeSlideshow = () => {
+        setSlideshowImages(null);
+    };
 
     if (!type) return null;
 
@@ -33,6 +47,17 @@ export const WidgetDetailView: React.FC<WidgetDetailViewProps> = ({ type, data, 
 
     return (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+            {/* Slideshow Overlay */}
+            <AnimatePresence>
+                {slideshowImages && (
+                    <ImageSlideshow
+                        images={slideshowImages}
+                        title={slideshowTitle}
+                        onClose={closeSlideshow}
+                    />
+                )}
+            </AnimatePresence>
+
             <div className="w-full max-w-md bg-surface dark:bg-[#121212] border border-border-subtle dark:border-white/10 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
 
                 {/* Header */}
@@ -59,16 +84,16 @@ export const WidgetDetailView: React.FC<WidgetDetailViewProps> = ({ type, data, 
 
                 {/* Content */}
                 <div className="p-6 overflow-y-auto space-y-6">
-                    {type === 'flight' && <FlightConfig data={{ ...data.flight, ...(localData.flight || {}) }} onChange={(f, v) => handleLocalChange('flight', f, v)} />}
-                    {type === 'stay' && <StayConfig data={{ ...data.stay, ...(localData.stay || {}) }} onChange={(f, v) => handleLocalChange('stay', f, v)} />}
-                    {type === 'ride' && <RideConfig data={{ ...data.ride, ...(localData.ride || {}) }} onChange={(f, v) => handleLocalChange('ride', f, v)} />}
+                    {type === 'flight' && <FlightConfig data={{ ...data.flight, ...(localData.flight || {}) }} onChange={(f, v) => handleLocalChange('flight', f, v)} onViewMore={() => openSlideshow(SLIDESHOW_IMAGES.flights, 'Flight Gallery')} />}
+                    {type === 'stay' && <StayConfig data={{ ...data.stay, ...(localData.stay || {}) }} onChange={(f, v) => handleLocalChange('stay', f, v)} onViewMore={() => openSlideshow(SLIDESHOW_IMAGES.lodging, 'Lodging Gallery')} />}
+                    {type === 'ride' && <RideConfig data={{ ...data.ride, ...(localData.ride || {}) }} onChange={(f, v) => handleLocalChange('ride', f, v)} onViewMore={() => openSlideshow(SLIDESHOW_IMAGES.rides, 'Ride Gallery')} />}
                     {type === 'calendar' && <CalendarConfig />}
                     {type === 'checkout' && <CheckoutConfig />}
                     {type === 'weather' && <WeatherConfig />}
-                    {type === 'location' && <LocationConfig />}
+                    {type === 'location' && <LocationConfig onViewMore={() => openSlideshow(SLIDESHOW_IMAGES.destinations, 'Destination Gallery')} />}
                     {type === 'timezone' && <TimezoneConfig />}
                     {type === 'scheduling' && <SchedulingConfig />}
-                    {type === 'activity' && <ActivityConfig />}
+                    {type === 'activity' && <ActivityConfig onViewMore={() => openSlideshow(SLIDESHOW_IMAGES.experiences, 'Experience Gallery')} />}
                 </div>
 
                 {/* Footer */}
@@ -87,7 +112,7 @@ export const WidgetDetailView: React.FC<WidgetDetailViewProps> = ({ type, data, 
 };
 
 // Sub-components for specific configs
-const FlightConfig = ({ data, onChange }: { data: DashboardState['flight'], onChange: (field: string, value: any) => void }) => (
+const FlightConfig = ({ data, onChange, onViewMore }: { data: DashboardState['flight'], onChange: (field: string, value: any) => void, onViewMore?: () => void }) => (
     <div className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
@@ -111,10 +136,15 @@ const FlightConfig = ({ data, onChange }: { data: DashboardState['flight'], onCh
                 <option>First Class</option>
             </select>
         </div>
+        {onViewMore && (
+            <button onClick={onViewMore} className="w-full py-2.5 rounded-xl bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors flex items-center justify-center gap-2">
+                <Images className="w-4 h-4" /> View More Photos
+            </button>
+        )}
     </div>
 );
 
-const StayConfig = ({ data, onChange }: { data: DashboardState['stay'], onChange: (field: string, value: any) => void }) => (
+const StayConfig = ({ data, onChange, onViewMore }: { data: DashboardState['stay'], onChange: (field: string, value: any) => void, onViewMore?: () => void }) => (
     <div className="space-y-4">
         <div className="space-y-2">
             <label className="text-xs uppercase tracking-wider text-text-muted dark:text-white/40 font-bold">Hotel Name</label>
@@ -143,10 +173,15 @@ const StayConfig = ({ data, onChange }: { data: DashboardState['stay'], onChange
             <label className="text-xs uppercase tracking-wider text-text-muted dark:text-white/40 font-bold">Special Requests</label>
             <textarea className="w-full bg-surface-alt dark:bg-white/5 border border-border-subtle dark:border-white/10 rounded-xl px-4 py-3 text-text-primary dark:text-white focus:ring-1 focus:ring-primary focus:outline-none h-24 resize-none" placeholder="Early check-in, dietary restrictions..." defaultValue="Check-out required within 24 hours"></textarea>
         </div>
+        {onViewMore && (
+            <button onClick={onViewMore} className="w-full py-2.5 rounded-xl bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors flex items-center justify-center gap-2">
+                <Images className="w-4 h-4" /> View More Photos
+            </button>
+        )}
     </div>
 );
 
-const RideConfig = ({ data, onChange }: { data: DashboardState['ride'], onChange: (field: string, value: any) => void }) => (
+const RideConfig = ({ data, onChange, onViewMore }: { data: DashboardState['ride'], onChange: (field: string, value: any) => void, onViewMore?: () => void }) => (
     <div className="space-y-4">
         <div className="space-y-2">
             <label className="text-xs uppercase tracking-wider text-text-muted dark:text-white/40 font-bold">Pickup Location</label>
@@ -165,6 +200,11 @@ const RideConfig = ({ data, onChange }: { data: DashboardState['ride'], onChange
                 ))}
             </div>
         </div>
+        {onViewMore && (
+            <button onClick={onViewMore} className="w-full py-2.5 rounded-xl bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors flex items-center justify-center gap-2">
+                <Images className="w-4 h-4" /> View More Photos
+            </button>
+        )}
     </div>
 );
 
@@ -234,7 +274,7 @@ const WeatherConfig = () => (
     </div>
 );
 
-const LocationConfig = () => (
+const LocationConfig = ({ onViewMore }: { onViewMore?: () => void }) => (
     <div className="space-y-4">
         <div className="space-y-2">
             <label className="text-xs uppercase tracking-wider text-text-muted dark:text-white/40 font-bold">Current Location</label>
@@ -253,6 +293,11 @@ const LocationConfig = () => (
                 ))}
             </div>
         </div>
+        {onViewMore && (
+            <button onClick={onViewMore} className="w-full py-2.5 rounded-xl bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors flex items-center justify-center gap-2">
+                <Images className="w-4 h-4" /> View Destination Gallery
+            </button>
+        )}
     </div>
 );
 
@@ -306,7 +351,7 @@ const SchedulingConfig = () => (
     </div>
 );
 
-const ActivityConfig = () => (
+const ActivityConfig = ({ onViewMore }: { onViewMore?: () => void }) => (
     <div className="space-y-4">
         <div className="space-y-2">
             <label className="text-xs uppercase tracking-wider text-text-muted dark:text-white/40 font-bold">Activity Name</label>
@@ -323,5 +368,10 @@ const ActivityConfig = () => (
             <label className="text-xs uppercase tracking-wider text-text-muted dark:text-white/40 font-bold">Notes</label>
             <textarea className="w-full bg-surface-alt dark:bg-white/5 border border-border-subtle dark:border-white/10 rounded-xl px-4 py-3 text-text-primary dark:text-white focus:ring-1 focus:ring-primary focus:outline-none h-24 resize-none" placeholder="Add optional notes..."></textarea>
         </div>
+        {onViewMore && (
+            <button onClick={onViewMore} className="w-full py-2.5 rounded-xl bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors flex items-center justify-center gap-2">
+                <Images className="w-4 h-4" /> View More Photos
+            </button>
+        )}
     </div>
 );

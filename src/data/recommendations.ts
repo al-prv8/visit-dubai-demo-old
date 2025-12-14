@@ -8,7 +8,7 @@ export const TOP_ATTRACTIONS: HotelCard[] = [
         price: 'From $45',
         priceSuffix: '',
         rating: 4.9,
-        image: 'https://images.unsplash.com/photo-1582672060674-bc2bd808a8b5?auto=format&fit=crop&q=80&w=800',
+        image: 'https://images.unsplash.com/photo-1553531889-e6cf4d692b1b?auto=format&fit=crop&q=80&w=800',
         tags: ['Nature', 'Adventure'],
         type: 'attraction'
     },
@@ -19,7 +19,7 @@ export const TOP_ATTRACTIONS: HotelCard[] = [
         price: 'From $38',
         priceSuffix: '/ person',
         rating: 4.8,
-        image: 'https://images.unsplash.com/photo-1644917646199-27083041c30e?auto=format&fit=crop&q=80&w=800',
+        image: 'https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&q=80&w=800',
         tags: ['Museum', 'Technology', 'Architecture'],
         type: 'attraction'
     },
@@ -30,7 +30,7 @@ export const TOP_ATTRACTIONS: HotelCard[] = [
         price: 'From $15',
         priceSuffix: '/ person',
         rating: 4.7,
-        image: 'https://images.unsplash.com/photo-1554867186-5c08c909da4d?auto=format&fit=crop&q=80&w=800',
+        image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=800',
         tags: ['Views', 'Architecture', 'History'],
         type: 'attraction'
     }
@@ -44,7 +44,7 @@ export const UPCOMING_EVENTS: HotelCard[] = [
         price: 'Free',
         priceSuffix: '',
         rating: 4.9,
-        image: 'https://images.unsplash.com/photo-1549484961-464a9354b5f8?auto=format&fit=crop&q=80&w=800',
+        image: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&q=80&w=800',
         tags: ['Shopping', 'Festival', 'Fireworks'],
         type: 'event',
         startDate: '10 JAN',
@@ -57,7 +57,7 @@ export const UPCOMING_EVENTS: HotelCard[] = [
         price: 'From $25',
         priceSuffix: '/ entry',
         rating: 4.8,
-        image: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&q=80&w=800',
+        image: 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&q=80&w=800',
         tags: ['Entertainment', 'Carnival'],
         type: 'event',
         startDate: '19 DEC',
@@ -65,14 +65,16 @@ export const UPCOMING_EVENTS: HotelCard[] = [
     },
     {
         id: 'evt-3',
-        name: 'Tanomah: Scenic Horse Riding',
-        location: 'Aseer',
+        name: 'Desert Safari Experience',
+        location: 'Dubai Desert',
         price: '$50',
         priceSuffix: '',
         rating: 4.9,
-        image: 'https://images.unsplash.com/photo-1574768316274-1daaf8a927fa?auto=format&fit=crop&q=80&w=800',
+        image: 'https://images.unsplash.com/photo-1451337516015-6b6e9a44a8a3?auto=format&fit=crop&q=80&w=800',
         tags: ['Adventure', 'Nature'],
-        type: 'attraction'
+        type: 'event',
+        startDate: '26 DEC',
+        endDate: '2025'
     }
 ];
 // Note: I modified evt-3 to match "Tanomah" from the image but type attraction, mixing data for demo purposes.
