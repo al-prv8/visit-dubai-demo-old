@@ -12,13 +12,18 @@ import { TimezoneWidget } from '@/components/dashboard/TimezoneWidget';
 import { DashboardState } from './Dashboard';
 import { WidgetDetailView } from './WidgetDetailView';
 
-// Wrapper for animation
-const WidgetContainer = ({ children, className }: { children: React.ReactNode, className?: string }) => (
+// Wrapper for animation - layout prop for smooth grid reordering, no scale to prevent reflow
+const WidgetContainer = ({ children, className, layoutId }: { children: React.ReactNode, className?: string, layoutId?: string }) => (
     <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+        layout
+        layoutId={layoutId}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{
+            opacity: { duration: 0.3, ease: "easeOut" },
+            layout: { duration: 0.3, ease: "easeOut" }
+        }}
         className={className}
     >
         {children}
@@ -141,7 +146,7 @@ export const DemoCard: React.FC = () => {
 
             {/* Dynamic Grid Container - Mobile Optimized */}
             <div className={`grid grid-cols-2 md:grid-cols-12 gap-3 md:gap-6 auto-rows-max grid-flow-row-dense pb-20 transition-all duration-500 ${isCheckoutComplete ? 'blur-sm grayscale-[0.5]' : ''}`}>
-                <AnimatePresence>
+                <AnimatePresence mode="popLayout">
 
                     {/* STEP 1: CONTEXT OVERVIEW - Appear after Date Response (Step 1) */}
                     {((demoStep > 1) || (demoStep === 1 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
@@ -163,8 +168,9 @@ export const DemoCard: React.FC = () => {
                     )}
 
 
-                    {/* STEP 2: FLIGHT - Appear after Flight Response (Step 2) */}
-                    {((demoStep > 2) || (demoStep === 2 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
+                    {/* STEP 1: FLIGHT - Appear when AI responds with flight info */}
+                    {/* Pending until user confirms with "Yes." (step 3), then completed */}
+                    {((demoStep > 1) || (demoStep === 1 && demoPhase === 'responding')) && (
                         <WidgetContainer key="flight" className="col-span-2 md:col-span-12 lg:col-span-6 min-h-[240px]">
                             <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('flight')}>
                                 <FlightWidget status={demoStep >= 3 ? 'completed' : 'pending'} data={data.flight} />

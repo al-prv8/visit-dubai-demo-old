@@ -171,7 +171,7 @@ const StayConfig = ({ data, onChange, onViewMore }: { data: DashboardState['stay
         </div>
         <div className="space-y-2">
             <label className="text-xs uppercase tracking-wider text-text-muted dark:text-white/40 font-bold">Special Requests</label>
-            <textarea className="w-full bg-surface-alt dark:bg-white/5 border border-border-subtle dark:border-white/10 rounded-xl px-4 py-3 text-text-primary dark:text-white focus:ring-1 focus:ring-primary focus:outline-none h-24 resize-none" placeholder="Early check-in, dietary restrictions..." defaultValue="Check-out required within 24 hours"></textarea>
+            <textarea className="w-full bg-surface-alt dark:bg-white/5 border border-border-subtle dark:border-white/10 rounded-xl px-4 py-3 text-text-primary dark:text-white focus:ring-1 focus:ring-primary focus:outline-none h-24 resize-none" placeholder="Early check-in, dietary restrictions..." defaultValue="2pm late checkout"></textarea>
         </div>
         {onViewMore && (
             <button onClick={onViewMore} className="w-full py-2.5 rounded-xl bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors flex items-center justify-center gap-2">

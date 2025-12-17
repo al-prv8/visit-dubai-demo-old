@@ -394,7 +394,7 @@ export const ChatInterface: React.FC = () => {
   if (chatHistory.length === 0) {
     return (
       <div className="h-full flex flex-col flex-1">
-        <div className="flex-1 flex flex-col justify-center px-8 pb-8">
+        <div className="flex-1 flex flex-col justify-end px-8 pb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -429,7 +429,7 @@ export const ChatInterface: React.FC = () => {
         </div>
 
         {/* Input Area (Shared - Unified Style) */}
-        <div className="p-4 bg-surface dark:glass-card border-x-0 border-b-0 rounded-none rounded-b-3xl">
+        <div className="p-4 bg-surface dark:glass-card border-x-0 border-b-0">
           <div className="relative">
             <input
               type="text"
@@ -454,7 +454,7 @@ export const ChatInterface: React.FC = () => {
   // Frame 4+: Chat Interface
   return (
     <div className="flex flex-col flex-1 h-full">
-      <div className="flex-1 p-6 overflow-y-auto no-scrollbar space-y-6">
+      <div className="flex-1 px-6 pt-6 pb-2 overflow-y-auto no-scrollbar space-y-6">
         {chatHistory.map((msg, i) => (
           <motion.div
             key={msg.id}
@@ -511,7 +511,7 @@ export const ChatInterface: React.FC = () => {
       </div>
 
       {/* Input Area */}
-      <div className="p-4 bg-surface dark:glass-card border-x-0 border-b-0 rounded-none rounded-b-3xl">
+      <div className="p-4 bg-surface dark:glass-card border-x-0 border-b-0">
         <form
           onSubmit={(e) => {
             e.preventDefault();
