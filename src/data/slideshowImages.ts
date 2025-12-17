@@ -26,10 +26,10 @@ export const SLIDESHOW_IMAGES = {
         '/images/demo/dining-cocktails.png',
     ],
     experiences: [
-        '/images/demo/experience-paddle.png',
+        '/images/demo/experience-safari.png',
         '/images/demo/experience-yacht.png',
-        '/images/demo/experience-spa.png',
         '/images/demo/experience-heli.png',
+        '/images/demo/experience-spa.png',
     ],
     shopping: [
         '/images/demo/shopping-sunscreen.png',
