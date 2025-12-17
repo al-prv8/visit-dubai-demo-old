@@ -8,7 +8,7 @@ export const RideWidget: React.FC<{ data: DashboardState['ride'] }> = ({ data })
     return (
         <div className="h-full p-5 flex flex-col items-center justify-center relative overflow-hidden group">
             <Image
-                src="/images/demo/airport-terminal.png"
+                src="/images/demo/ride-luxury-suv.png"
                 alt="Ride"
                 fill
                 className="object-cover opacity-20 group-hover:scale-105 transition-transform duration-700"

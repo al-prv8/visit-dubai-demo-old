@@ -33,12 +33,12 @@ export const SLIDESHOW_IMAGES = {
     ],
     shopping: [
         '/images/demo/shopping-sunscreen.png',
-        'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?auto=format&fit=crop&q=80&w=1200',
-        'https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&q=80&w=1200',
+        '/images/demo/shopping-boutique.png',
+        '/images/demo/shopping-luxury-item.png',
     ],
     rides: [
-        'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=1200',
-        'https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?auto=format&fit=crop&q=80&w=1200',
-        'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=1200',
+        '/images/demo/ride-luxury-suv.png',
+        '/images/demo/ride-interior.png',
+        '/images/demo/ride-chauffeur.png',
     ],
 };

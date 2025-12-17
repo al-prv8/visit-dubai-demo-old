@@ -191,7 +191,7 @@ export const Dashboard: React.FC = () => {
                             title="SPF 50 Sunscreen"
                             subtitle="124k"
                             price="$8.97"
-                            image="https://images.unsplash.com/photo-1526947425960-945c6e72858f?q=80&w=2070&auto=format&fit=crop"
+                            image="/images/demo/shopping-sunscreen.png"
                             category="Shopping"
                         />
                     </div>
