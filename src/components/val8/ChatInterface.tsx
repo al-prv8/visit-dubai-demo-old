@@ -85,37 +85,37 @@ export const ChatInterface: React.FC = () => {
     {
       userText: "June 5th to 9th.",
       aiResponse: "Noted. Weather is expected to be 95° and sunny. Let's start with flights. I found an early AM departure from SFO on your preferred carrier, Emirates, Business Class, nonstop. Want me to hold seats?",
-      nextStep: 3
+      nextStep: 2
     },
     {
       userText: "Yes.",
       aiResponse: "Done. I'd recommend The Royal Mirage for your stay. Arabian Court Suite with Sea View. Secure it?",
-      nextStep: 4
+      nextStep: 3
     },
     {
       userText: "Secure it.",
       aiResponse: "Locked in. Complimentary Chauffeur-drive service is included with your flight. Shall I schedule the pickup?",
-      nextStep: 5
+      nextStep: 4
     },
     {
       userText: "Yes, schedule it.",
       aiResponse: "Confirmed. For dining, I've found a table at Ossiano — underwater fine dining. Friday at 8pm?",
-      nextStep: 6
+      nextStep: 5
     },
     {
       userText: "That sounds amazing. Book it.",
       aiResponse: "Reserved. Also — high SPF sunscreen is recommended for the desert sun. Shall I have SunSport SPF 50 waiting in your suite?",
-      nextStep: 7
+      nextStep: 6
     },
     {
       userText: "Yes please.",
       aiResponse: "Added. Finally, a private desert safari with vintage Land Rovers is highly rated. Shall I add this experience?",
-      nextStep: 8
+      nextStep: 7
     },
     {
       userText: "Yes, add it.",
       aiResponse: "Done. Your Dubai itinerary is fully organized. Please review the summary below and complete your checkout.",
-      nextStep: 9
+      nextStep: 8
     }
   ];
 
@@ -454,7 +454,7 @@ export const ChatInterface: React.FC = () => {
   // Frame 4+: Chat Interface
   return (
     <div className="flex flex-col flex-1 h-full">
-      <div className="flex-1 px-6 pt-6 pb-2 overflow-y-auto no-scrollbar space-y-6">
+      <div className="flex-1 px-8 pt-6 pb-2 overflow-y-auto no-scrollbar space-y-6">
         {chatHistory.map((msg, i) => (
           <motion.div
             key={msg.id}
