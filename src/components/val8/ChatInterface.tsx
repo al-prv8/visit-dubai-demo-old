@@ -84,12 +84,7 @@ export const ChatInterface: React.FC = () => {
     },
     {
       userText: "June 5th to 9th.",
-      aiResponse: "Noted. Weather is expected to be 95° and sunny. I'll handle the logistics. Want flights, hotel, or activities first?",
-      nextStep: 2
-    },
-    {
-      userText: "Flights.",
-      aiResponse: "I've got you nonstop from SFO to Dubai on Emirates, Business Class. Want me to hold seats?",
+      aiResponse: "Noted. Weather is expected to be 95° and sunny. Let's start with flights. I found an early AM departure from SFO on your preferred carrier, Emirates, Business Class, nonstop. Want me to hold seats?",
       nextStep: 3
     },
     {
