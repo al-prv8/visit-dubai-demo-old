@@ -221,9 +221,9 @@ export const DemoCard: React.FC = () => {
                         <WidgetContainer key="experiences" className="col-span-2 md:col-span-12 lg:col-span-8 min-h-[240px]">
                             <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('activity')}>
                                 <ActivityWidget
-                                    title="Sunrise Paddle Boarding"
-                                    subtitle="Guided Tour"
-                                    image="/images/demo/experience-paddle.png"
+                                    title="Private Desert Safari"
+                                    subtitle="Vintage Land Rovers"
+                                    image="/images/demo/experience-safari.png"
                                     category="Experiences"
                                 />
                             </div>
