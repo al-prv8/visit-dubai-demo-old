@@ -7,7 +7,7 @@ import { ImageSlideshow } from './ImageSlideshow';
 import { SLIDESHOW_IMAGES } from '@/data/slideshowImages';
 
 interface WidgetDetailViewProps {
-    type: 'flight' | 'stay' | 'ride' | 'calendar' | 'activity' | 'checkout' | 'weather' | 'location' | 'timezone' | 'scheduling' | null;
+    type: 'flight' | 'stay' | 'ride' | 'calendar' | 'dining' | 'shopping' | 'experience' | 'checkout' | 'weather' | 'location' | 'timezone' | 'scheduling' | null;
     data: DashboardState;
     onSave: (data: Partial<DashboardState>) => void;
     onClose: () => void;
@@ -68,7 +68,7 @@ export const WidgetDetailView: React.FC<WidgetDetailViewProps> = ({ type, data, 
                             {type === 'stay' && <MapPin className="w-4 h-4" />}
                             {type === 'ride' && <Car className="w-4 h-4" />}
                             {type === 'calendar' && <Calendar className="w-4 h-4" />}
-                            {type === 'activity' && <Sliders className="w-4 h-4" />}
+                            {(type === 'dining' || type === 'shopping' || type === 'experience') && <Sliders className="w-4 h-4" />}
                             {type === 'checkout' && <CreditCard className="w-4 h-4" />}
                             {type === 'weather' && <Cloud className="w-4 h-4" />}
                             {type === 'location' && <MapPin className="w-4 h-4" />}
@@ -93,7 +93,9 @@ export const WidgetDetailView: React.FC<WidgetDetailViewProps> = ({ type, data, 
                     {type === 'location' && <LocationConfig onViewMore={() => openSlideshow(SLIDESHOW_IMAGES.destinations, 'Destination Gallery')} />}
                     {type === 'timezone' && <TimezoneConfig />}
                     {type === 'scheduling' && <SchedulingConfig />}
-                    {type === 'activity' && <ActivityConfig onViewMore={() => openSlideshow(SLIDESHOW_IMAGES.experiences, 'Experience Gallery')} />}
+                    {type === 'dining' && <ActivityConfig title="Ossiano" category="Dining" onViewMore={() => openSlideshow(SLIDESHOW_IMAGES.dining, 'Dining Gallery')} />}
+                    {type === 'shopping' && <ActivityConfig title="SunSport SPF 50" category="Shopping" onViewMore={() => openSlideshow(SLIDESHOW_IMAGES.shopping, 'Shopping Gallery')} />}
+                    {type === 'experience' && <ActivityConfig title="Private Desert Safari" category="Experiences" onViewMore={() => openSlideshow(SLIDESHOW_IMAGES.experiences, 'Experience Gallery')} />}
                 </div>
 
                 {/* Footer */}
@@ -351,11 +353,11 @@ const SchedulingConfig = () => (
     </div>
 );
 
-const ActivityConfig = ({ onViewMore }: { onViewMore?: () => void }) => (
+const ActivityConfig = ({ title, category, onViewMore }: { title: string, category: string, onViewMore?: () => void }) => (
     <div className="space-y-4">
         <div className="space-y-2">
-            <label className="text-xs uppercase tracking-wider text-text-muted dark:text-white/40 font-bold">Activity Name</label>
-            <input type="text" defaultValue="Waterfront Kitchen" className="w-full bg-surface-alt dark:bg-white/5 border border-border-subtle dark:border-white/10 rounded-xl px-4 py-3 text-text-primary dark:text-white focus:ring-1 focus:ring-primary focus:outline-none" />
+            <label className="text-xs uppercase tracking-wider text-text-muted dark:text-white/40 font-bold">{category} Name</label>
+            <input type="text" defaultValue={title} className="w-full bg-surface-alt dark:bg-white/5 border border-border-subtle dark:border-white/10 rounded-xl px-4 py-3 text-text-primary dark:text-white focus:ring-1 focus:ring-primary focus:outline-none" />
         </div>
         <div className="space-y-2">
             <label className="text-xs uppercase tracking-wider text-text-muted dark:text-white/40 font-bold">Date & Time</label>
@@ -370,7 +372,7 @@ const ActivityConfig = ({ onViewMore }: { onViewMore?: () => void }) => (
         </div>
         {onViewMore && (
             <button onClick={onViewMore} className="w-full py-2.5 rounded-xl bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 transition-colors flex items-center justify-center gap-2">
-                <Images className="w-4 h-4" /> View More Photos
+                <Images className="w-4 h-4" /> View {category} Gallery
             </button>
         )}
     </div>

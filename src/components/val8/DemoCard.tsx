@@ -30,18 +30,18 @@ const DEMO_DATA: DashboardState = {
         origin: "SFO",
         destination: "DXB",
         carrier: "Emirates",
-        class: "First Class",
+        class: "Business Class",
         date: "June 5 - June 9",
         flightNumber: "EK 226",
         price: "$6,200"
     },
     stay: {
-        hotelName: "Burj Al Arab",
-        roomType: "Royal Suite",
+        hotelName: "One&Only Royal Mirage",
+        roomType: "Arabian Court Suite",
         guests: 2,
         checkIn: "June 6",
         checkOut: "June 9",
-        price: "$15,000"
+        price: "$5,800"
     },
     ride: {
         pickup: "Dubai Int'l (DXB)",
@@ -65,7 +65,7 @@ const DEMO_DATA: DashboardState = {
 export const DemoCard: React.FC = () => {
     const { demoStep, demoPhase } = useVal8();
     const [data, setData] = useState<DashboardState>(DEMO_DATA);
-    const [selectedWidget, setSelectedWidget] = useState<'flight' | 'stay' | 'ride' | 'calendar' | 'activity' | 'checkout' | 'weather' | 'location' | 'timezone' | 'scheduling' | null>(null);
+    const [selectedWidget, setSelectedWidget] = useState<'flight' | 'stay' | 'ride' | 'calendar' | 'dining' | 'shopping' | 'experience' | 'checkout' | 'weather' | 'location' | 'timezone' | 'scheduling' | null>(null);
 
     const handleSave = (partialData: Partial<DashboardState>) => {
         setData(prev => ({ ...prev, ...partialData }));
@@ -190,11 +190,11 @@ export const DemoCard: React.FC = () => {
                     {/* STEP 5: DINING - Appear after Dining Response (Step 5) */}
                     {((demoStep > 5) || (demoStep === 5 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
                         <WidgetContainer key="dining" className="col-span-1 md:col-span-12 lg:col-span-4 min-h-[180px] md:min-h-[240px]">
-                            <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('activity')}>
+                            <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('dining')}>
                                 <ActivityWidget
-                                    title="Waterfront Kitchen"
-                                    subtitle="$30-50 | American"
-                                    image="/images/demo/dining-seafood.png"
+                                    title="Ossiano"
+                                    subtitle="Underwater Fine Dining"
+                                    image="/images/demo/dining-ossiano.png"
                                     category="Dining"
                                 />
                             </div>
@@ -204,10 +204,10 @@ export const DemoCard: React.FC = () => {
                     {/* STEP 6: SHOPPING - Appear after Shopping Response (Step 6) */}
                     {((demoStep > 6) || (demoStep === 6 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
                         <WidgetContainer key="shopping" className="col-span-1 md:col-span-12 lg:col-span-4 min-h-[180px] md:min-h-[240px]">
-                            <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('activity')}>
+                            <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('shopping')}>
                                 <ActivityWidget
-                                    title="SPF 50 Sunscreen"
-                                    subtitle="124k ratings"
+                                    title="SunSport SPF 50"
+                                    subtitle="High SPF Protection"
                                     price="$8.97"
                                     image="/images/demo/shopping-sunscreen.png"
                                     category="Shopping"
@@ -219,7 +219,7 @@ export const DemoCard: React.FC = () => {
                     {/* STEP 7: EXPERIENCES - Appear after Experience Response (Step 7) */}
                     {((demoStep > 7) || (demoStep === 7 && (demoPhase === 'processing' || demoPhase === 'responding'))) && (
                         <WidgetContainer key="experiences" className="col-span-2 md:col-span-12 lg:col-span-8 min-h-[240px]">
-                            <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('activity')}>
+                            <div className="glass-card rounded-3xl overflow-hidden h-full cursor-pointer hover:border-primary/50 transition-all" onClick={() => setSelectedWidget('experience')}>
                                 <ActivityWidget
                                     title="Private Desert Safari"
                                     subtitle="Vintage Land Rovers"

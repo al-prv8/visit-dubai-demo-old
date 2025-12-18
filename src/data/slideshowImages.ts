@@ -20,10 +20,10 @@ export const SLIDESHOW_IMAGES = {
         '/images/demo/hotel-pool.png',
     ],
     dining: [
-        '/images/demo/dining-seafood.png',
+        '/images/demo/dining-ossiano.png',
         '/images/demo/dining-interior.png',
+        '/images/demo/dining-seafood.png',
         '/images/demo/dining-chef.png',
-        '/images/demo/dining-cocktails.png',
     ],
     experiences: [
         '/images/demo/experience-safari.png',

@@ -91,7 +91,7 @@ const INITIAL_STATE: DashboardState = {
 
 export const Dashboard: React.FC = () => {
     const { user, logout, setView, handleWidgetAction } = useVal8();
-    const [selectedWidget, setSelectedWidget] = React.useState<'flight' | 'stay' | 'ride' | 'calendar' | 'activity' | 'checkout' | 'weather' | 'location' | 'timezone' | 'scheduling' | null>(null);
+    const [selectedWidget, setSelectedWidget] = React.useState<'flight' | 'stay' | 'ride' | 'calendar' | 'dining' | 'shopping' | 'experience' | 'checkout' | 'weather' | 'location' | 'timezone' | 'scheduling' | null>(null);
     const [data, setData] = React.useState<DashboardState>(INITIAL_STATE);
 
     const handleSave = (partialData: Partial<DashboardState>) => {
@@ -176,7 +176,7 @@ export const Dashboard: React.FC = () => {
                     {/* --- ROW 3 --- */}
 
                     {/* Dining (Mobile: 1 col, Desktop: 3 cols) */}
-                    <div className="col-span-1 md:col-span-3 glass-card rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('activity')}>
+                    <div className="col-span-1 md:col-span-3 glass-card rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('dining')}>
                         <ActivityWidget
                             title="Waterfront Kitchen"
                             subtitle="$30-50 | American"
@@ -186,7 +186,7 @@ export const Dashboard: React.FC = () => {
                     </div>
 
                     {/* Shopping (Mobile: 1 col, Desktop: 3 cols) */}
-                    <div className="col-span-1 md:col-span-3 glass-card rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('activity')}>
+                    <div className="col-span-1 md:col-span-3 glass-card rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('shopping')}>
                         <ActivityWidget
                             title="SPF 50 Sunscreen"
                             subtitle="124k"
@@ -197,7 +197,7 @@ export const Dashboard: React.FC = () => {
                     </div>
 
                     {/* Local Interest (Mobile: Full Width, Desktop: 6 cols) */}
-                    <div className="col-span-2 md:col-span-6 glass-card rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('activity')}>
+                    <div className="col-span-2 md:col-span-6 glass-card rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer hover:border-primary/30 transition-colors" onClick={() => setSelectedWidget('experience')}>
                         <ActivityWidget
                             title="Miami's Best Beaches"
                             subtitle="Curated list of seaside sanctuaries"
