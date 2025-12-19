@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <body className={`${inter.variable} ${playfair.variable} bg-bg text-text-primary font-sans antialiased`}>
+            <body className={`${inter.variable} ${playfair.variable} bg-bg text-text-primary font-sans antialiased`} suppressHydrationWarning>
                 <Providers>
                     {children}
                     <ThemeDebugger />
