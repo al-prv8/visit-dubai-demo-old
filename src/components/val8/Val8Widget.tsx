@@ -125,7 +125,7 @@ const Val8WidgetContent: React.FC = () => {
                                     <span className="font-serif font-bold text-surface text-lg">V</span>
                                 </div>
                                 <div>
-                                    <h1 className="text-text-primary dark:text-white font-serif text-lg tracking-wide">{isDemoMode ? 'Talk to Petra' : 'Val8'}</h1>
+                                    <h1 className="text-text-primary dark:text-white font-serif text-lg tracking-wide">{isDemoMode ? 'Speak to Nora' : 'Val8'}</h1>
                                     <p className={`text-[10px] uppercase tracking-widest font-medium ${isDemoMode ? 'text-[#C5A572]' : 'text-primary'}`}>
                                         {isDemoMode ? 'Powered by Prv8' : 'Powered by PRV8.'}
                                     </p>
@@ -254,12 +254,12 @@ const Val8WidgetContent: React.FC = () => {
                     >
                         <div className="w-10 h-10 rounded-full bg-primary overflow-hidden border-2 border-white dark:border-white/20 shadow-lg relative">
                             <img
-                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150"
-                                alt="Petra"
+                                src="https://api.dicebear.com/7.x/personas/svg?seed=Nora&backgroundColor=b6e3f4&hair=long&hairColor=2c1b18&eyes=happy&mouth=smile&nose=smallRound&skinColor=f5cfa0"
+                                alt="Nora AI Avatar"
                                 className="w-full h-full object-cover"
                             />
                         </div>
-                        <span className="font-medium tracking-wide">Talk to Petra</span>
+                        <span className="font-medium tracking-wide">Speak to Nora</span>
                     </motion.button>
                 )}
             </AnimatePresence>

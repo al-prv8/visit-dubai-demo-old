@@ -132,9 +132,9 @@
     // HTML Structure matching Val8Widget.tsx:
     launcher.innerHTML = `
         <div class="icon-box" style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid white; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
-            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150" alt="Petra" style="width: 100%; height: 100%; object-fit: cover;">
+            <img src="https://api.dicebear.com/7.x/personas/svg?seed=Nora&backgroundColor=b6e3f4&hair=long&hairColor=2c1b18&eyes=happy&mouth=smile&nose=smallRound&skinColor=f5cfa0" alt="Nora AI Avatar" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
-        <span class="text">Talk to Petra</span>
+        <span class="text">Speak to Nora</span>
     `;
     document.body.appendChild(launcher);
 

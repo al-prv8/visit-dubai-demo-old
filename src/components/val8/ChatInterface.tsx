@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Send, MapPin, Compass, Plane, Search } from 'lucide-react';
+import { Send, MapPin, Compass, Plane, Search, Mic } from 'lucide-react';
 import { useVal8, HotelCard } from './Val8Context';
 import { CardStack } from './CardStack';
 import { ChatCarousel } from './ChatCarousel';
@@ -437,14 +437,23 @@ export const ChatInterface: React.FC = () => {
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Tell me anything..."
-              className="w-full bg-surface-alt dark:bg-black/20 text-text-primary dark:text-white placeholder-text-muted dark:placeholder-white/30 rounded-xl pl-4 pr-12 py-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary border border-border-subtle dark:border-white/5 transition-all"
+              className="w-full bg-surface-alt dark:bg-black/20 text-text-primary dark:text-white placeholder-text-muted dark:placeholder-white/30 rounded-xl pl-4 pr-20 py-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary border border-border-subtle dark:border-white/5 transition-all"
             />
-            <button
-              onClick={handleSend}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-surface hover:bg-primary-soft transition-colors"
-            >
-              <Send className="w-4 h-4" />
-            </button>
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+              <button
+                type="button"
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted dark:text-white/40 hover:text-primary hover:bg-primary/10 transition-colors"
+                title="Voice input"
+              >
+                <Mic className="w-4 h-4" />
+              </button>
+              <button
+                onClick={handleSend}
+                className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-surface hover:bg-primary-soft transition-colors"
+              >
+                <Send className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -524,15 +533,24 @@ export const ChatInterface: React.FC = () => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Tell me anything..."
-            className="w-full bg-surface-alt dark:bg-black/20 text-text-primary dark:text-white placeholder-text-muted dark:placeholder-white/30 rounded-xl pl-4 pr-12 py-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary border border-border-subtle dark:border-white/5 transition-all"
+            className="w-full bg-surface-alt dark:bg-black/20 text-text-primary dark:text-white placeholder-text-muted dark:placeholder-white/30 rounded-xl pl-4 pr-20 py-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary border border-border-subtle dark:border-white/5 transition-all"
           />
-          <button
-            type="submit"
-            disabled={!inputValue.trim()}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-surface disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-soft transition-colors"
-          >
-            <Send className="w-4 h-4" />
-          </button>
+          <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+            <button
+              type="button"
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted dark:text-white/40 hover:text-primary hover:bg-primary/10 transition-colors"
+              title="Voice input"
+            >
+              <Mic className="w-4 h-4" />
+            </button>
+            <button
+              type="submit"
+              disabled={!inputValue.trim()}
+              className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-surface disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-soft transition-colors"
+            >
+              <Send className="w-4 h-4" />
+            </button>
+          </div>
         </form>
       </div>
     </div>
