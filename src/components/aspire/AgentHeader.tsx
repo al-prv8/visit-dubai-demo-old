@@ -29,10 +29,10 @@ export const AgentHeader: React.FC<AgentHeaderProps> = ({
             <div className="flex items-center gap-4">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-champagne-500 flex items-center justify-center shadow-lg shadow-primary/20">
-                        <span className="text-surface font-serif font-bold text-lg">A</span>
+                        <span className="text-surface font-serif font-bold text-lg">P</span>
                     </div>
                     <div>
-                        <h1 className="text-text-primary dark:text-white font-serif text-lg tracking-wide">Aspire Lifestyles</h1>
+                        <h1 className="text-text-primary dark:text-white font-serif text-lg tracking-wide">PRV8 Concierge</h1>
                         <p className="text-[10px] uppercase tracking-widest font-medium text-primary">
                             Powered by PRV8
                         </p>
@@ -73,8 +73,8 @@ export const AgentHeader: React.FC<AgentHeaderProps> = ({
                             whileTap={{ scale: 0.9 }}
                             onClick={onToggleMute}
                             className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${isMuted
-                                    ? 'bg-surface-alt text-text-muted'
-                                    : 'bg-surface-alt/50 dark:bg-white/5 text-text-primary dark:text-white hover:bg-surface-alt dark:hover:bg-white/10'
+                                ? 'bg-surface-alt text-text-muted'
+                                : 'bg-surface-alt/50 dark:bg-white/5 text-text-primary dark:text-white hover:bg-surface-alt dark:hover:bg-white/10'
                                 }`}
                         >
                             {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
