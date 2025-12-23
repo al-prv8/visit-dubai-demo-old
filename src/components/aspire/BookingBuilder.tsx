@@ -77,10 +77,18 @@ export const BookingBuilder: React.FC<BookingBuilderProps> = ({
                         {/* Timeline line */}
                         <div className="absolute left-7 top-6 bottom-6 w-px bg-gradient-to-b from-primary via-champagne-400 to-champagne-500" />
 
-                        {/* Items */}
+                        {/* Items - deduplicated */}
                         <div className="space-y-4">
                             <AnimatePresence>
-                                {items.map((item, index) => {
+                                {(() => {
+                                    const seen = new Set<string>();
+                                    return items.filter(item => {
+                                        const key = `${item.type}-${item.title}`;
+                                        if (seen.has(key)) return false;
+                                        seen.add(key);
+                                        return true;
+                                    });
+                                })().map((item, index) => {
                                     const config = typeConfig[item.type];
 
                                     return (
@@ -181,8 +189,8 @@ export const BookingBuilder: React.FC<BookingBuilderProps> = ({
                             onClick={!quoteSent ? onSendQuote : undefined}
                             disabled={quoteSent}
                             className={`flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold text-sm uppercase tracking-wider transition-all shadow-xl ${quoteSent
-                                    ? 'bg-success/20 text-success border border-success/30 cursor-default shadow-success/10'
-                                    : 'bg-gradient-to-r from-primary to-champagne-500 text-surface hover:from-champagne-400 hover:to-primary shadow-primary/30'
+                                ? 'bg-success/20 text-success border border-success/30 cursor-default shadow-success/10'
+                                : 'bg-gradient-to-r from-primary to-champagne-500 text-surface hover:from-champagne-400 hover:to-primary shadow-primary/30'
                                 }`}
                         >
                             <Send className="w-5 h-5" />

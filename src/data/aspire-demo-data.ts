@@ -181,16 +181,16 @@ export const DEMO_SCRIPT: DemoStep[] = [
     },
     {
         id: 'step5',
-        narration: "With one click, the agent adds the flight to the itinerary. No manual searching required.",
+        narration: "With one click, the agent adds the flight to the itinerary.",
         action: 'add_to_booking',
-        delay: 3000,
+        delay: 2500,
         data: {
             bookingItem: {
                 id: 'b1',
                 type: 'flight',
                 title: 'Emirates First Class',
                 subtitle: 'SFO → LHR • Direct',
-                date: 'June 28, 2025',
+                date: 'June 28-July 2, 2025',
                 time: '10:30 AM',
                 price: '$12,400',
                 status: 'confirmed'
@@ -206,7 +206,7 @@ export const DEMO_SCRIPT: DemoStep[] = [
     },
     {
         id: 'step7',
-        narration: "Added to itinerary. The AI noticed Mr. Chen mentioned tennis on his last call - it suggests a private Wimbledon box.",
+        narration: "Added to itinerary. Now the AI suggests a curated experience.",
         action: 'add_to_booking',
         delay: 2500,
         data: {
@@ -214,8 +214,8 @@ export const DEMO_SCRIPT: DemoStep[] = [
                 id: 'b2',
                 type: 'hotel',
                 title: "Claridge's - Davies Suite",
-                subtitle: 'Mayfair, London',
-                date: 'June 28 - July 2, 2025',
+                subtitle: 'Mayfair, London • 4 nights',
+                date: 'June 28, 2025',
                 price: '$18,600',
                 status: 'confirmed'
             }
@@ -223,21 +223,55 @@ export const DEMO_SCRIPT: DemoStep[] = [
     },
     {
         id: 'step8',
-        narration: "A curated experience suggestion based on contextual understanding of the trip purpose.",
+        narration: "The AI noticed Mr. Chen mentioned tennis on his last call - it suggests a private Wimbledon box.",
         action: 'ai_suggest',
         delay: 3000,
         data: { suggestion: AI_SUGGESTIONS[2] }
     },
     {
+        id: 'step8b',
+        narration: "Added to itinerary.",
+        action: 'add_to_booking',
+        delay: 2000,
+        data: {
+            bookingItem: {
+                id: 'b3',
+                type: 'experience',
+                title: 'Private Wimbledon Box',
+                subtitle: 'Centre Court • All-day hospitality',
+                date: 'June 30, 2025',
+                price: '$8,500',
+                status: 'confirmed'
+            }
+        }
+    },
+    {
         id: 'step9',
-        narration: "Perfect. And as standard for Diamond members, a Rolls-Royce transfer is automatically suggested.",
+        narration: "As standard for Diamond members, a Rolls-Royce transfer is automatically suggested.",
         action: 'ai_suggest',
         delay: 2500,
         data: { suggestion: AI_SUGGESTIONS[3] }
     },
     {
+        id: 'step9b',
+        narration: "Transfer added. The complete itinerary is now ready.",
+        action: 'add_to_booking',
+        delay: 2000,
+        data: {
+            bookingItem: {
+                id: 'b4',
+                type: 'transfer',
+                title: 'Rolls-Royce Airport Transfer',
+                subtitle: 'Heathrow → Mayfair • Meet & Greet',
+                date: 'June 28, 2025',
+                price: '$850',
+                status: 'confirmed'
+            }
+        }
+    },
+    {
         id: 'step10',
-        narration: "The complete itinerary is ready. Total value: $40,350 with an 18% margin. What would have taken 30 minutes is done in under 5.",
+        narration: "The complete itinerary is ready. Total value: $40,350 with an 18% margin.",
         action: 'show_savings',
         delay: 4000
     },
