@@ -21,12 +21,17 @@ export default function AdminLoginPage() {
         setError('');
         setIsSubmitting(true);
 
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
+        // For demo purposes, use hardcoded admin credentials
+        // In production, this would use the backend auth
         if (email === 'admin' && password === 'admin') {
-            login('admin@lumina.so', 'System Administrator', 'admin');
-            router.push('/admin');
+            try {
+                await login('admin@lumina.so', 'adminpass123');
+                router.push('/admin');
+            } catch {
+                // If backend login fails, show error
+                setError('Backend authentication failed. Please ensure the backend is running.');
+                setIsSubmitting(false);
+            }
         } else {
             setError('Invalid credentials or insufficient clearance.');
             setIsSubmitting(false);

@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, X, Minimize2, Maximize2, User, Sparkles, Bot } from 'lucide-react';
+import { MessageSquare, X, Minimize2, Maximize2, User, Sparkles, Bot, LogOut } from 'lucide-react';
 import { useVal8, Val8Provider } from './Val8Context';
+import { useAuth } from '@/contexts/AuthContext';
 import { ChatInterface } from './ChatInterface';
 import { BookingFlow } from './BookingFlow';
 import { PostBookingSummary } from './PostBookingSummary';
@@ -11,6 +12,8 @@ import { ExitModal } from './ExitModal';
 import { LoginModal } from './LoginModal';
 import { Dashboard } from './Dashboard';
 import { DemoCard } from './DemoCard';
+import { ProfileModal } from './ProfileModal';
+import { ChangePasswordModal } from './ChangePasswordModal';
 
 const Val8WidgetContent: React.FC = () => {
     const {
@@ -26,11 +29,11 @@ const Val8WidgetContent: React.FC = () => {
         activeAction,
         clearActiveAction,
         addMessage,
-        isDemoMode,
-        setIsDemoMode,
-        setDemoStep
     } = useVal8();
+    const { user: authUser, logout: authLogout } = useAuth();
     const [showLoader, setShowLoader] = useState(false);
+    const [showProfileModal, setShowProfileModal] = useState(false);
+    const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
 
     // Handle incoming widget actions and external messages
     React.useEffect(() => {
@@ -96,7 +99,9 @@ const Val8WidgetContent: React.FC = () => {
     };
 
     const handleProfileClick = () => {
-        if (!user) {
+        if (authUser) {
+            setShowProfileModal(true);
+        } else {
             setShowLoginModal(true);
         }
     };
@@ -121,30 +126,27 @@ const Val8WidgetContent: React.FC = () => {
                         {/* Header */}
                         <div className="h-16 bg-surface-alt/50 dark:bg-white/5 backdrop-blur-md border-b border-border-subtle dark:border-white/5 flex items-center justify-between px-6 shrink-0 relative z-20">
                             <div className="flex items-center gap-3">
-                                <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${isDemoMode ? 'bg-[#C5A572]' : 'bg-primary'}`}>
+                                <div className="w-8 h-8 rounded-full flex items-center justify-center transition-colors bg-primary">
                                     <span className="font-serif font-bold text-surface text-lg">V</span>
                                 </div>
                                 <div>
-                                    <h1 className="text-text-primary dark:text-white font-serif text-lg tracking-wide">{isDemoMode ? 'Speak to Nora' : 'Val8'}</h1>
-                                    <p className={`text-[10px] uppercase tracking-widest font-medium ${isDemoMode ? 'text-[#C5A572]' : 'text-primary'}`}>
-                                        {isDemoMode ? 'Powered by Prv8' : 'Powered by PRV8.'}
+                                    <h1 className="text-text-primary dark:text-white font-serif text-lg tracking-wide">Val8</h1>
+                                    <p className="text-[10px] uppercase tracking-widest font-medium text-primary">
+                                        Powered by PRV8.
                                     </p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-2">
-                                <button
-                                    onClick={() => {
-                                        const newMode = !isDemoMode;
-                                        setIsDemoMode(newMode);
-                                        if (newMode) {
-                                            setView('dashboard');
-                                            setDemoStep(0);
-                                        }
-                                    }}
-                                    className={`px-3 py-1.5 rounded-full text-[10px] uppercase tracking-widest font-medium transition-colors border ${isDemoMode ? 'bg-[#C5A572] text-black border-[#C5A572]' : 'bg-surface-alt/50 dark:bg-white/5 text-text-muted dark:text-white/40 border-border-subtle dark:border-white/10 hover:text-text-primary dark:hover:text-white'}`}
-                                >
-                                    {isDemoMode ? 'Exit Demo' : 'Demo'}
-                                </button>
+                                {/* Logout Button - only shows when user is logged in */}
+                                {authUser && (
+                                    <button
+                                        onClick={() => authLogout()}
+                                        className="w-8 h-8 rounded-full bg-surface-alt/50 dark:bg-surface-100 flex items-center justify-center text-text-muted dark:text-white/40 hover:text-red-500 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
+                                        title="Logout"
+                                    >
+                                        <LogOut className="w-4 h-4" />
+                                    </button>
+                                )}
                                 <button
                                     onClick={handleProfileClick}
                                     className="w-8 h-8 rounded-full bg-surface-alt/50 dark:bg-surface-100 flex items-center justify-center text-text-muted dark:text-white/40 hover:text-text-primary dark:hover:text-white hover:bg-surface-alt dark:hover:bg-surface-200 transition-colors"
@@ -174,17 +176,7 @@ const Val8WidgetContent: React.FC = () => {
 
                         {/* Main Content Area */}
                         <div className="flex-1 relative overflow-hidden">
-                            {/* DEMO MODE BACKGROUND */}
-                            {isDemoMode && (
-                                <div className="absolute inset-0 z-0 pointer-events-none">
-                                    <img
-                                        src="https://images.unsplash.com/photo-1512453979798-5ea904ac22de?q=80&w=2670&auto=format&fit=crop"
-                                        alt="Dubai Background"
-                                        className="w-full h-full object-cover opacity-20 transform scale-105"
-                                    />
-                                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-                                </div>
-                            )}
+
 
                             <AnimatePresence mode="wait">
                                 {showLoader ? (
@@ -204,21 +196,16 @@ const Val8WidgetContent: React.FC = () => {
                                     </motion.div>
                                 ) : view === 'dashboard' ? (
                                     <motion.div key="dashboard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full flex flex-col md:flex-row relative z-10 animate-in fade-in">
-                                        {/* Left Panel: Chat Interface - Visible on Mobile ONLY in Demo Mode (Split Screen) */}
-                                        <div className={`
-                                            w-full md:w-[400px] 
-                                            flex-col bg-surface dark:bg-[#050505] backdrop-blur-xl relative z-10
-                                            border-b md:border-b-0 md:border-r border-border-subtle dark:border-white/10
-                                            ${isDemoMode ? 'flex h-[40%] md:h-full' : 'hidden md:flex h-full'}
-                                        `}>
+                                        {/* Left Panel: Chat Interface */}
+                                        <div className="w-full md:w-[400px] hidden md:flex flex-col bg-surface dark:bg-[#050505] backdrop-blur-xl relative z-10 border-b md:border-b-0 md:border-r border-border-subtle dark:border-white/10 h-full">
                                             <ChatInterface />
                                             <BookingFlow />
                                             <PostBookingSummary />
                                         </div>
 
-                                        {/* Right Panel: Content (Dashboard OR Demo Card) - Full Width on Mobile */}
+                                        {/* Right Panel: Dashboard */}
                                         <div className="flex-1 bg-surface-alt dark:bg-black/20 relative z-0 flex flex-col">
-                                            {isDemoMode ? <DemoCard /> : <Dashboard />}
+                                            <Dashboard />
                                         </div>
                                     </motion.div>
                                 ) : (
@@ -233,6 +220,15 @@ const Val8WidgetContent: React.FC = () => {
                             {/* Modals */}
                             <ExitModal />
                             <LoginModal />
+                            <ProfileModal
+                                isOpen={showProfileModal}
+                                onClose={() => setShowProfileModal(false)}
+                                onOpenChangePassword={() => setShowChangePasswordModal(true)}
+                            />
+                            <ChangePasswordModal
+                                isOpen={showChangePasswordModal}
+                                onClose={() => setShowChangePasswordModal(false)}
+                            />
                         </div>
                     </motion.div>
                 )}

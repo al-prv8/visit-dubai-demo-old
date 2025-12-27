@@ -1,7 +1,9 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useWebSocketChat } from '@/hooks/useWebSocketChat';
+import { TripPlan, Suggestion, ChatResponse } from '@/lib/types';
 
 // Types for the context
 export type UserIntent = 'planning' | 'browsing' | 'booking' | null;
@@ -18,9 +20,10 @@ export interface ChatMessage {
   id: string;
   sender: 'user' | 'val8';
   text: string;
-  type?: 'text' | 'options' | 'card-stack' | 'confirmation';
+  type?: 'text' | 'options' | 'card-stack' | 'confirmation' | 'trip-plan';
   options?: string[];
   cards?: HotelCard[];
+  tripPlan?: TripPlan;
   timestamp: number;
 }
 
@@ -63,6 +66,7 @@ interface Val8ContextType {
   updateTripContext: (context: Partial<TripContext>) => void;
   chatHistory: ChatMessage[];
   addMessage: (message: Omit<ChatMessage, 'id' | 'timestamp'>) => void;
+  clearChatHistory: () => void;
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
   bookingState: 'idle' | 'summary' | 'checkout' | 'confirmed' | 'post-booking';
@@ -74,8 +78,6 @@ interface Val8ContextType {
 
   // Auth & View
   user: UserProfile | null;
-  login: (email: string, name?: string) => void;
-  logout: () => void;
   view: 'chat' | 'dashboard';
   setView: (view: 'chat' | 'dashboard') => void;
   trips: Trip[];
@@ -85,12 +87,26 @@ interface Val8ContextType {
   activeAction: string | null;
   handleWidgetAction: (action: string) => void;
   clearActiveAction: () => void;
+
+  // WebSocket chat
+  sendMessage: (message: string) => void;
+  isConnected: boolean;
+  isTyping: boolean;
+  connectChat: () => void;
+  disconnectChat: () => void;
+  activeTripPlan: TripPlan | null;
+  currentSuggestion: Suggestion | null;
+  streamingText: string; // Live streaming response text
+
+  // Legacy demo mode properties (for backward compatibility)
   isDemoMode: boolean;
   setIsDemoMode: (mode: boolean) => void;
   demoStep: number;
   setDemoStep: (step: number) => void;
   demoPhase: 'idle' | 'typing' | 'processing' | 'responding';
   setDemoPhase: (phase: 'idle' | 'typing' | 'processing' | 'responding') => void;
+  login: (email: string, name?: string) => void;
+  logout: () => void;
 }
 
 const Val8Context = createContext<Val8ContextType | undefined>(undefined);
@@ -101,10 +117,10 @@ interface Val8ProviderProps {
 }
 
 export const Val8Provider: React.FC<Val8ProviderProps> = ({ children, initialExpanded = false }) => {
-  const { user: authUser, login: authLogin, logout: authLogout } = useAuth();
+  const { user: authUser } = useAuth();
 
   const [currentFrame, setCurrentFrame] = useState(1);
-  const [isExpanded, setIsExpanded] = useState(initialExpanded); // Use prop for initial state
+  const [isExpanded, setIsExpanded] = useState(initialExpanded);
   const [userIntent, setUserIntent] = useState<UserIntent>(null);
   const [tripContext, setTripContext] = useState<TripContext>({});
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
@@ -113,10 +129,12 @@ export const Val8Provider: React.FC<Val8ProviderProps> = ({ children, initialExp
   const [selectedHotel, setSelectedHotel] = useState<HotelCard | null>(null);
   const [showExitModal, setShowExitModal] = useState(false);
 
-  // Demo Mode State
-  const [isDemoMode, setIsDemoMode] = useState(false);
-  const [demoStep, setDemoStep] = useState(0);
-  const [demoPhase, setDemoPhase] = useState<'idle' | 'typing' | 'processing' | 'responding'>('idle');
+  // Trip plan and suggestions from backend
+  const [activeTripPlan, setActiveTripPlan] = useState<TripPlan | null>(null);
+  const [currentSuggestion, setCurrentSuggestion] = useState<Suggestion | null>(null);
+
+  // Streaming response accumulator
+  const [streamingText, setStreamingText] = useState('');
 
   // Map AuthContext user to Val8 UserProfile
   const user: UserProfile | null = authUser ? {
@@ -130,16 +148,130 @@ export const Val8Provider: React.FC<Val8ProviderProps> = ({ children, initialExp
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [activeAction, setActiveAction] = useState<string | null>(null);
 
-  const login = (email: string, name: string = 'Guest') => {
-    authLogin(email, name);
-    setShowLoginModal(false);
-    setView('dashboard');
-  };
+  // Legacy demo mode state (backward compatibility)
+  const [isDemoMode, setIsDemoMode] = useState(false);
+  const [demoStep, setDemoStep] = useState(0);
+  const [demoPhase, setDemoPhase] = useState<'idle' | 'typing' | 'processing' | 'responding'>('idle');
 
-  const logout = () => {
-    authLogout();
-    setView('chat');
-  };
+  // Legacy login/logout for demo (no-op, use AuthContext instead)
+  const login = useCallback(() => {
+    setShowLoginModal(true);
+  }, []);
+  const logout = useCallback(() => {
+    // Handled by AuthContext
+  }, []);
+
+  // WebSocket chat handlers
+  const handleTyping = useCallback((typing: boolean) => {
+    setIsLoading(typing);
+  }, []);
+
+  const handleChunk = useCallback((chunk: string) => {
+    setStreamingText(prev => prev + chunk);
+  }, []);
+
+  const handleResponse = useCallback((response: ChatResponse) => {
+    // Add AI response to chat history
+    const aiMessage: ChatMessage = {
+      id: Math.random().toString(36).substr(2, 9),
+      sender: 'val8',
+      text: response.response,
+      type: 'text',
+      timestamp: Date.now(),
+    };
+
+    // If there are questions, add them as options
+    if (response.questions && response.questions.length > 0) {
+      aiMessage.type = 'options';
+      aiMessage.options = response.questions;
+    }
+
+    setChatHistory(prev => [...prev, aiMessage]);
+    setStreamingText('');
+    setIsLoading(false);
+  }, []);
+
+  const handleTripPlan = useCallback((tripPlan: TripPlan) => {
+    setActiveTripPlan(tripPlan);
+
+    // Add trip plan message to chat
+    const tripMessage: ChatMessage = {
+      id: Math.random().toString(36).substr(2, 9),
+      sender: 'val8',
+      text: 'I\'ve prepared your trip plan:',
+      type: 'trip-plan',
+      tripPlan,
+      timestamp: Date.now(),
+    };
+    setChatHistory(prev => [...prev, tripMessage]);
+  }, []);
+
+  const handleSuggestion = useCallback((suggestion: Suggestion) => {
+    setCurrentSuggestion(suggestion);
+
+    // Add suggestion as a message with the question
+    const suggestionMessage: ChatMessage = {
+      id: Math.random().toString(36).substr(2, 9),
+      sender: 'val8',
+      text: suggestion.question,
+      type: 'options',
+      options: ['Yes', 'No', 'Tell me more'],
+      timestamp: Date.now(),
+    };
+    setChatHistory(prev => [...prev, suggestionMessage]);
+  }, []);
+
+  const handleError = useCallback((error: string) => {
+    console.error('WebSocket error:', error);
+    setIsLoading(false);
+
+    // Add error message to chat
+    const errorMessage: ChatMessage = {
+      id: Math.random().toString(36).substr(2, 9),
+      sender: 'val8',
+      text: `Sorry, there was an error: ${error}. Please try again.`,
+      type: 'text',
+      timestamp: Date.now(),
+    };
+    setChatHistory(prev => [...prev, errorMessage]);
+  }, []);
+
+  const handleConnectionChange = useCallback((connected: boolean) => {
+    if (!connected) {
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Initialize WebSocket chat
+  const {
+    sendMessage: wsSendMessage,
+    isConnected,
+    isTyping,
+    connect: connectChat,
+    disconnect: disconnectChat,
+  } = useWebSocketChat({
+    onTyping: handleTyping,
+    onChunk: handleChunk,
+    onResponse: handleResponse,
+    onTripPlan: handleTripPlan,
+    onSuggestion: handleSuggestion,
+    onError: handleError,
+    onConnectionChange: handleConnectionChange,
+  });
+
+  // Auto-connect when widget expands
+  useEffect(() => {
+    if (isExpanded && !isConnected) {
+      connectChat();
+    }
+  }, [isExpanded, isConnected, connectChat]);
+
+  // Disconnect when widget closes
+  useEffect(() => {
+    if (!isExpanded && isConnected) {
+      disconnectChat();
+    }
+  }, [isExpanded, isConnected, disconnectChat]);
 
   const addTrip = (trip: Trip) => {
     setTrips(prev => [trip, ...prev]);
@@ -158,6 +290,13 @@ export const Val8Provider: React.FC<Val8ProviderProps> = ({ children, initialExp
     setChatHistory(prev => [...prev, newMessage]);
   };
 
+  const clearChatHistory = () => {
+    setChatHistory([]);
+    setActiveTripPlan(null);
+    setCurrentSuggestion(null);
+    setStreamingText('');
+  };
+
   const handleWidgetAction = (action: string) => {
     setActiveAction(action);
     setView('chat');
@@ -166,6 +305,22 @@ export const Val8Provider: React.FC<Val8ProviderProps> = ({ children, initialExp
   const clearActiveAction = () => {
     setActiveAction(null);
   };
+
+  // Wrapper for sending messages that also adds to chat history
+  const sendMessage = useCallback((message: string) => {
+    if (!message.trim()) return;
+
+    // Add user message to chat history
+    addMessage({
+      sender: 'user',
+      text: message,
+      type: 'text',
+    });
+
+    // Send via WebSocket
+    wsSendMessage(message);
+    setIsLoading(true);
+  }, [wsSendMessage]);
 
   return (
     <Val8Context.Provider
@@ -180,6 +335,7 @@ export const Val8Provider: React.FC<Val8ProviderProps> = ({ children, initialExp
         updateTripContext,
         chatHistory,
         addMessage,
+        clearChatHistory,
         isLoading,
         setIsLoading,
         bookingState,
@@ -189,8 +345,6 @@ export const Val8Provider: React.FC<Val8ProviderProps> = ({ children, initialExp
         showExitModal,
         setShowExitModal,
         user,
-        login,
-        logout,
         view,
         setView,
         trips,
@@ -200,12 +354,23 @@ export const Val8Provider: React.FC<Val8ProviderProps> = ({ children, initialExp
         activeAction,
         handleWidgetAction,
         clearActiveAction,
+        sendMessage,
+        isConnected,
+        isTyping,
+        connectChat,
+        disconnectChat,
+        activeTripPlan,
+        currentSuggestion,
+        streamingText,
+        // Legacy demo mode (backward compatibility)
         isDemoMode,
         setIsDemoMode,
         demoStep,
         setDemoStep,
         demoPhase,
-        setDemoPhase
+        setDemoPhase,
+        login,
+        logout,
       }}
     >
       {children}

@@ -2,11 +2,13 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Save, X, ArrowRight } from 'lucide-react';
+import { Save, X, ArrowRight, Check } from 'lucide-react';
 import { useVal8 } from './Val8Context';
+import { useAuth } from '@/contexts/AuthContext';
 
 export const ExitModal: React.FC = () => {
     const { showExitModal, setShowExitModal, setIsExpanded, setShowLoginModal } = useVal8();
+    const { user } = useAuth();
 
     if (!showExitModal) return null;
 
@@ -37,29 +39,58 @@ export const ExitModal: React.FC = () => {
                             <Save className="w-6 h-6 text-primary" />
                         </div>
 
-                        <h3 className="text-xl font-serif text-text-primary dark:text-white mb-2">Save your trip?</h3>
-                        <p className="text-text-secondary dark:text-white/60 text-sm mb-6 leading-relaxed">
-                            Would you like to save your progress and access this itinerary later?
-                        </p>
+                        {user ? (
+                            <>
+                                {/* Logged in user - simple confirmation */}
+                                <h3 className="text-xl font-serif text-text-primary dark:text-white mb-2">Close chat?</h3>
+                                <p className="text-text-secondary dark:text-white/60 text-sm mb-6 leading-relaxed">
+                                    Your progress is automatically saved to your account.
+                                </p>
 
-                        <div className="space-y-3">
-                            <button
-                                onClick={() => {
-                                    setShowExitModal(false);
-                                    setShowLoginModal(true);
-                                }}
-                                className="w-full bg-primary text-surface py-3 rounded-xl font-medium text-sm hover:bg-primary-soft transition-all hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] flex items-center justify-center gap-2"
-                            >
-                                Create Account to Save <ArrowRight className="w-4 h-4" />
-                            </button>
+                                <div className="space-y-3">
+                                    <button
+                                        onClick={handleExit}
+                                        className="w-full bg-primary text-surface py-3 rounded-xl font-medium text-sm hover:bg-primary-soft transition-all hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] flex items-center justify-center gap-2"
+                                    >
+                                        <Check className="w-4 h-4" /> Close Chat
+                                    </button>
 
-                            <button
-                                onClick={handleExit}
-                                className="w-full py-3 rounded-xl border border-border-subtle dark:border-white/10 text-text-muted dark:text-white/60 text-sm hover:bg-surface-alt dark:hover:bg-white/5 hover:text-text-primary dark:hover:text-white transition-colors"
-                            >
-                                No thanks, just close
-                            </button>
-                        </div>
+                                    <button
+                                        onClick={() => setShowExitModal(false)}
+                                        className="w-full py-3 rounded-xl border border-border-subtle dark:border-white/10 text-text-muted dark:text-white/60 text-sm hover:bg-surface-alt dark:hover:bg-white/5 hover:text-text-primary dark:hover:text-white transition-colors"
+                                    >
+                                        Continue chatting
+                                    </button>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                {/* Not logged in - prompt to create account */}
+                                <h3 className="text-xl font-serif text-text-primary dark:text-white mb-2">Save your trip?</h3>
+                                <p className="text-text-secondary dark:text-white/60 text-sm mb-6 leading-relaxed">
+                                    Would you like to save your progress and access this itinerary later?
+                                </p>
+
+                                <div className="space-y-3">
+                                    <button
+                                        onClick={() => {
+                                            setShowExitModal(false);
+                                            setShowLoginModal(true);
+                                        }}
+                                        className="w-full bg-primary text-surface py-3 rounded-xl font-medium text-sm hover:bg-primary-soft transition-all hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] flex items-center justify-center gap-2"
+                                    >
+                                        Create Account to Save <ArrowRight className="w-4 h-4" />
+                                    </button>
+
+                                    <button
+                                        onClick={handleExit}
+                                        className="w-full py-3 rounded-xl border border-border-subtle dark:border-white/10 text-text-muted dark:text-white/60 text-sm hover:bg-surface-alt dark:hover:bg-white/5 hover:text-text-primary dark:hover:text-white transition-colors"
+                                    >
+                                        No thanks, just close
+                                    </button>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </motion.div>
             </motion.div>
