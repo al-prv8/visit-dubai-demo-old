@@ -5,13 +5,15 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { getWsUrl, getAccessToken } from '@/lib/api';
 import { getSessionId, generateTempSessionId, setSessionId } from '@/lib/session';
-import { WebSocketMessage, TripPlan, Suggestion, ChatResponse } from '@/lib/types';
+import { WebSocketMessage, TripPlan, Suggestion, ChatResponse, TripPlanItem } from '@/lib/types';
 
 interface UseWebSocketChatOptions {
     onTyping?: (isTyping: boolean) => void;
     onChunk?: (chunk: string) => void;
     onResponse?: (response: ChatResponse) => void;
     onTripPlan?: (tripPlan: TripPlan) => void;
+    onPlanItem?: (planItem: TripPlanItem) => void;
+    onTripPlanReady?: (data: { trip_plan_id: string; status: string; destination: string; total_price: number }) => void;
     onSuggestion?: (suggestion: Suggestion) => void;
     onError?: (error: string) => void;
     onConnectionChange?: (connected: boolean) => void;
@@ -42,6 +44,8 @@ export function useWebSocketChat(options: UseWebSocketChatOptions = {}): UseWebS
         onChunk,
         onResponse,
         onTripPlan,
+        onPlanItem,
+        onTripPlanReady,
         onSuggestion,
         onError,
         onConnectionChange,
@@ -125,6 +129,7 @@ export function useWebSocketChat(options: UseWebSocketChatOptions = {}): UseWebS
                                     questions: data.questions || null,
                                     trip_plan: null,
                                     suggestion: null,
+                                    plan_items: [],
                                 });
                             }
                             break;
@@ -138,6 +143,24 @@ export function useWebSocketChat(options: UseWebSocketChatOptions = {}): UseWebS
                         case 'suggestion':
                             if (data.suggestion) {
                                 onSuggestion?.(data.suggestion);
+                            }
+                            break;
+
+                        case 'plan_item':
+                            console.log('[WS] Received plan_item message:', data.plan_item);
+                            if (data.plan_item) {
+                                onPlanItem?.(data.plan_item);
+                            }
+                            break;
+
+                        case 'trip_plan_ready':
+                            if (data.trip_plan_id) {
+                                onTripPlanReady?.({
+                                    trip_plan_id: data.trip_plan_id,
+                                    status: String(data.status || 'pending'),
+                                    destination: data.destination || '',
+                                    total_price: data.total_price || 0,
+                                });
                             }
                             break;
 
@@ -182,7 +205,7 @@ export function useWebSocketChat(options: UseWebSocketChatOptions = {}): UseWebS
             isConnectingRef.current = false;
             console.error('Error creating WebSocket:', e);
         }
-    }, [onConnectionChange, onChunk, onError, onResponse, onSuggestion, onTripPlan, updateTypingStatus]);
+    }, [onConnectionChange, onChunk, onError, onResponse, onSuggestion, onTripPlan, onPlanItem, onTripPlanReady, updateTypingStatus]);
 
     const disconnect = useCallback(() => {
         if (reconnectTimeoutRef.current) {

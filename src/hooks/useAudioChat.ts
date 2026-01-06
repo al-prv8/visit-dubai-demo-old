@@ -6,7 +6,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { getWsUrl, getAccessToken } from '@/lib/api';
 import { getSessionId, generateTempSessionId, setSessionId } from '@/lib/session';
-import { AudioWebSocketMessage, TripPlan } from '@/lib/types';
+import { AudioWebSocketMessage, TripPlan, TripPlanItem } from '@/lib/types';
 
 interface UseAudioChatOptions {
     onTranscription?: (text: string) => void;
@@ -14,6 +14,8 @@ interface UseAudioChatOptions {
     onAudioChunk?: (chunk: ArrayBuffer) => void;
     onAudioComplete?: () => void;
     onTripPlan?: (tripPlan: TripPlan) => void;
+    onPlanItem?: (planItem: TripPlanItem) => void;
+    onTripPlanReady?: (data: { trip_plan_id: string; status: string; destination: string; total_price: number }) => void;
     onError?: (error: string) => void;
     onConnectionChange?: (connected: boolean) => void;
     onRecordingChange?: (isRecording: boolean) => void;
@@ -93,6 +95,8 @@ export function useAudioChat(options: UseAudioChatOptions = {}): UseAudioChatRet
         onAudioChunk,
         onAudioComplete,
         onTripPlan,
+        onPlanItem,
+        onTripPlanReady,
         onError,
         onConnectionChange,
         onRecordingChange,
@@ -379,6 +383,23 @@ export function useAudioChat(options: UseAudioChatOptions = {}): UseAudioChatRet
                             }
                             break;
 
+                        case 'plan_item':
+                            if (data.plan_item) {
+                                onPlanItem?.(data.plan_item);
+                            }
+                            break;
+
+                        case 'trip_plan_ready':
+                            if (data.trip_plan_id) {
+                                onTripPlanReady?.({
+                                    trip_plan_id: data.trip_plan_id,
+                                    status: data.status || 'pending',
+                                    destination: data.destination || '',
+                                    total_price: data.total_price || 0,
+                                });
+                            }
+                            break;
+
                         case 'error':
                             setIsProcessing(false);
                             isRecordingRef.current = false;
@@ -409,7 +430,7 @@ export function useAudioChat(options: UseAudioChatOptions = {}): UseAudioChatRet
         } catch (e) {
             console.error('Error creating audio WebSocket:', e);
         }
-    }, [onConnectionChange, onError, onTranscription, onResponseText, onAudioChunk, onTripPlan, playAccumulatedAudio]);
+    }, [onConnectionChange, onError, onTranscription, onResponseText, onAudioChunk, onTripPlan, onPlanItem, onTripPlanReady, playAccumulatedAudio]);
 
     const disconnect = useCallback(() => {
         if (wsRef.current) {

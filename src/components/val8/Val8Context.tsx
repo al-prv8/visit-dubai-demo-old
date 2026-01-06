@@ -3,7 +3,9 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWebSocketChat } from '@/hooks/useWebSocketChat';
-import { TripPlan, Suggestion, ChatResponse } from '@/lib/types';
+import { TripPlan, Suggestion, ChatResponse, TripPlanItem } from '@/lib/types';
+import { getTrip } from '@/lib/trip';
+import { getSessionId } from '@/lib/session';
 
 // Types for the context
 export type UserIntent = 'planning' | 'browsing' | 'booking' | null;
@@ -97,6 +99,8 @@ interface Val8ContextType {
   activeTripPlan: TripPlan | null;
   currentSuggestion: Suggestion | null;
   streamingText: string; // Live streaming response text
+  planItems: TripPlanItem[]; // Incremental plan items
+  clearPlanItems: () => void;
 
   // Legacy demo mode properties (for backward compatibility)
   isDemoMode: boolean;
@@ -135,6 +139,9 @@ export const Val8Provider: React.FC<Val8ProviderProps> = ({ children, initialExp
 
   // Streaming response accumulator
   const [streamingText, setStreamingText] = useState('');
+
+  // Incremental plan items from WebSocket
+  const [planItems, setPlanItems] = useState<TripPlanItem[]>([]);
 
   // Map AuthContext user to Val8 UserProfile
   const user: UserProfile | null = authUser ? {
@@ -207,18 +214,44 @@ export const Val8Provider: React.FC<Val8ProviderProps> = ({ children, initialExp
   }, []);
 
   const handleSuggestion = useCallback((suggestion: Suggestion) => {
+    // Only update the suggestion state - don't add to chat history
+    // because handleResponse already adds the AI's response message
     setCurrentSuggestion(suggestion);
+  }, []);
 
-    // Add suggestion as a message with the question
-    const suggestionMessage: ChatMessage = {
-      id: Math.random().toString(36).substr(2, 9),
-      sender: 'val8',
-      text: suggestion.question,
-      type: 'options',
-      options: ['Yes', 'No', 'Tell me more'],
-      timestamp: Date.now(),
-    };
-    setChatHistory(prev => [...prev, suggestionMessage]);
+  const handlePlanItem = useCallback((item: TripPlanItem) => {
+    console.log('[Val8Context] Received plan item:', item);
+    // Add incremental plan item with deduplication
+    setPlanItems(prev => {
+      const exists = prev.some(
+        p => p.type === item.type && JSON.stringify(p.data) === JSON.stringify(item.data)
+      );
+      if (exists) return prev;
+      console.log('[Val8Context] Adding new plan item:', item.type);
+      return [...prev, item];
+    });
+  }, []);
+
+  const handleTripPlanReady = useCallback(async (data: { trip_plan_id: string; status: string; destination: string; total_price: number }) => {
+    console.log('[Val8Context] Trip plan ready:', data);
+
+    // Fetch the full trip plan from the API
+    try {
+      const sessionId = getSessionId();
+      const tripPlan = await getTrip(data.trip_plan_id, sessionId || undefined);
+      console.log('[Val8Context] Fetched trip plan:', tripPlan);
+
+      // Set the active trip plan
+      setActiveTripPlan(tripPlan);
+
+      // Clear incremental plan items since we now have the full plan
+      setPlanItems([]);
+
+      // Note: We don't add a chat message here because handleResponse already
+      // adds the AI's text response to chat. This handler only updates the trip plan state.
+    } catch (error) {
+      console.error('[Val8Context] Error fetching trip plan:', error);
+    }
   }, []);
 
   const handleError = useCallback((error: string) => {
@@ -255,6 +288,8 @@ export const Val8Provider: React.FC<Val8ProviderProps> = ({ children, initialExp
     onResponse: handleResponse,
     onTripPlan: handleTripPlan,
     onSuggestion: handleSuggestion,
+    onPlanItem: handlePlanItem,
+    onTripPlanReady: handleTripPlanReady,
     onError: handleError,
     onConnectionChange: handleConnectionChange,
   });
@@ -362,6 +397,8 @@ export const Val8Provider: React.FC<Val8ProviderProps> = ({ children, initialExp
         activeTripPlan,
         currentSuggestion,
         streamingText,
+        planItems,
+        clearPlanItems: () => setPlanItems([]),
         // Legacy demo mode (backward compatibility)
         isDemoMode,
         setIsDemoMode,

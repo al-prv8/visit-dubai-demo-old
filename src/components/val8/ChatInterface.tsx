@@ -28,22 +28,58 @@ function ShimmerCard() {
   );
 }
 
-// Quick Reply Chips Component
-function QuickReplyChips({ options, onSelect }: { options: string[]; onSelect: (text: string) => void }) {
+// Question Card Component - Premium styled question options
+function QuestionCard({ question, options, onSelect }: { question?: string; options: string[]; onSelect: (text: string) => void }) {
   return (
-    <div className="flex flex-wrap gap-2 mt-3">
-      {options.map((option, i) => (
-        <button
-          key={i}
-          onClick={() => onSelect(option)}
-          className="px-3 py-1.5 text-xs bg-primary/10 hover:bg-primary/20 border border-primary/30 text-primary rounded-full transition-all hover:scale-105"
-        >
-          {option}
-        </button>
-      ))}
+    <div className="question-card mt-3">
+      {/* Card with glassmorphism */}
+      <div className="relative overflow-hidden rounded-xl p-4" style={{
+        background: 'linear-gradient(135deg, rgba(227, 181, 116, 0.15) 0%, rgba(227, 181, 116, 0.05) 100%)',
+        backdropFilter: 'blur(16px)',
+        border: '1px solid rgba(227, 181, 116, 0.2)',
+      }}>
+        {/* Decorative glow */}
+        <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
+
+        {/* Question icon and label */}
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-lg">💭</span>
+          <span className="text-xs font-semibold text-primary uppercase tracking-wider">Quick Response</span>
+        </div>
+
+        {/* Options as buttons */}
+        <div className="flex flex-wrap gap-2">
+          {options.map((option, i) => (
+            <button
+              key={i}
+              onClick={() => onSelect(option)}
+              className="group relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 hover:scale-105 active:scale-100"
+              style={{
+                background: 'rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(227, 181, 116, 0.3)',
+                color: 'var(--color-text-primary, #F5F5FA)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(227, 181, 116, 0.2)';
+                e.currentTarget.style.borderColor = 'rgba(227, 181, 116, 0.5)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                e.currentTarget.style.borderColor = 'rgba(227, 181, 116, 0.3)';
+              }}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
+
+// Alias for backward compatibility
+const QuickReplyChips = QuestionCard;
+
 
 // Trip Plan Card Component
 const TripPlanCard: React.FC<{ tripPlan: TripPlan }> = ({ tripPlan }) => {
@@ -257,9 +293,12 @@ export const ChatInterface: React.FC = () => {
                       <TripPlanCard tripPlan={message.tripPlan} />
                     )}
 
-                    {/* Quick replies / Options */}
-                    {message.type === 'options' && message.options && (
-                      <QuickReplyChips options={message.options} onSelect={handleQuickReply} />
+                    {/* Quick replies / Options - only show if options are short answer choices, not full questions */}
+                    {message.type === 'options' && message.options && message.options.length > 0 && (
+                      // Only show if options are short (likely answer choices, not repeated questions)
+                      message.options.some(opt => opt.length < 50 && !opt.endsWith('?')) && (
+                        <QuickReplyChips options={message.options.filter(opt => opt.length < 50)} onSelect={handleQuickReply} />
+                      )
                     )}
                   </div>
                 </div>

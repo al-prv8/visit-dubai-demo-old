@@ -46,6 +46,7 @@ export interface ChatResponse {
     trip_plan: TripPlan | null;
     questions: string[] | null;
     suggestion: Suggestion | null;
+    plan_items: TripPlanItem[];  // Incremental plan items as they become available
     state: string; // 'initial' | 'collecting_info' | 'building_plan' | 'plan_ready' | 'suggesting_additions' | 'summary_ready'
 }
 
@@ -131,6 +132,15 @@ export interface TripPlan {
     trip_type: string | null; // 'work' | 'leisure'
 }
 
+export interface TripPlanItem {
+    type: string;  // Dynamic type identifier (e.g., "weather", "hotel", "flight", etc.)
+    data: Record<string, unknown>;  // Flexible data container
+    timestamp?: string;
+    title?: string;
+    icon?: string;
+    priority?: number;
+}
+
 // Session Types
 export interface SessionState {
     conversation_history: Array<{ role: string; content: string }>;
@@ -141,6 +151,8 @@ export interface SessionState {
     questions_answered: number;
     pending_suggestions: unknown[];
     suggested_items: unknown[];
+    consecutive_rejections: number;  // Track consecutive "no" responses
+    user_context: Record<string, unknown> | null;  // Loaded user context (profile, trip history, preferences)
 }
 
 export interface SessionResponse {
@@ -193,6 +205,8 @@ export type WebSocketMessageType =
     | 'chunk'
     | 'response'
     | 'trip_plan'
+    | 'plan_item'
+    | 'trip_plan_ready'
     | 'suggestion'
     | 'ping'
     | 'pong'
@@ -210,6 +224,10 @@ export interface WebSocketMessage {
     questions?: string[];
     trip_plan?: TripPlan;
     suggestion?: Suggestion;
+    plan_item?: TripPlanItem;  // Incremental plan item
+    trip_plan_id?: string;     // For trip_plan_ready
+    destination?: string;      // For trip_plan_ready
+    total_price?: number;      // For trip_plan_ready
 }
 
 // Audio WebSocket Types
@@ -224,6 +242,8 @@ export type AudioWebSocketMessageType =
     | 'audio_chunk'
     | 'audio_complete'
     | 'trip_plan'
+    | 'plan_item'
+    | 'trip_plan_ready'
     | 'ping'
     | 'pong'
     | 'error';
@@ -240,4 +260,9 @@ export interface AudioWebSocketMessage {
     status?: string;
     trip_plan?: TripPlan;
     message?: string;
+    plan_item?: TripPlanItem;  // Incremental plan item
+    trip_plan_id?: string;     // For trip_plan_ready
+    destination?: string;      // For trip_plan_ready
+    total_price?: number;      // For trip_plan_ready
+    state?: string;            // Response state
 }

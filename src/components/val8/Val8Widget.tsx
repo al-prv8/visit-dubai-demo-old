@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, X, Minimize2, Maximize2, User, Sparkles, Bot, LogOut } from 'lucide-react';
+import { MessageSquare, X, Minimize2, Maximize2, User, Sparkles, Bot, LogOut, Map } from 'lucide-react';
 import { useVal8, Val8Provider } from './Val8Context';
 import { useAuth } from '@/contexts/AuthContext';
 import { ChatInterface } from './ChatInterface';
@@ -14,6 +14,75 @@ import { Dashboard } from './Dashboard';
 import { DemoCard } from './DemoCard';
 import { ProfileModal } from './ProfileModal';
 import { ChangePasswordModal } from './ChangePasswordModal';
+import { TripPlanCard } from './TripPlanCard';
+import { PlanItemCard } from './PlanItemCard';
+import { approveTrip } from '@/lib/trip';
+import { getSessionId } from '@/lib/session';
+
+// Trip Plan Panel Component - shows on desktop only in chat view
+const TripPlanPanel: React.FC = () => {
+    const { activeTripPlan, sendMessage, planItems } = useVal8();
+    const [isApproving, setIsApproving] = useState(false);
+
+    const handleApproveTrip = async () => {
+        if (!activeTripPlan?.id) return;
+
+        const sessionId = getSessionId();
+        if (!sessionId) {
+            console.error('No session ID available');
+            return;
+        }
+
+        setIsApproving(true);
+        try {
+            const result = await approveTrip(activeTripPlan.id, sessionId);
+            if (result.status === 'booked' || result.status === 'confirmed') {
+                sendMessage('Trip approved and booked successfully!');
+            }
+        } catch (error) {
+            console.error('Failed to approve trip:', error);
+        } finally {
+            setIsApproving(false);
+        }
+    };
+
+    return (
+        <div className="hidden md:flex flex-col w-[350px] border-l border-border-subtle dark:border-white/10 bg-surface-alt/50 dark:bg-white/5 h-full">
+            <div className="px-4 py-3 border-b border-border-subtle dark:border-white/10 flex items-center gap-2">
+                <Map className="w-4 h-4 text-primary" />
+                <h3 className="text-sm font-semibold text-text-primary dark:text-white">Trip Plan</h3>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4">
+                {/* Incremental Plan Items */}
+                {planItems.length > 0 && (
+                    <div className="mb-4 space-y-3">
+                        <p className="text-xs text-text-muted dark:text-white/40 uppercase tracking-wider">Building your plan...</p>
+                        {planItems.map((item, idx) => (
+                            <PlanItemCard key={`${item.type}-${idx}`} item={item} className="text-sm" />
+                        ))}
+                    </div>
+                )}
+
+                {/* Full Trip Plan Card */}
+                {activeTripPlan ? (
+                    <TripPlanCard
+                        tripPlan={activeTripPlan}
+                        onApprove={handleApproveTrip}
+                        isApproving={isApproving}
+                    />
+                ) : planItems.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center h-full text-center py-8">
+                        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3">
+                            <Map className="w-6 h-6 text-primary/50" />
+                        </div>
+                        <p className="text-sm text-text-muted dark:text-white/40">No trip plan yet</p>
+                        <p className="text-xs text-text-muted/60 dark:text-white/30 mt-1">Chat with Val8 to create one</p>
+                    </div>
+                ) : null}
+            </div>
+        </div>
+    );
+};
 
 const Val8WidgetContent: React.FC = () => {
     const {
@@ -119,7 +188,7 @@ const Val8WidgetContent: React.FC = () => {
                         className={`fixed z-50 overflow-hidden flex flex-col bg-surface dark:bg-[#050505]/95 backdrop-blur-3xl border border-border-subtle dark:border-white/10 shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]
                                    ${view === 'dashboard' && window.innerWidth >= 768
                                 ? 'fixed inset-[5vw] top-[7.5vh] bottom-[7.5vh] w-auto h-auto rounded-[32px]'
-                                : 'max-md:inset-0 max-md:w-full max-md:h-[100dvh] max-md:rounded-none md:bottom-6 md:right-6 md:w-[400px] md:h-[700px] md:rounded-[32px]'
+                                : 'max-md:inset-0 max-md:w-full max-md:h-[100dvh] max-md:rounded-none md:bottom-6 md:right-6 md:w-[800px] md:h-[700px] md:rounded-[32px]'
                             }`}
                         style={{ transformOrigin: 'bottom right' }}
                     >
@@ -209,10 +278,16 @@ const Val8WidgetContent: React.FC = () => {
                                         </div>
                                     </motion.div>
                                 ) : (
-                                    <motion.div key="chat" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full relative z-10">
-                                        <ChatInterface />
-                                        <BookingFlow />
-                                        <PostBookingSummary />
+                                    <motion.div key="chat" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="h-full relative z-10 flex">
+                                        {/* Chat Panel */}
+                                        <div className="flex-1 flex flex-col h-full">
+                                            <ChatInterface />
+                                            <BookingFlow />
+                                            <PostBookingSummary />
+                                        </div>
+
+                                        {/* Trip Plan Panel - Only on desktop */}
+                                        <TripPlanPanel />
                                     </motion.div>
                                 )}
                             </AnimatePresence>
