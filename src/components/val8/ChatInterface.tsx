@@ -1,558 +1,420 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Send, MapPin, Compass, Plane, Search, Mic } from 'lucide-react';
-import { useVal8, HotelCard } from './Val8Context';
-import { CardStack } from './CardStack';
-import { ChatCarousel } from './ChatCarousel';
-import { useTextToSpeech } from '@/hooks/useTextToSpeech';
-import { TOP_ATTRACTIONS, UPCOMING_EVENTS } from '@/data/recommendations';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { Send, Sparkles, Mic, MicOff, Loader2, Wifi, WifiOff, Plane } from 'lucide-react';
+import { useVal8 } from './Val8Context';
+import { useAudioChat } from '@/hooks/useAudioChat';
+import { TripPlan } from '@/lib/types';
 
-const INITIAL_HOTELS: HotelCard[] = [
-  {
-    id: '1',
-    name: 'Atlantis The Royal',
-    location: 'Palm Jumeirah, Dubai',
-    price: '$850',
-    rating: 5.0,
-    image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=800',
-    tags: ['Ultra Luxury', 'Ocean View', 'Gastronomy']
-  },
-  {
-    id: '2',
-    name: 'Burj Al Arab',
-    location: 'Jumeirah Beach, Dubai',
-    price: '$1,200',
-    rating: 5.0,
-    image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=800',
-    tags: ['Iconic', 'Private Beach', 'Butler Service']
-  },
-  {
-    id: '3',
-    name: 'One&Only The Palm',
-    location: 'Palm Jumeirah, Dubai',
-    price: '$950',
-    rating: 4.9,
-    image: 'https://images.unsplash.com/photo-1571896349842-6e5c48dc52e3?auto=format&fit=crop&q=80&w=800',
-    tags: ['Secluded', 'Spa', 'Michelin Dining']
-  }
-];
+// Shimmer loading card component
+function ShimmerCard() {
+  return (
+    <div className="rounded-xl overflow-hidden border border-white/10 bg-white/5 animate-pulse">
+      <div className="h-32 bg-white/10" />
+      <div className="p-3 space-y-2">
+        <div className="flex items-center justify-between">
+          <div className="h-4 bg-white/10 rounded w-32" />
+          <div className="h-4 bg-white/10 rounded w-10" />
+        </div>
+        <div className="flex gap-1">
+          <div className="h-5 bg-white/10 rounded-full w-14" />
+          <div className="h-5 bg-white/10 rounded-full w-16" />
+          <div className="h-5 bg-white/10 rounded-full w-10" />
+        </div>
+        <div className="h-3 bg-white/10 rounded w-full" />
+        <div className="h-9 bg-white/10 rounded-lg w-full mt-2" />
+      </div>
+    </div>
+  );
+}
 
-const MODERN_HOTELS: HotelCard[] = [
-  {
-    id: '4',
-    name: 'ME Dubai by Zaha Hadid',
-    location: 'Business Bay, Dubai',
-    price: '$450',
-    rating: 4.8,
-    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800',
-    tags: ['Design', 'Modern', 'City Views']
-  },
-  {
-    id: '5',
-    name: 'Address Sky View',
-    location: 'Downtown Dubai',
-    price: '$600',
-    rating: 4.9,
-    image: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&q=80&w=800',
-    tags: ['Infinity Pool', 'Skyline', 'Shopping']
-  }
-];
+// Question Card Component - Premium styled question options
+function QuestionCard({ question, options, onSelect }: { question?: string; options: string[]; onSelect: (text: string) => void }) {
+  return (
+    <div className="question-card mt-3">
+      {/* Card with glassmorphism */}
+      <div className="relative overflow-hidden rounded-xl p-4" style={{
+        background: 'linear-gradient(135deg, rgba(227, 181, 116, 0.15) 0%, rgba(227, 181, 116, 0.05) 100%)',
+        backdropFilter: 'blur(16px)',
+        border: '1px solid rgba(227, 181, 116, 0.2)',
+      }}>
+        {/* Decorative glow */}
+        <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
 
-export const ChatInterface: React.FC = () => {
-  const { chatHistory, addMessage, userIntent, setUserIntent, setSelectedHotel, setBookingState, isDemoMode, demoStep, setDemoStep, isExpanded, setDemoPhase, setView } = useVal8();
-  const { speak, stop } = useTextToSpeech();
-  const [inputValue, setInputValue] = useState('');
-  const [cards, setCards] = useState<HotelCard[]>(INITIAL_HOTELS);
-  const [hasShownCards, setHasShownCards] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  // Stop audio when widget closes or demo mode ends
-  useEffect(() => {
-    if (!isExpanded || !isDemoMode) {
-      stop();
-    }
-  }, [isExpanded, isDemoMode, stop]);
-
-  // Demo Script aligned with video.md but adapted for Dubai
-  const DEMO_SCRIPT = [
-    {
-      userText: "I'm planning a trip to Dubai.",
-      aiResponse: "Excellent choice. When are you planning to travel?",
-      nextStep: 1
-    },
-    {
-      userText: "June 5th to 9th.",
-      aiResponse: "Noted. Weather is expected to be 95° and sunny. Let's start with flights. I found an early AM departure from SFO on your preferred carrier, Emirates, Business Class, nonstop. Want me to hold seats?",
-      nextStep: 2
-    },
-    {
-      userText: "Yes.",
-      aiResponse: "Done. I'd recommend The Royal Mirage for your stay. Arabian Court Suite with Sea View. Secure it?",
-      nextStep: 3
-    },
-    {
-      userText: "Secure it.",
-      aiResponse: "Locked in. Complimentary Chauffeur-drive service is included with your flight. Shall I schedule the pickup?",
-      nextStep: 4
-    },
-    {
-      userText: "Yes, schedule it.",
-      aiResponse: "Confirmed. For dining, I've found a table at Ossiano — underwater fine dining. Friday at 8pm?",
-      nextStep: 5
-    },
-    {
-      userText: "That sounds amazing. Book it.",
-      aiResponse: "Reserved. Also — high SPF sunscreen is recommended for the desert sun. Shall I have SunSport SPF 50 waiting in your suite?",
-      nextStep: 6
-    },
-    {
-      userText: "Yes please.",
-      aiResponse: "Added. Finally, a private desert safari with vintage Land Rovers is highly rated. Shall I add this experience?",
-      nextStep: 7
-    },
-    {
-      userText: "Yes, add it.",
-      aiResponse: "Done. Your Dubai itinerary is fully organized. Please review the summary below and complete your checkout.",
-      nextStep: 8
-    }
-  ];
-
-  const runDemoStep = async () => {
-    if (demoStep >= DEMO_SCRIPT.length) return;
-
-    setDemoPhase('typing'); // PHASE: TYPING
-    const step = DEMO_SCRIPT[demoStep];
-
-    // Simulate typing
-    let currentText = "";
-    for (let i = 0; i < step.userText.length; i++) {
-      await new Promise(r => setTimeout(r, 40));
-      currentText += step.userText[i];
-      setInputValue(currentText);
-    }
-
-    await new Promise(r => setTimeout(r, 400));
-
-    // "Send" the message
-    setInputValue('');
-    addMessage({
-      sender: 'user',
-      text: step.userText,
-      type: 'text'
-    });
-    setDemoPhase('processing'); // PHASE: PROCESSING (Card should appear now)
-
-    // AI Response (with slight delay for "thinking")
-    setTimeout(() => {
-      setDemoPhase('responding'); // PHASE: RESPONDING
-      addMessage({
-        sender: 'val8',
-        text: step.aiResponse,
-        type: 'text'
-      });
-
-      // Speak the response and advance ONLY when done
-      speak(step.aiResponse, () => {
-        // Small pause after speaking before next step triggers to simulate human reaction time
-        setTimeout(() => {
-          setDemoPhase('idle'); // PHASE: IDLE
-          if (step.nextStep !== undefined) {
-            setDemoStep(step.nextStep);
-          }
-        }, 500);
-      });
-
-    }, 1200);
-  };
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [chatHistory]);
-
-  // Auto-run demo steps (DISABLED for Manual Mode)
-  /*
-  useEffect(() => {
-    if (isDemoMode && demoStep < DEMO_SCRIPT.length) {
-      // Voice callback handles the "wait for speech", so we just need a tiny functional delay/debounce
-      // This timer essentially "starts" the next user action simulation
-      const delay = 300;
-
-      const timer = setTimeout(() => {
-        runDemoStep();
-      }, delay);
-
-      return () => clearTimeout(timer);
-    }
-  }, [isDemoMode, demoStep]);
-  */
-
-  const handleSend = () => {
-    if (isDemoMode) {
-      // Manual Mode Logic
-      if (!inputValue.trim()) return;
-
-      const currentStep = DEMO_SCRIPT[demoStep];
-      // Robust matching: normalize both strings by removing non-alphanumeric chars and lowercase
-      const normalize = (str: string) => str.toLowerCase().replace(/[^a-z0-9]/g, '');
-
-      if (currentStep && normalize(inputValue).includes(normalize(currentStep.userText))) {
-        // Proceed with the demo step manually
-        setDemoPhase('typing'); // Briefly set typing to transition
-        setInputValue('');
-        addMessage({
-          sender: 'user',
-          text: currentStep.userText, // Use script text for consistency
-          type: 'text'
-        });
-        setDemoPhase('processing');
-
-        // Trigger AI Response Sequence
-        setTimeout(() => {
-          setDemoPhase('responding');
-          addMessage({
-            sender: 'val8',
-            text: currentStep.aiResponse,
-            type: 'text'
-          });
-
-          speak(currentStep.aiResponse, () => {
-            setTimeout(() => {
-              setDemoPhase('idle');
-              if (currentStep.nextStep !== undefined) {
-                setDemoStep(currentStep.nextStep);
-              }
-            }, 500);
-          });
-        }, 1000);
-      }
-      return;
-    }
-
-    if (!inputValue.trim()) return;
-
-    const userText = inputValue;
-    setInputValue('');
-
-    // Add user message
-    addMessage({
-      sender: 'user',
-      text: userText,
-      type: 'text',
-    });
-
-    // Handle "hi" or "hello"
-    if (['hi', 'hello', 'hey'].includes(userText.toLowerCase())) {
-      setTimeout(() => {
-        // 1. Greeting
-        addMessage({
-          sender: 'val8',
-          text: "Hello! Welcome to Val8. I can help you discover the best of Dubai.",
-          type: 'text'
-        });
-
-        // 2. Attractions
-        setTimeout(() => {
-          addMessage({
-            sender: 'val8',
-            text: "Explore Top Attractions",
-            type: 'card-stack',
-            cards: TOP_ATTRACTIONS
-          });
-        }, 800);
-
-        // 3. Events
-        setTimeout(() => {
-          addMessage({
-            sender: 'val8',
-            text: "Upcoming Events",
-            type: 'card-stack',
-            cards: UPCOMING_EVENTS
-          });
-        }, 1600);
-
-        // 4. See All Button
-        setTimeout(() => {
-          addMessage({
-            sender: 'val8',
-            text: "Would you like to explore more?",
-            type: 'options',
-            options: ['< > View All Cards'] // Using special label for the button
-          });
-        }, 2400);
-
-      }, 500);
-      return;
-    }
-
-    // FRAME 7: Modification Loop Logic
-    if (hasShownCards) {
-      // Simulate "thinking" and refining
-      setTimeout(() => {
-        addMessage({
-          sender: 'val8',
-          text: "Absolutely — here are a few more sleek, modern properties with exceptional views.",
-          type: 'text',
-        });
-
-        // Swap cards
-        setTimeout(() => {
-          setCards(MODERN_HOTELS);
-          addMessage({
-            sender: 'val8',
-            text: "I've updated the selection for you.",
-            type: 'card-stack',
-          });
-        }, 800);
-      }, 1000);
-      return;
-    }
-
-    // Default flow (Frame 4)
-    if (!userIntent) {
-      setUserIntent('planning');
-      setTimeout(() => {
-        addMessage({
-          sender: 'val8',
-          text: "Beautiful choice. Dubai is incredible in December — warm, glamorous, and full of great experiences. Are you looking for something more relaxing, adventure-focused, or social?",
-          type: 'options',
-          options: ['Relaxing', 'Adventure', 'Social', 'Not sure']
-        });
-      }, 1000);
-    }
-  };
-
-  const handleQuickAction = (action: string) => {
-    if (isDemoMode) return; // Disable quick actions in demo mode
-
-    addMessage({
-      sender: 'user',
-      text: action,
-      type: 'text',
-    });
-    setUserIntent('planning');
-
-    // Logic to trigger Card Stack (Frame 5 -> 6)
-    if (['Relaxing', 'Adventure', 'Social'].includes(action)) {
-      setTimeout(() => {
-        addMessage({
-          sender: 'val8',
-          text: "Got it. I'll focus on ocean-view suites and peaceful stays. Here are a few options I curated for you.",
-          type: 'card-stack',
-        });
-        setHasShownCards(true);
-      }, 1500);
-    } else if (action === '< > View All Cards') {
-      // Handle "See All" action - for now, we can show a text message or trigger a dashboard view.
-      setTimeout(() => {
-        addMessage({
-          sender: 'val8',
-          text: "Here are all the recommendations.",
-          type: 'text'
-        });
-        setView('dashboard');
-      }, 500);
-    } else {
-      // Default response for other actions
-      setTimeout(() => {
-        addMessage({
-          sender: 'val8',
-          text: "Excellent. Where are you thinking of going?",
-          type: 'text',
-        });
-      }, 800);
-    }
-  };
-
-  const handleHotelSelect = (hotel: HotelCard) => {
-    setSelectedHotel(hotel);
-    setBookingState('summary');
-    addMessage({
-      sender: 'val8',
-      text: `Excellent choice. ${hotel.name} is stunning. I've prepared a trip summary for you.`,
-      type: 'text',
-    });
-  };
-
-  const handleRemoveCard = (id: string) => {
-    setCards(prev => prev.filter(c => c.id !== id));
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      e.preventDefault(); // Prevent default since we handle it manually
-      handleSend();
-    }
-  };
-
-  // Frame 3: Welcome / Intent Capture
-  if (chatHistory.length === 0) {
-    return (
-      <div className="h-full flex flex-col flex-1">
-        <div className="flex-1 flex flex-col justify-end px-8 pb-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <h2 className="text-3xl font-serif text-text-primary dark:text-white mb-8 leading-tight">
-              Where are you <br />
-              <span className="text-primary italic">thinking of going?</span>
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-2 gap-3 mb-8">
-            {[
-              { icon: MapPin, label: 'Plan a Trip', action: 'I want to plan a trip' },
-              { icon: Compass, label: 'Explore Ideas', action: 'Inspire me' },
-              { icon: Plane, label: 'Traveling Now', action: 'I am traveling now' },
-              { icon: Search, label: 'Just Browsing', action: 'Just browsing' },
-            ].map((item, i) => (
-              <motion.button
-                key={i}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.4 + i * 0.1 }}
-                onClick={() => handleQuickAction(item.action)}
-                className="flex flex-col items-center justify-center p-4 bg-surface-alt dark:bg-white/5 hover:bg-surface dark:hover:bg-white/10 border border-border-subtle dark:border-white/5 hover:border-primary/30 rounded-xl transition-all group"
-              >
-                <item.icon className="w-5 h-5 text-text-muted dark:text-white/60 group-hover:text-primary mb-2 transition-colors" />
-                <span className="text-xs text-text-secondary dark:text-white/80 font-light">{item.label}</span>
-              </motion.button>
-            ))}
-          </div>
+        {/* Question icon and label */}
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-lg">💭</span>
+          <span className="text-xs font-semibold text-primary uppercase tracking-wider">Quick Response</span>
         </div>
 
-        {/* Input Area (Shared - Unified Style) */}
-        <div className="p-4 bg-surface dark:glass-card border-x-0 border-b-0">
-          <div className="relative">
-            <input
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Tell me anything..."
-              className="w-full bg-surface-alt dark:bg-black/20 text-text-primary dark:text-white placeholder-text-muted dark:placeholder-white/30 rounded-xl pl-4 pr-20 py-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary border border-border-subtle dark:border-white/5 transition-all"
-            />
-            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
-              <button
-                type="button"
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted dark:text-white/40 hover:text-primary hover:bg-primary/10 transition-colors"
-                title="Voice input"
-              >
-                <Mic className="w-4 h-4" />
-              </button>
-              <button
-                onClick={handleSend}
-                className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-surface hover:bg-primary-soft transition-colors"
-              >
-                <Send className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
+        {/* Options as buttons */}
+        <div className="flex flex-wrap gap-2">
+          {options.map((option, i) => (
+            <button
+              key={i}
+              onClick={() => onSelect(option)}
+              className="group relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 hover:scale-105 active:scale-100"
+              style={{
+                background: 'rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(227, 181, 116, 0.3)',
+                color: 'var(--color-text-primary, #F5F5FA)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(227, 181, 116, 0.2)';
+                e.currentTarget.style.borderColor = 'rgba(227, 181, 116, 0.5)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+                e.currentTarget.style.borderColor = 'rgba(227, 181, 116, 0.3)';
+              }}
+            >
+              {option}
+            </button>
+          ))}
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
-  // Frame 4+: Chat Interface
+// Alias for backward compatibility
+const QuickReplyChips = QuestionCard;
+
+
+// Trip Plan Card Component
+const TripPlanCard: React.FC<{ tripPlan: TripPlan }> = ({ tripPlan }) => {
   return (
-    <div className="flex flex-col flex-1 h-full">
-      <div className="flex-1 px-8 pt-6 pb-2 overflow-y-auto no-scrollbar space-y-6">
-        {chatHistory.map((msg, i) => (
-          <motion.div
-            key={msg.id}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
+    <div className="w-full bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20 rounded-xl p-4 space-y-4 shadow-lg mt-3">
+      <div className="flex justify-between items-start">
+        <div>
+          <h3 className="text-text-primary dark:text-white font-semibold text-lg">{tripPlan.destination}</h3>
+          <p className="text-text-secondary dark:text-white/60 text-sm">
+            {tripPlan.start_date} - {tripPlan.end_date} ({tripPlan.duration_days} days)
+          </p>
+        </div>
+        <div className="text-right">
+          <p className="text-primary font-bold text-xl">${tripPlan.total_price.toLocaleString()}</p>
+          <p className="text-text-muted dark:text-white/40 text-xs">{tripPlan.currency}</p>
+        </div>
+      </div>
+
+      {/* Flights */}
+      {tripPlan.flights.length > 0 && (
+        <div className="space-y-2 bg-surface/50 dark:bg-white/5 rounded-lg p-3">
+          <h4 className="text-xs text-primary uppercase tracking-wider font-semibold flex items-center gap-2">
+            <Plane className="w-3 h-3" /> Flights
+          </h4>
+          {tripPlan.flights.map((flight, i) => (
+            <div key={i} className="flex justify-between text-sm">
+              <span className="text-text-primary dark:text-white">{flight.airline} {flight.flight_number}</span>
+              <span className="text-text-secondary dark:text-white/60">{flight.origin} → {flight.destination}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Hotel */}
+      {tripPlan.hotel && (
+        <div className="space-y-2 bg-surface/50 dark:bg-white/5 rounded-lg p-3">
+          <h4 className="text-xs text-primary uppercase tracking-wider font-semibold">🏨 Hotel</h4>
+          <div className="flex justify-between text-sm">
+            <span className="text-text-primary dark:text-white">{tripPlan.hotel.name}</span>
+            <span className="text-text-secondary dark:text-white/60">{tripPlan.hotel.room_type}</span>
+          </div>
+        </div>
+      )}
+
+      {/* Experiences */}
+      {tripPlan.experiences.length > 0 && (
+        <div className="space-y-2 bg-surface/50 dark:bg-white/5 rounded-lg p-3">
+          <h4 className="text-xs text-primary uppercase tracking-wider font-semibold">✨ Experiences</h4>
+          {tripPlan.experiences.map((exp, i) => (
+            <div key={i} className="flex justify-between text-sm">
+              <span className="text-text-primary dark:text-white">{exp.name}</span>
+              <span className="text-primary font-medium">${exp.price}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Status */}
+      <div className="pt-2 border-t border-primary/20 flex justify-between items-center">
+        <span className={`text-xs px-3 py-1 rounded-full font-medium ${tripPlan.status === 'booked'
+          ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+          : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+          }`}>
+          {tripPlan.status === 'booked' ? '✓ Booked' : '⏳ Pending'}
+        </span>
+        {tripPlan.recommended_card && (
+          <span className="text-xs text-text-muted dark:text-white/40">
+            💳 {tripPlan.recommended_card}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export const ChatInterface: React.FC = () => {
+  const {
+    chatHistory,
+    sendMessage,
+    addMessage,
+    isLoading,
+    isConnected,
+    isTyping,
+    connectChat,
+    streamingText,
+  } = useVal8();
+
+  const [inputValue, setInputValue] = useState('');
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Audio chat hook with silence detection and auto-listen
+  const {
+    isConnected: isAudioConnected,
+    isRecording,
+    isProcessing,
+    isPlaying: isAudioPlaying,
+    isSpeaking,
+    audioLevel,
+    autoListen,
+    setAutoListen,
+    startRecording,
+    stopRecording,
+    connect: connectAudio,
+  } = useAudioChat({
+    silenceTimeout: 2000,
+    autoListen: false,
+    onTranscription: (text) => {
+      addMessage({
+        sender: 'user',
+        text,
+        type: 'text',
+      });
+    },
+    onResponseText: (text) => {
+      addMessage({
+        sender: 'val8',
+        text,
+        type: 'text',
+      });
+    },
+    onError: (error) => {
+      console.error('Audio error:', error);
+    },
+  });
+
+  // Auto-scroll to bottom
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chatHistory, isTyping, streamingText]);
+
+  // Auto-connect on mount
+  useEffect(() => {
+    if (!isConnected) {
+      connectChat();
+    }
+  }, [isConnected, connectChat]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (inputValue.trim() && isConnected) {
+      sendMessage(inputValue);
+      setInputValue('');
+    }
+  };
+
+  const handleMicClick = useCallback(async () => {
+    if (isRecording) {
+      stopRecording();
+    } else {
+      if (!isAudioConnected) {
+        connectAudio();
+        setTimeout(async () => {
+          try {
+            await startRecording();
+          } catch (err) {
+            console.error('Failed to start recording:', err);
+          }
+        }, 500);
+      } else {
+        try {
+          await startRecording();
+        } catch (err) {
+          console.error('Failed to start recording:', err);
+        }
+      }
+    }
+  }, [isRecording, isAudioConnected, startRecording, stopRecording, connectAudio]);
+
+  const handleQuickReply = (text: string) => {
+    if (isConnected) {
+      sendMessage(text);
+    }
+  };
+
+  return (
+    <div className="flex-1 flex flex-col overflow-hidden h-full">
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {chatHistory.length === 0 && (
+          <div className="flex-1 flex flex-col items-center justify-center text-center py-12">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center mb-4">
+              <Sparkles className="w-8 h-8 text-white" />
+            </div>
+            <h2 className="text-2xl font-serif text-text-primary dark:text-white mb-2">
+              Hello! I&apos;m Val8
+            </h2>
+            <p className="text-text-secondary dark:text-white/60 max-w-sm">
+              Your AI concierge for luxury travel. Where would you like to go?
+            </p>
+          </div>
+        )}
+
+        {chatHistory.map((message, index) => (
+          <div
+            key={message.id || index}
+            className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
           >
-            {msg.type === 'text' ? (
-              <div
-                className={`max-w-[85%] p-4 rounded-2xl ${msg.sender === 'user'
-                  ? 'bg-surface-alt dark:bg-white/10 text-text-primary dark:text-white rounded-tr-sm backdrop-blur-md border border-border-subtle dark:border-white/5'
-                  : 'bg-primary/10 text-text-primary dark:text-white rounded-tl-sm border border-primary/20'
-                  }`}
-              >
-                <p className="text-sm leading-relaxed font-light">{msg.text}</p>
-              </div>
-            ) : msg.type === 'options' ? (
-              <div key={msg.id} className="flex flex-wrap gap-2 mb-6 pl-4">
-                {msg.options?.map((option) => (
-                  <button
-                    key={option}
-                    onClick={() => handleQuickAction(option)}
-                    className="px-4 py-2 rounded-full bg-surface-alt dark:bg-white/5 border border-border-subtle dark:border-white/10 text-xs text-text-secondary dark:text-white/70 hover:bg-primary hover:text-surface hover:border-primary transition-all duration-300"
-                  >
-                    {option}
-                  </button>
+            <div className={`max-w-[85%] ${message.sender === 'user' ? 'order-1' : 'order-2'}`}>
+              {message.sender === 'val8' && (
+                <div className="flex items-start gap-2 mb-1">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center flex-shrink-0">
+                    <Sparkles className="w-3 h-3 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="bg-surface dark:bg-white/10 border border-border-subtle dark:border-white/10 rounded-2xl rounded-tl-md px-4 py-3 text-text-primary dark:text-white text-sm leading-relaxed whitespace-pre-line">
+                      {message.text}
+                    </div>
+
+                    {/* Trip Plan */}
+                    {message.tripPlan && (
+                      <TripPlanCard tripPlan={message.tripPlan} />
+                    )}
+
+                    {/* Quick replies / Options - only show if options are short answer choices, not full questions */}
+                    {message.type === 'options' && message.options && message.options.length > 0 && (
+                      // Only show if options are short (likely answer choices, not repeated questions)
+                      message.options.some(opt => opt.length < 50 && !opt.endsWith('?')) && (
+                        <QuickReplyChips options={message.options.filter(opt => opt.length < 50)} onSelect={handleQuickReply} />
+                      )
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {message.sender === 'user' && (
+                <div className="bg-primary rounded-2xl rounded-tr-md px-4 py-3 text-black text-sm font-medium">
+                  {message.text}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+
+        {/* Live recording indicator - shows when user is speaking */}
+        {isRecording && (
+          <div className="flex justify-end">
+            <div className="bg-primary/90 rounded-2xl rounded-tr-md px-4 py-3 text-white text-sm flex items-center gap-2">
+              <div className="flex items-center gap-0.5">
+                {[0, 1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="w-1 bg-white rounded-full transition-all duration-75"
+                    style={{
+                      height: `${Math.max(4, Math.min(16, (isSpeaking ? audioLevel * 80 : 3) + Math.random() * 4 * (i + 1)))}px`,
+                      opacity: isSpeaking ? 1 : 0.4,
+                    }}
+                  />
                 ))}
               </div>
-            ) : msg.type === 'card-stack' ? (
-              <div className="w-full">
-                <div className="text-text-secondary dark:text-white/80 border-l border-border-subtle dark:border-white/10 pl-4 p-4 text-sm font-light mb-2">
-                  {msg.text}
-                </div>
-                {/* Render Carousel or Stack based on content preference */}
-                {(msg.type === 'card-stack' && msg.cards && (msg.cards[0]?.type === 'attraction' || msg.cards[0]?.type === 'event')) ? (
-                  <ChatCarousel
-                    cards={msg.cards}
-                    type={msg.cards[0]?.type as 'attraction' | 'event'}
-                    onSelect={handleHotelSelect}
-                  />
-                ) : (msg.type === 'card-stack' && msg.cards) ? (
-                  <CardStack cards={msg.cards} onSelect={handleHotelSelect} />
-                ) : null}
+              {isSpeaking && <span>Listening...</span>}
+            </div>
+          </div>
+        )}
 
-                {/* Fallback for legacy messages using global cards state (if any) */}
-                {(msg.type === 'card-stack' && !msg.cards && i === chatHistory.length - 1) && (
-                  <CardStack cards={cards} onSelect={handleHotelSelect} onRemove={handleRemoveCard} />
-                )}
+        {/* Streaming response - shows live text as it arrives */}
+        {streamingText && (
+          <div className="flex items-start gap-2">
+            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center flex-shrink-0">
+              <Sparkles className="w-3 h-3 text-white" />
+            </div>
+            <div className="flex-1">
+              <div className="bg-surface dark:bg-white/10 border border-border-subtle dark:border-white/10 rounded-2xl rounded-tl-md px-4 py-3 text-text-primary dark:text-white text-sm leading-relaxed whitespace-pre-line">
+                {streamingText}
+                <span className="inline-block w-1.5 h-4 bg-primary ml-0.5 animate-pulse" />
               </div>
-            ) : null}
-          </motion.div>
-        ))}
+            </div>
+          </div>
+        )}
+
+        {/* Facebook Messenger-style typing indicator - shows when waiting and no streaming yet */}
+        {(isTyping || isLoading || isProcessing) && !streamingText && (
+          <div className="flex items-start gap-2">
+            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center flex-shrink-0">
+              <Sparkles className="w-3 h-3 text-white" />
+            </div>
+            <div className="flex-1">
+              <div className="bg-surface dark:bg-white/10 border border-border-subtle dark:border-white/10 rounded-2xl rounded-tl-md px-4 py-3 inline-flex items-center gap-1">
+                <span className="w-2 h-2 bg-text-muted dark:bg-white/40 rounded-full animate-bounce" style={{ animationDelay: '0ms', animationDuration: '0.6s' }} />
+                <span className="w-2 h-2 bg-text-muted dark:bg-white/40 rounded-full animate-bounce" style={{ animationDelay: '150ms', animationDuration: '0.6s' }} />
+                <span className="w-2 h-2 bg-text-muted dark:bg-white/40 rounded-full animate-bounce" style={{ animationDelay: '300ms', animationDuration: '0.6s' }} />
+              </div>
+            </div>
+          </div>
+        )}
+
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
-      <div className="p-4 bg-surface dark:glass-card border-x-0 border-b-0">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSend();
-          }}
-          className="relative"
-        >
+      {/* Input */}
+      <form onSubmit={handleSubmit} className="p-4 border-t border-border-subtle dark:border-white/10">
+        <div className="relative">
           <input
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Tell me anything..."
-            className="w-full bg-surface-alt dark:bg-black/20 text-text-primary dark:text-white placeholder-text-muted dark:placeholder-white/30 rounded-xl pl-4 pr-20 py-4 text-sm focus:outline-none focus:ring-1 focus:ring-primary border border-border-subtle dark:border-white/5 transition-all"
+            placeholder="Type a message or use voice..."
+            disabled={!isConnected}
+            className="w-full px-4 py-3 pr-24 rounded-xl bg-surface dark:bg-white/5 border border-border-subtle dark:border-white/10 text-text-primary dark:text-white placeholder-text-muted dark:placeholder-white/40 text-sm focus:outline-none focus:border-primary/50 transition-colors disabled:opacity-50"
           />
-          <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
-            <button
-              type="button"
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-text-muted dark:text-white/40 hover:text-primary hover:bg-primary/10 transition-colors"
-              title="Voice input"
-            >
-              <Mic className="w-4 h-4" />
-            </button>
-            <button
-              type="submit"
-              disabled={!inputValue.trim()}
-              className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-surface disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-soft transition-colors"
-            >
-              <Send className="w-4 h-4" />
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+
+          {/* Mic Button */}
+          <button
+            type="button"
+            onClick={handleMicClick}
+            disabled={!isConnected}
+            className={`absolute right-12 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg flex items-center justify-center transition-all ${isRecording
+              ? 'bg-red-500 text-white shadow-[0_0_10px_rgba(239,68,68,0.5)]'
+              : isProcessing
+                ? 'bg-amber-500/20 text-amber-400'
+                : 'bg-surface-alt dark:bg-white/10 border border-border-subtle dark:border-white/10 text-text-muted dark:text-white/50 hover:text-primary hover:border-primary/50'
+              } disabled:opacity-50`}
+            title={isRecording ? 'Stop (auto-stops after 2s silence)' : 'Voice input'}
+          >
+            {isRecording ? (
+              <MicOff className="w-4 h-4" />
+            ) : isProcessing ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <>
+                <Mic className="w-4 h-4" />
+                <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full animate-pulse" />
+              </>
+            )}
+          </button>
+
+          {/* Send Button */}
+          <button
+            type="submit"
+            disabled={!inputValue.trim() || !isConnected}
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center hover:bg-primary/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <Send className="w-4 h-4" />
+          </button>
+        </div>
+      </form>
+    </div >
   );
 };
