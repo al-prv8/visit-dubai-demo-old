@@ -1,10 +1,10 @@
 (function () {
-    // Configuration - Can be overridden by setting window.Val8Config before loading this script
-    const config = window.Val8Config || {};
+    // Configuration
+    // Configuration
     const IS_DEV = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    const WIDGET_URL = config.widgetUrl || (IS_DEV ? 'http://localhost:3000/widget' : 'https://your-domain.vercel.app/widget');
-    const IFRAME_ID = 'val8-widget-iframe';
-    const LAUNCHER_ID = 'val8-widget-launcher';
+    const WIDGET_URL = IS_DEV ? 'http://localhost:3000/widget' : 'https://lumina-by-aal.vercel.app/widget';
+    const IFRAME_ID = 'lumine-widget-iframe';
+    const LAUNCHER_ID = 'lumine-widget-launcher';
 
     // Create Fonts (Inter and Playfair for the specific look)
     const fontLink = document.createElement('link');

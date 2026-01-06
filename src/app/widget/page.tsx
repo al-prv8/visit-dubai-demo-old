@@ -3,108 +3,104 @@
 import React, { useEffect, useState } from 'react';
 import { ChatInterface } from '@/components/val8/ChatInterface';
 import { Val8Provider, useVal8 } from '@/components/val8/Val8Context';
-import { User, Maximize2, Minimize2, X, LogOut } from 'lucide-react';
+import { User, Maximize2, Minimize2, X } from 'lucide-react';
 import { BookingFlow } from '@/components/val8/BookingFlow';
 import { PostBookingSummary } from '@/components/val8/PostBookingSummary';
+import { DemoCard } from '@/components/val8/DemoCard';
 import { Dashboard } from '@/components/val8/Dashboard';
 import { ExitModal } from '@/components/val8/ExitModal';
 import { LoginModal } from '@/components/val8/LoginModal';
-import { ProfileModal } from '@/components/val8/ProfileModal';
-import { ChangePasswordModal } from '@/components/val8/ChangePasswordModal';
-import { useAuth } from '@/contexts/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const WidgetHeader = ({ onClose }: { onClose: () => void }) => {
-    const { setView, view, user, setShowLoginModal } = useVal8();
-    const { user: authUser, logout: authLogout } = useAuth();
-    const [showProfileModal, setShowProfileModal] = useState(false);
-    const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
+    const { isDemoMode, setIsDemoMode, setView, view, user, setDemoStep, setShowLoginModal } = useVal8();
 
     const handleProfileClick = () => {
-        if (authUser) {
-            setShowProfileModal(true);
-        } else {
+        if (!user) {
             setShowLoginModal(true);
         }
     };
 
     const handleToggleFullscreen = () => {
+        // Toggle view logic
         const nextView = view === 'chat' ? 'dashboard' : 'chat';
         setView(nextView);
+
+        // Send resize message to parent
+        // If we are moving to dashboard or demo, we want fullscreen/large mode
+        // If we are moving to chat, we usually want compact mode, UNLESS we are in demo mode on mobile (split)
+
+        // Simpler logic: 'dashboard' view implies broader content, so request FullScreen
         const isFullscreen = nextView === 'dashboard';
         window.parent.postMessage({ type: 'LUMINE_WIDGET_MODE', mode: isFullscreen ? 'fullscreen' : 'standard' }, '*');
     };
 
     return (
-        <>
-            <div className="h-16 bg-surface-alt/50 dark:bg-white/5 backdrop-blur-md border-b border-border-subtle dark:border-white/5 flex items-center justify-between px-6 shrink-0 relative z-20">
-                <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-primary">
-                        <span className="font-serif font-bold text-surface text-lg">V</span>
-                    </div>
-                    <div>
-                        <h1 className="text-text-primary dark:text-white font-serif text-lg tracking-wide">Val8</h1>
-                        <p className="text-[10px] uppercase tracking-widest font-medium text-primary">Powered by PRV8.</p>
-                    </div>
+        <div className="h-16 bg-surface-alt/50 dark:bg-white/5 backdrop-blur-md border-b border-border-subtle dark:border-white/5 flex items-center justify-between px-6 shrink-0 relative z-20">
+            <div className="flex items-center gap-3">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${isDemoMode ? 'bg-[#C5A572]' : 'bg-primary'}`}>
+                    <span className="font-serif font-bold text-surface text-lg">V</span>
                 </div>
-                <div className="flex items-center gap-2">
-                    {/* Logout Button - Only show when authenticated */}
-                    {authUser && (
-                        <button
-                            onClick={() => {
-                                authLogout();
-                                window.parent.postMessage({ type: 'LUMINE_WIDGET_CLOSE' }, '*');
-                            }}
-                            className="w-8 h-8 rounded-full bg-surface-alt/50 dark:bg-surface-100 flex items-center justify-center text-text-muted dark:text-white/40 hover:text-red-400 hover:bg-red-500/10 transition-colors"
-                            title="Logout"
-                        >
-                            <LogOut className="w-4 h-4" />
-                        </button>
-                    )}
-                    <button
-                        onClick={handleProfileClick}
-                        className="w-8 h-8 rounded-full bg-surface-alt/50 dark:bg-surface-100 flex items-center justify-center text-text-muted dark:text-white/40 hover:text-text-primary dark:hover:text-white hover:bg-surface-alt dark:hover:bg-surface-200 transition-colors"
-                    >
-                        {authUser ? (
-                            <div className="w-full h-full rounded-full bg-primary text-surface flex items-center justify-center font-bold text-xs">
-                                {authUser?.name?.charAt(0).toUpperCase()}
-                            </div>
-                        ) : (
-                            <User className="w-4 h-4" />
-                        )}
-                    </button>
-                    <button
-                        onClick={handleToggleFullscreen}
-                        className="w-8 h-8 rounded-full bg-surface-alt/50 dark:bg-surface-100 flex items-center justify-center text-text-muted dark:text-white/40 hover:text-text-primary dark:hover:text-white hover:bg-surface-alt dark:hover:bg-surface-200 transition-colors"
-                    >
-                        {view === 'chat' ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
-                    </button>
-                    <button
-                        onClick={onClose}
-                        className="w-8 h-8 rounded-full bg-surface-alt/50 dark:bg-surface-100 flex items-center justify-center text-text-muted dark:text-white/40 hover:text-text-primary dark:hover:text-white hover:bg-surface-alt dark:hover:bg-surface-200 transition-colors"
-                    >
-                        <X className="w-4 h-4" />
-                    </button>
+                <div>
+                    <h1 className="text-text-primary dark:text-white font-serif text-lg tracking-wide">{isDemoMode ? 'Visit Dubai AI' : 'Val8'}</h1>
+                    <p className={`text-[10px] uppercase tracking-widest font-medium ${isDemoMode ? 'text-[#C5A572]' : 'text-primary'}`}>
+                        {isDemoMode ? 'Powered by Prv8' : 'Powered by PRV8.'}
+                    </p>
                 </div>
             </div>
-
-            {/* Modals rendered inside header context */}
-            <ProfileModal
-                isOpen={showProfileModal}
-                onClose={() => setShowProfileModal(false)}
-                onOpenChangePassword={() => setShowChangePasswordModal(true)}
-            />
-            <ChangePasswordModal
-                isOpen={showChangePasswordModal}
-                onClose={() => setShowChangePasswordModal(false)}
-            />
-        </>
+            <div className="flex items-center gap-2">
+                <button
+                    onClick={() => {
+                        const newMode = !isDemoMode;
+                        setIsDemoMode(newMode);
+                        if (newMode) {
+                            setView('dashboard');
+                            setDemoStep(0);
+                            // Auto-trigger fullscreen for demo
+                            window.parent.postMessage({ type: 'LUMINE_WIDGET_MODE', mode: 'fullscreen' }, '*');
+                        } else {
+                            // Restore standard size when exiting demo
+                            setView('chat');
+                            window.parent.postMessage({ type: 'LUMINE_WIDGET_MODE', mode: 'standard' }, '*');
+                        }
+                    }}
+                    className={`px-3 py-1.5 rounded-full text-[10px] uppercase tracking-widest font-medium transition-colors border ${isDemoMode ? 'bg-[#C5A572] text-black border-[#C5A572]' : 'bg-surface-alt/50 dark:bg-white/5 text-text-muted dark:text-white/40 border-border-subtle dark:border-white/10 hover:text-text-primary dark:hover:text-white'}`}
+                >
+                    {isDemoMode ? 'Exit Demo' : 'Demo'}
+                </button>
+                <button
+                    onClick={handleProfileClick}
+                    className="w-8 h-8 rounded-full bg-surface-alt/50 dark:bg-surface-100 flex items-center justify-center text-text-muted dark:text-white/40 hover:text-text-primary dark:hover:text-white hover:bg-surface-alt dark:hover:bg-surface-200 transition-colors"
+                >
+                    {user ? (
+                        <div className="w-full h-full rounded-full bg-primary text-surface flex items-center justify-center font-bold text-xs">
+                            {user?.name?.charAt(0)}
+                        </div>
+                    ) : (
+                        <User className="w-4 h-4" />
+                    )}
+                </button>
+                <button
+                    onClick={handleToggleFullscreen}
+                    className="w-8 h-8 rounded-full bg-surface-alt/50 dark:bg-surface-100 flex items-center justify-center text-text-muted dark:text-white/40 hover:text-text-primary dark:hover:text-white hover:bg-surface-alt dark:hover:bg-surface-200 transition-colors"
+                >
+                    {view === 'chat' ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
+                </button>
+                <button
+                    onClick={onClose}
+                    className="w-8 h-8 rounded-full bg-surface-alt/50 dark:bg-surface-100 flex items-center justify-center text-text-muted dark:text-white/40 hover:text-text-primary dark:hover:text-white hover:bg-surface-alt dark:hover:bg-surface-200 transition-colors"
+                >
+                    <X className="w-4 h-4" />
+                </button>
+            </div>
+        </div>
     );
 };
 
 const WidgetContent = () => {
     const {
         view,
+        isDemoMode,
         setIsExpanded,
         chatHistory,
         bookingState,
@@ -115,8 +111,9 @@ const WidgetContent = () => {
         isExpanded: isExpandedContext
     } = useVal8();
 
-    const [showLoader, setShowLoader] = useState(true);
+    const [showLoader, setShowLoader] = useState(true); // Start with loader
 
+    // Handle initial load simulation
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowLoader(false);
@@ -124,6 +121,7 @@ const WidgetContent = () => {
         return () => clearTimeout(timer);
     }, []);
 
+    // Handle incoming widget actions (e.g. if we add capability to send actions via postMessage later)
     useEffect(() => {
         if (activeAction) {
             addMessage({
@@ -142,9 +140,14 @@ const WidgetContent = () => {
         }
     }, [activeAction, addMessage, clearActiveAction]);
 
+    // Handle Exit Logic
+    // In Widget Mode, ExitModal sets isExpanded(false). We detect this and close the iframe.
     useEffect(() => {
         if (!isExpandedContext) {
+            // Context says closed, so we close the iframe
             window.parent.postMessage({ type: 'LUMINE_WIDGET_CLOSE' }, '*');
+            // Reset state for next open (optional, but good practice)
+            // We might need to handle this cleaner if the provider doesn't unmount
             setIsExpanded(true);
         }
     }, [isExpandedContext, setIsExpanded]);
@@ -153,9 +156,18 @@ const WidgetContent = () => {
         if (chatHistory.length > 0 && bookingState !== 'confirmed' && bookingState !== 'post-booking') {
             setShowExitModal(true);
         } else {
+            // Direct close
             window.parent.postMessage({ type: 'LUMINE_WIDGET_CLOSE' }, '*');
         }
     };
+
+    // Determine container classes based on view (matches Val8Widget logic)
+    // If Dashboard/Demo (Fullscreen Mode):
+    // - Mobile: Full Screen (inset-0, rounded-none)
+    // - Desktop: Inset Modal (w-[90vw], h-[85vh], rounded-[32px])
+    // If Chat (Compact Mode):
+    // - Always fill the configured iframe size (rounded-[32px] handled by container)
+    // NOTE: The iframe itself is 100vw/100vh in Fullscreen Mode.
 
     const isFullscreenMode = view === 'dashboard';
 
@@ -174,6 +186,18 @@ const WidgetContent = () => {
             <WidgetHeader onClose={handleCloseRequest} />
 
             <div className="flex-1 relative overflow-hidden flex flex-col">
+                {/* DEMO MODE BACKGROUND */}
+                {isDemoMode && (
+                    <div className="absolute inset-0 z-0 pointer-events-none">
+                        <img
+                            src="https://images.unsplash.com/photo-1512453979798-5ea904ac22de?q=80&w=2670&auto=format&fit=crop"
+                            alt="Dubai Background"
+                            className="w-full h-full object-cover opacity-20 transform scale-105"
+                        />
+                        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+                    </div>
+                )}
+
                 <AnimatePresence mode="wait">
                     {showLoader ? (
                         <motion.div
@@ -192,14 +216,23 @@ const WidgetContent = () => {
                         </motion.div>
                     ) : view === 'dashboard' ? (
                         <motion.div key="dashboard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 flex flex-col relative z-10 overflow-hidden animate-in fade-in">
+                            {/* 
+                              RESTORED LOGIC: In Dashboard View (which happens in Demo), 
+                              show Split View so ChatInterface is still visible for the Demo script 
+                            */}
                             <div className="flex flex-col md:flex-row h-full">
-                                <div className="w-full md:w-[400px] flex-col bg-surface dark:bg-[#050505] backdrop-blur-xl relative z-10 border-b md:border-b-0 md:border-r border-border-subtle dark:border-white/10 hidden md:flex h-full">
+                                <div className={`
+                                    w-full md:w-[400px] 
+                                    flex-col bg-surface dark:bg-[#050505] backdrop-blur-xl relative z-10
+                                    border-b md:border-b-0 md:border-r border-border-subtle dark:border-white/10
+                                    ${isDemoMode ? 'flex h-[40%] md:h-full' : 'hidden md:flex h-full'}
+                                `}>
                                     <ChatInterface />
                                     <BookingFlow />
                                     <PostBookingSummary />
                                 </div>
                                 <div className="flex-1 bg-surface-alt dark:bg-black/20 relative z-0 flex flex-col h-full overflow-hidden">
-                                    <Dashboard />
+                                    {isDemoMode ? <DemoCard /> : <Dashboard />}
                                 </div>
                             </div>
                         </motion.div>
@@ -229,3 +262,4 @@ export default function WidgetPage() {
         </div>
     );
 }
+
