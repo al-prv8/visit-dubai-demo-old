@@ -57,7 +57,7 @@ const INITIAL_STATE: DashboardState = {
         origin: "SFO",
         destination: "MIA",
         carrier: "Emirates",
-        class: "First Class",
+        class: "Business",
         date: "June 5 - June 9",
         flightNumber: "AI 270C",
         price: "$6,200"

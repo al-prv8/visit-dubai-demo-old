@@ -37,7 +37,7 @@ const DEMO_DATA: DashboardState = {
     },
     stay: {
         hotelName: "One&Only Royal Mirage",
-        roomType: "Arabian Court Suite",
+        roomType: "King Suite",
         guests: 2,
         checkIn: "June 6",
         checkOut: "June 9",
@@ -81,8 +81,10 @@ export const DemoCard: React.FC = () => {
     // Step 6: Experiences/Summary
 
     const [isCheckoutComplete, setIsCheckoutComplete] = React.useState(false);
+    const [addedToVisaCard, setAddedToVisaCard] = React.useState(false);
 
-    const handleCheckout = () => {
+    const handleCheckout = (addToVisaCard: boolean) => {
+        setAddedToVisaCard(addToVisaCard);
         setIsCheckoutComplete(true);
     };
 
@@ -126,6 +128,11 @@ export const DemoCard: React.FC = () => {
                             <h3 className="text-2xl font-serif text-text-primary dark:text-white mb-2">Reservation Confirmed</h3>
                             <p className="text-text-secondary dark:text-white/60 text-sm mb-8 leading-relaxed">
                                 Your Dubai itinerary has been successfully booked. A detailed confirmation has been sent to your email.
+                                {addedToVisaCard && (
+                                    <span className="block mt-2 text-primary dark:text-primary font-medium">
+                                        Added to your Visa card ending in 4242.
+                                    </span>
+                                )}
                             </p>
 
                             <button

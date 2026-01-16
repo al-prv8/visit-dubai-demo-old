@@ -3,8 +3,9 @@ import { CreditCard, ShieldCheck, Plane, Hotel, Car, Utensils, ShoppingBag, Map 
 
 import { DashboardState } from '../val8/Dashboard';
 
-export const CheckoutWidget: React.FC<{ onCheckout?: () => void, data?: DashboardState }> = ({ onCheckout, data }) => {
+export const CheckoutWidget: React.FC<{ onCheckout?: (addToVisaCard: boolean) => void, data?: DashboardState }> = ({ onCheckout, data }) => {
     const [status, setStatus] = React.useState<'Reserving' | 'Confirmed'>('Reserving');
+    const [addToVisaCard, setAddToVisaCard] = React.useState(false);
 
     if (!data) return null;
 
@@ -127,14 +128,20 @@ export const CheckoutWidget: React.FC<{ onCheckout?: () => void, data?: Dashboar
                 </div>
 
                 <div className="flex items-center gap-2 mb-3 bg-surface-alt/50 dark:bg-white/5 p-2 rounded-lg border border-border-subtle dark:border-white/5" onClick={(e) => e.stopPropagation()}>
-                    <input type="checkbox" id="visa-add" className="w-3 h-3 accent-primary rounded border-border-subtle dark:border-white/20" />
+                    <input
+                        type="checkbox"
+                        id="visa-add"
+                        className="w-3 h-3 accent-primary rounded border-border-subtle dark:border-white/20"
+                        checked={addToVisaCard}
+                        onChange={(e) => setAddToVisaCard(e.target.checked)}
+                    />
                     <label htmlFor="visa-add" className="text-[10px] text-text-secondary dark:text-white/80 cursor-pointer select-none">
                         Add this to your Visa card?
                     </label>
                 </div>
 
                 <button
-                    onClick={onCheckout}
+                    onClick={() => onCheckout?.(addToVisaCard)}
                     className="w-full group relative overflow-hidden rounded-xl bg-primary text-surface font-bold py-3 transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/5 to-transparent -translate-x-full group-hover:animate-shimmer" />
